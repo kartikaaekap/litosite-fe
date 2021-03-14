@@ -71,6 +71,11 @@ import BaseButton from '~/components/BaseButton'
 
 export default {
   components: { BaseInput, BaseButton },
+  // async asyncData({ store }) {
+  //   return {
+  //     adminList: await store.dispatch('getAdminList'),
+  //   }
+  // },
   data: () => {
     return {
       form: {
@@ -96,29 +101,37 @@ export default {
     togglePassword(e) {
       this.isPaswordVisible = !this.isPaswordVisible
     },
-    async handleSubmit() {
-      const { email, password } = this.form
-      this.isLoading = true
-      try {
-        const user = await this.$store.dispatch('login', { email, password })
-        this.$store.commit('setUser', user)
-        this.$axios.setToken(user.accessToken)
-        // await this.$store.dispatch('login', { email, password })
-        this.isLoading = false
-        if (user.roles === 'student') {
-          this.$router.push('/dashboard')
-        } else {
-          this.$router.push('/teacher')
-        }
-      } catch (error) {
-        this.$swal({
-          title: 'Wrong Email or Password',
-          icon: 'warning',
-          showCloseButton: true,
-        })
-        this.isLoading = false
-      }
-    },
+    // async handleSubmit() {
+    //   const { email, password } = this.form
+    //   this.isLoading = true
+    //   try {
+    //     const user = await this.$store.dispatch('login', { email, password })
+    //     this.$store.commit('setUser', user)
+    //     this.$axios.setToken(user.token)
+    //     // await this.$store.dispatch('login', { email, password })
+    //     this.isLoading = false
+    //     for (const index in this.adminList) {
+    //       // console.log(this.adminList[cobadul].email)
+    //       if (email === this.adminList[index].email) {
+    //         this.$router.push('/indexlogin')
+    //       } else {
+    //         this.$swal({
+    //           title: 'Salah ya Anda',
+    //           icon: 'warning',
+    //           showCloseButton: true,
+    //         })
+    //         this.$router.push('/signup')
+    //       }
+    //     }
+    //   } catch (error) {
+    //     this.$swal({
+    //       title: 'Wrong Email or Password',
+    //       icon: 'warning',
+    //       showCloseButton: true,
+    //     })
+    //     this.isLoading = false
+    //   }
+    // },
   },
 }
 </script>

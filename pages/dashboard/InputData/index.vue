@@ -1,8 +1,15 @@
 <template>
   <div>
     <section id="introduction" class="section__introduction">
+      <div fluid class="breadcrumb__container">
+        <b-breadcrumb>
+          <b-breadcrumb-item active class="ml-3 pl-0 ml-md-5 pl-md-4">
+            Input Data
+          </b-breadcrumb-item>
+        </b-breadcrumb>
+      </div>
       <b-container>
-        <b-row class="mt-3">
+        <b-row class="mt-4">
           <b-col class="d-flex my-auto">
             <b-link class="tabs tabs--active mb-0 mr-4"> Input Data </b-link>
             <b-link class="tabs" to="/dashboard/StatusData">
@@ -20,146 +27,205 @@
             >
               <b-tab title="Upload Dari Excel" />
               <b-tab title="Input Secara Langsung" class="mb-0 mb-md-3">
-                <b-form class="d-flex flex-column">
+                <b-row>
+                  <b-col class="text-center">
+                    <h1 class="section__title mt-5 mb-3">
+                      INPUT DATA HASIL LAPANGAN
+                    </h1>
+                  </b-col>
+                </b-row>
+                <div>
                   <b-row>
-                    <b-col class="text-center">
-                      <h1 class="section__title mt-5 mb-5">
-                        INPUT DATA HASIL LAPANGAN
-                      </h1>
+                    <b-col cols="12" offset="0" sm="8" offset-sm="2">
+                      <form-wizard
+                        ref="wizard"
+                        title=""
+                        subtitle=""
+                        step-size="xs"
+                        color="#E3BB1B"
+                        error-color="#24C021"
+                      >
+                        <tab-content title="Input Data Lapangan" class="mb-5">
+                          <b-row>
+                            <b-col class="col-12 col-md-12 mx-auto">
+                              <base-input
+                                id="author"
+                                v-model="form.author"
+                                label="Author Name"
+                                placeholder="Input author name"
+                                warning-icon
+                                required
+                              />
+                              <base-input
+                                id="lithology"
+                                v-model="form.lithology"
+                                label="Lithology Name"
+                                placeholder="Input lithology name"
+                                warning-icon
+                                required
+                              />
+                              <base-input-select
+                                id="type"
+                                v-model="form.type"
+                                label="Type"
+                                :options="typeOptions"
+                                warning-icon
+                                required
+                              />
+                              <base-input-select
+                                id="typeDetail"
+                                v-model="form.typeDetail"
+                                label="Type Detail"
+                                :options="typeDetailOptions"
+                                warning-icon
+                                required
+                              />
+                              <base-input-select
+                                id="ageZone"
+                                v-model="form.ageZone"
+                                label="Age Zone"
+                                :options="ageZoneOptions"
+                                warning-icon
+                                required
+                              />
+                              <base-input-select
+                                id="formation"
+                                v-model="form.formation"
+                                label="Formation"
+                                :options="formationOptions"
+                                warning-icon
+                                required
+                              />
+                              <base-input
+                                id="year"
+                                v-model="form.year"
+                                label="Year Researched"
+                                placeholder="Input year researched"
+                                warning-icon
+                                required
+                              />
+                              <base-input
+                                id="location"
+                                v-model="form.location"
+                                label="Location"
+                                placeholder="Input location"
+                                warning-icon
+                                required
+                              />
+                              <b-row>
+                                <b-col>
+                                  <base-input
+                                    id="latitude"
+                                    v-model="form.latitude"
+                                    label="Latitude"
+                                    placeholder="(dalam satuan derajat)"
+                                    warning-icon
+                                    required
+                                  />
+                                </b-col>
+                                <b-col>
+                                  <base-input
+                                    id="longitude"
+                                    v-model="form.longitude"
+                                    label="Longitude"
+                                    placeholder="(dalam satuan derajat)"
+                                    warning-icon
+                                    required
+                                  />
+                                </b-col>
+                                <b-col>
+                                  <base-input
+                                    id="altitude"
+                                    v-model="form.altitude"
+                                    label="Altitude"
+                                    placeholder="(dalam satuan derajat))"
+                                    warning-icon
+                                    required
+                                  />
+                                </b-col>
+                              </b-row>
+                              <p class="section__form pb-0 mb-2">
+                                Strike / Dip
+                              </p>
+                              <b-row>
+                                <b-col cols="4">
+                                  <base-input
+                                    id="strike"
+                                    v-model="form.strike"
+                                    placeholder="Input strike"
+                                    warning-icon
+                                    required
+                                  />
+                                </b-col>
+                                <b-col cols="1">
+                                  <h2 class="section__depth">°</h2>
+                                </b-col>
+                                <b-col cols="1">
+                                  <h1 class="section__depth">/</h1>
+                                </b-col>
+                                <b-col cols="4">
+                                  <base-input
+                                    id="dip"
+                                    v-model="form.dip"
+                                    placeholder="Input dip"
+                                    warning-icon
+                                    required
+                                  />
+                                </b-col>
+                                <b-col cols="1">
+                                  <h2 class="section__depth">°S</h2>
+                                </b-col>
+                              </b-row>
+                            </b-col>
+                          </b-row>
+                        </tab-content>
+                        <tab-content title="Input Foto Lampiran" class="mb-5">
+                          <div class="section__blacktext">
+                            Attachment <b-icon icon="paperclip" />
+                          </div>
+                          <p class="section__paragraph">
+                            Supported format: .JPG, .JPEG, .PNG,
+                          </p>
+                          <div>
+                            <b-card class="card py-5">
+                              <div
+                                class="text-center section__text--purplehover"
+                              >
+                                <b-icon icon="card-image" font-scale="2" />
+                                <p>Tambah Foto</p>
+                              </div>
+                            </b-card>
+                          </div>
+                        </tab-content>
+                        <template slot="footer" slot-scope="props">
+                          <div class="text-center">
+                            <base-button
+                              v-if="!props.isLastStep"
+                              id="btnNext"
+                              slot="next"
+                              variant="primary"
+                              is-full
+                              class="text-center"
+                              @click.native="props.nextTab(), submitnext()"
+                              >Selanjutnya</base-button
+                            >
+                            <base-button
+                              v-else
+                              id="btnSubmit"
+                              slot="next"
+                              variant="primary"
+                              is-full
+                              class="text-center"
+                              @click.native="submitform()"
+                            >
+                              {{ props.isLastStep ? 'Kirim' : 'Selanjutnya' }}
+                            </base-button>
+                          </div>
+                        </template>
+                      </form-wizard>
                     </b-col>
                   </b-row>
-                  <b-row>
-                    <b-col class="col-12 col-md-8 mx-auto">
-                      <base-input
-                        id="author"
-                        v-model="form.author"
-                        label="Author Name"
-                        placeholder="Input author name"
-                        warning-icon
-                        required
-                      />
-                      <base-input
-                        id="lithology"
-                        v-model="form.lithology"
-                        label="Lithology Name"
-                        placeholder="Input lithology name"
-                        warning-icon
-                        required
-                      />
-                      <base-input-select
-                        id="type"
-                        v-model="form.type"
-                        label="Type"
-                        :options="typeOptions"
-                        warning-icon
-                        required
-                      />
-                      <base-input-select
-                        id="typeDetail"
-                        v-model="form.typeDetail"
-                        label="Type Detail"
-                        :options="typeDetailOptions"
-                        warning-icon
-                        required
-                      />
-                      <base-input-select
-                        id="ageZone"
-                        v-model="form.ageZone"
-                        label="Age Zone"
-                        :options="ageZoneOptions"
-                        warning-icon
-                        required
-                      />
-                      <base-input-select
-                        id="formation"
-                        v-model="form.formation"
-                        label="Formation"
-                        :options="formationOptions"
-                        warning-icon
-                        required
-                      />
-                      <base-input
-                        id="year"
-                        v-model="form.year"
-                        label="Year Researched"
-                        placeholder="Input year researched"
-                        warning-icon
-                        required
-                      />
-                      <base-input
-                        id="location"
-                        v-model="form.location"
-                        label="Location"
-                        placeholder="Input location"
-                        warning-icon
-                        required
-                      />
-                      <b-row>
-                        <b-col>
-                          <base-input
-                            id="latitude"
-                            v-model="form.latitude"
-                            label="Latitude"
-                            placeholder="(dalam satuan derajat)"
-                            warning-icon
-                            required
-                          />
-                        </b-col>
-                        <b-col>
-                          <base-input
-                            id="longitude"
-                            v-model="form.longitude"
-                            label="Longitude"
-                            placeholder="(dalam satuan derajat)"
-                            warning-icon
-                            required
-                          />
-                        </b-col>
-                        <b-col>
-                          <base-input
-                            id="altitude"
-                            v-model="form.altitude"
-                            label="Altitude"
-                            placeholder="(dalam satuan derajat))"
-                            warning-icon
-                            required
-                          />
-                        </b-col>
-                      </b-row>
-                      <p class="section__form pb-0 mb-2">Strike / Dip</p>
-                      <b-row>
-                        <b-col cols="4">
-                          <base-input
-                            id="strike"
-                            v-model="form.strike"
-                            placeholder="Input strike"
-                            warning-icon
-                            required
-                          />
-                        </b-col>
-                        <b-col cols="1">
-                          <h2 class="section__depth">°</h2>
-                        </b-col>
-                        <b-col cols="1">
-                          <h1 class="section__depth">/</h1>
-                        </b-col>
-                        <b-col cols="4">
-                          <base-input
-                            id="dip"
-                            v-model="form.dip"
-                            placeholder="Input dip"
-                            warning-icon
-                            required
-                          />
-                        </b-col>
-                        <b-col cols="1">
-                          <h2 class="section__depth">°S</h2>
-                        </b-col>
-                      </b-row>
-                    </b-col>
-                  </b-row>
-                  <base-button class="mb-5 mt-5 mx-auto"> Kirim </base-button>
-                </b-form>
+                </div>
               </b-tab>
             </b-tabs>
           </b-col>
@@ -170,11 +236,12 @@
 </template>
 
 <script>
+import { FormWizard, TabContent } from 'vue-form-wizard'
 import BaseInputSelect from '~/components/BaseInputSelect.vue'
-// import { Carousel, Slide } from 'vue-carousel'
+import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 
 export default {
-  components: { BaseInputSelect },
+  components: { BaseInputSelect, FormWizard, TabContent },
   layout: 'landingpagelogin',
   data: () => {
     return {
@@ -226,6 +293,22 @@ export default {
       ],
     }
   },
+  methods: {
+    submitform() {
+      this.$swal({
+        title: 'Both passwords must match',
+        icon: 'warning',
+        showCloseButton: true,
+      })
+    },
+    submitnext() {
+      this.$swal({
+        title: 'Cobain dulu',
+        icon: 'warning',
+        showCloseButton: true,
+      })
+    },
+  },
   // computed: {
   //   ctaLink () {
   //     return this.user ? (this.user.isAdmin ? '/admin' : '/dashboard') : '/signup'
@@ -259,6 +342,30 @@ export default {
     &--purple {
       color: #6a4095;
     }
+    &--purplehover {
+      font-size: 16px;
+      color: #379ed8;
+      &:hover {
+        color: #2e76a0;
+        cursor: pointer;
+      }
+    }
+  }
+  &__blacktext {
+    font-size: 20px;
+    color: black;
+    &:hover {
+      text-decoration: none;
+      color: black;
+    }
+  }
+  &__paragraph {
+    font-size: 16px;
+    color: rgb(155, 155, 155);
+    &:hover {
+      text-decoration: none;
+      color: rgb(155, 155, 155);
+    }
   }
   &__introduction {
     padding-top: 90px;
@@ -272,6 +379,21 @@ export default {
   &__depth {
     color: black;
     margin-right: 10px;
+  }
+}
+.breadcrumb {
+  background-color: #6a40951a;
+  padding: 10px 0;
+}
+.breadcrumb-item {
+  * {
+    font-family: 'Nunito Sans';
+    font-size: 14px;
+    font-weight: bold;
+    color: #8e8e8e;
+  }
+  &.active * {
+    color: #e3bb1b;
   }
 }
 .tabs {
@@ -308,6 +430,9 @@ export default {
       color: #e3bb1b;
     }
   }
+}
+.card {
+  background-color: #efefef;
 }
 .custom-select {
   height: 40px;

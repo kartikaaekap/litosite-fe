@@ -47,6 +47,7 @@ import {
   BIconLink,
   BIconLink45deg,
   BIconFileEarmark,
+  BIconCardImage,
   BIconAsterisk,
   BIconArchive,
   BIconFileText,
@@ -104,6 +105,7 @@ Vue.component('BIconDropletHalf', BIconDropletHalf)
 Vue.component('BIconLink', BIconLink)
 Vue.component('BIconLink45deg', BIconLink45deg)
 Vue.component('BIconFileEarmark', BIconFileEarmark)
+Vue.component('BIconCardImage', BIconCardImage)
 Vue.component('BIconAsterisk', BIconAsterisk)
 Vue.component('BIconArchieve', BIconArchive)
 Vue.component('BIconFileText', BIconFileText)

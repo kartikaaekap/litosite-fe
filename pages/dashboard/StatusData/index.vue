@@ -1,8 +1,18 @@
 <template>
   <div>
     <section id="introduction" class="section__introduction">
+      <div fluid class="breadcrumb__container">
+        <b-breadcrumb>
+          <b-breadcrumb-item
+            href="/dashboard/InputData/"
+            class="ml-3 pl-0 ml-md-5 pl-md-4"
+            >Input Data
+          </b-breadcrumb-item>
+          <b-breadcrumb-item active>Status Data</b-breadcrumb-item>
+        </b-breadcrumb>
+      </div>
       <b-container>
-        <b-row class="mt-3">
+        <b-row class="mt-4">
           <b-col class="d-flex my-auto">
             <b-link class="tabs mb-0 mr-4" to="/dashboard/InputData">
               Input Data
@@ -17,7 +27,7 @@
         </b-row>
       </b-container>
     </section>
-    <section>
+    <section id="chart" class="section__chart">
       <b-container>
         <b-row class="py-5 order-2 order-sm-1 order-md-1">
           <b-col class="text-left">
@@ -70,46 +80,66 @@
         </b-row>
       </b-container>
     </section>
-    <!-- <section id="chart" class="section__chart">
+    <section id="statusData">
       <b-container>
-        <b-row class="py-5 order-2 order-sm-1 order-md-1">
-          <b-col class="text-left">
-            <div class="h1 pb-0 d-flex">
-              <b-icon icon="file-text" color="#337EE1" />
-              <b-col cols="12 pb-2">
-                <p class="status__text mb-0 pb-0">Menunggu Konfirmasi</p>
-                <p class="status__title">3</p>
-              </b-col>
-            </div>
-            <div class="h1 d-flex">
-              <b-icon icon="file-text" color="#F73A18" />
-              <b-col cols="12 pb-2">
-                <p class="status__text mb-0 pb-0">Data Diterima</p>
-                <p class="status__title">6</p>
-              </b-col>
-            </div>
-            <div class="h1 d-flex">
-              <b-icon icon="file-text" color="#3B3B3B" />
-              <b-col cols="12">
-                <p class="status__text mb-0 pb-0">Data Ditolak</p>
-                <p class="status__title">1</p>
-              </b-col>
-            </div>
+        <b-row class="mt-5">
+          <b-col>
+            <b-tabs
+              pills
+              small
+              class="p-0"
+              nav-wrapper-class="pills d-flex justify-content-center"
+            >
+              <b-tab title="Menunggu Konfirmasi" />
+              <b-tab title="Data Diterima">
+                <section id="accepted-table" class="mt-5">
+                  <b-container>
+                    <div class="mt-3" style="overflow-x: auto">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>Type</th>
+                            <th>Type Detail</th>
+                            <th>Lithology Name</th>
+                            <th>Tanggal Diterima</th>
+                            <th>Aksi</th>
+                          </tr>
+                        </thead>
+                        <!-- <tbody
+                          v-if="classDetail.studentsId.length === 0"
+                          class="text-center"
+                        >
+                          <tr>
+                            <td colspan="3">There are no record to show</td>
+                          </tr>
+                        </tbody> -->
+                        <tbody v-for="item in dataDiterima" :key="item.id">
+                          <tr>
+                            <td>{{ item.type }}</td>
+                            <td>{{ item.detail }}</td>
+                            <td>{{ item.litologi }}</td>
+                            <td>{{ item.tanggal }}</td>
+                            <td>
+                              <b-link
+                                class="ml-2"
+                                @click="handleAccepted(item.id)"
+                              >
+                                Details
+                              </b-link>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </b-container>
+                </section>
+              </b-tab>
+              <b-tab title="Data Ditolak" />
+            </b-tabs>
           </b-col>
-          <pie-chart
-            :donut="true"
-            :data="[
-              ['Menunggu Konfirmasi', 3],
-              ['Data Diterima', 6],
-              ['Data Ditolak', 1],
-            ]"
-            :colors="['#E3CF1B', '#24C021', '#F73A18']"
-            width="200px"
-            height="250px"
-          />
         </b-row>
       </b-container>
-    </section> -->
+    </section>
   </div>
 </template>
 
@@ -126,6 +156,36 @@ export default {
   layout: 'landingpagelogin',
   data: () => {
     return {
+      dataDiterima: [
+        {
+          id: 1,
+          type: 'Metamorf',
+          detail: 'Metamorf Tipe C',
+          litologi: 'Ini Nama A',
+          tanggal: '17-10-2020',
+        },
+        {
+          id: 2,
+          type: 'Metamorf',
+          detail: 'Metamorf Tipe C',
+          litologi: 'Ini Nama A',
+          tanggal: '17-10-2020',
+        },
+        {
+          id: 3,
+          type: 'Metamorf',
+          detail: 'Metamorf Tipe C',
+          litologi: 'Ini Nama A',
+          tanggal: '17-10-2020',
+        },
+        {
+          id: 4,
+          type: 'Metamorf',
+          detail: 'Metamorf Tipe C',
+          litologi: 'Ini Nama A',
+          tanggal: '17-10-2020',
+        },
+      ],
       form: {
         author: '',
         lithology: '',
@@ -173,6 +233,11 @@ export default {
         { value: 'jonggrangan', text: 'Jonggrangan' },
       ],
     }
+  },
+  methods: {
+    handleAccepted(id) {
+      this.$router.push(`/dashboard/StatusData/accepted/${id}`)
+    },
   },
   // computed: {
   //   ctaLink () {
@@ -234,6 +299,21 @@ export default {
     font-size: 16px;
   }
 }
+.breadcrumb {
+  background-color: #6a40951a;
+  padding: 10px 0;
+}
+.breadcrumb-item {
+  * {
+    font-family: 'Nunito Sans';
+    font-size: 14px;
+    font-weight: bold;
+    color: #8e8e8e;
+  }
+  &.active * {
+    color: #e3bb1b;
+  }
+}
 .tabs {
   font-size: 20px;
   color: rgb(155, 155, 155);
@@ -269,6 +349,23 @@ export default {
     }
   }
 }
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 16px;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
 .custom-select {
   height: 40px;
   padding-left: 15px;

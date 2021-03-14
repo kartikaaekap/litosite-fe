@@ -23,15 +23,6 @@
       <p class="signup__text text-center mt-2">Sign up for an account</p>
       <b-form class="d-flex flex-column" @submit.prevent="handleSubmit">
         <base-input
-          id="name"
-          v-model="form.name"
-          label="Fullname"
-          type="name"
-          size="large"
-          placeholder="Input Full name"
-          required
-        />
-        <base-input
           id="email"
           v-model="form.email"
           label="Email"
@@ -42,7 +33,7 @@
         />
         <base-input
           id="password"
-          v-model="form.password"
+          v-model="form.password1"
           label="Password"
           size="large"
           placeholder="Input your Password"
@@ -53,7 +44,7 @@
         />
         <base-input
           id="confirmPassword"
-          v-model="form.confirmPassword"
+          v-model="form.password2"
           label="Re-type password"
           size="large"
           placeholder="Re-enter password"
@@ -91,10 +82,9 @@ export default {
   data: () => {
     return {
       form: {
-        name: '',
         email: '',
-        password: '',
-        confirmPassword: '',
+        password1: '',
+        password2: '',
       },
       isPaswordVisible: false,
       isConfirmPaswordVisible: false,
@@ -114,25 +104,25 @@ export default {
       this.isConfirmPaswordVisible = !this.isConfirmPaswordVisible
     },
     handleSubmit() {
-      const { name, email, password, confirmPassword } = this.form
+      const { email, password1, password2 } = this.form
       const { token } = this.$route.query
       const query = {}
-      if (password !== confirmPassword) {
-        this.$toast.error('Both passwords must match')
-        return false
+      if (password1 !== password2) {
+        this.$swal({
+          title: 'Both passwords must match',
+          icon: 'warning',
+          showCloseButton: true,
+        })
       }
       if (token) {
         query.token = token
       }
       this.isLoading = true
       this.$store
-        .dispatch('createUser', [
-          { name, email, password, confirmPassword },
-          query,
-        ])
+        .dispatch('createUser', [{ email, password1, password2 }, query])
         .then(({ message }) => {
           this.isLoading = false
-          this.$router.push(`/?email=${email}`)
+          this.$router.push(`/signin`)
         })
         .catch(() => (this.isLoading = false))
     },
