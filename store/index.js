@@ -109,4 +109,9 @@ export const actions = {
   getAdminList({ dispatch }) {
     return dispatch('getItems', 'admin-list/')
   },
+
+  // rock actions
+  createRockField({ dispatch }, payload) {
+    return dispatch('createItem', ['contrib-rock/', payload])
+  },
 }

@@ -36,7 +36,7 @@
                 </b-row>
                 <div>
                   <b-row>
-                    <b-col cols="12" offset="0" sm="8" offset-sm="2">
+                    <b-col cols="12" class="col-md-8 mx-auto">
                       <form-wizard
                         ref="wizard"
                         title=""
@@ -47,7 +47,7 @@
                       >
                         <tab-content title="Input Data Lapangan" class="mb-5">
                           <b-row>
-                            <b-col class="col-12 col-md-12 mx-auto">
+                            <b-col>
                               <base-input
                                 id="author"
                                 v-model="form.author"
@@ -203,10 +203,13 @@
                               v-if="!props.isLastStep"
                               id="btnNext"
                               slot="next"
+                              :disabled="isLoading || areAllInputsEmpty"
                               variant="primary"
                               is-full
                               class="text-center"
-                              @click.native="props.nextTab(), submitnext()"
+                              @click.native="
+                                props.nextTab(), submitGeneralRock()
+                              "
                               >Selanjutnya</base-button
                             >
                             <base-button
@@ -257,12 +260,20 @@ export default {
         latitude: '',
         longitude: '',
         altitude: '',
+        strike: '',
+        dip: '',
       },
       typeOptions: [
         { value: '', text: 'Select type' },
         { value: 'sedimen', text: 'Sedimen' },
         { value: 'metamorf', text: 'Metamorf' },
         { value: 'beku', text: 'Beku' },
+      ],
+      typeDetailOptions: [
+        { value: '', text: 'Select type' },
+        { value: 'coba1', text: 'Coba1' },
+        { value: 'coba2', text: 'Coba2' },
+        { value: 'coba3', text: 'Coba3' },
       ],
       ageZoneOptions: [
         { value: '', text: 'Select age zone' },
@@ -291,7 +302,13 @@ export default {
         { value: 'sentolo', text: 'Sentolo' },
         { value: 'jonggrangan', text: 'Jonggrangan' },
       ],
+      isLoading: false,
     }
+  },
+  computed: {
+    areAllInputsEmpty() {
+      return Object.values(this.form).some((value) => !value)
+    },
   },
   methods: {
     submitform() {
@@ -301,19 +318,33 @@ export default {
         showCloseButton: true,
       })
     },
-    submitnext() {
-      this.$swal({
-        title: 'Cobain dulu',
-        icon: 'warning',
-        showCloseButton: true,
-      })
+    submitGeneralRock() {
+      this.$store
+        .dispatch('createRockField', {
+          // userId: this.$auth.$state.user.id,
+          author: this.form.author,
+          lithology_name: this.form.lithology,
+          type: this.form.type,
+          type_detail: this.form.typeDetail,
+          age: this.form.ageZone,
+          formation: this.form.formation,
+          year_research: this.form.year,
+          location: this.form.location,
+          latitude: this.form.latitude,
+          longitude: this.form.longitude,
+          altitude: this.form.altitude,
+          strike: this.form.strike,
+          dip: this.form.dip,
+        })
+        .then(() => {
+          this.$swal({
+            title: 'Berhasil menyimpan data',
+            icon: 'success',
+            showCloseButton: true,
+          })
+        })
     },
   },
-  // computed: {
-  //   ctaLink () {
-  //     return this.user ? (this.user.isAdmin ? '/admin' : '/dashboard') : '/signup'
-  //   }
-  // }
 }
 </script>
 

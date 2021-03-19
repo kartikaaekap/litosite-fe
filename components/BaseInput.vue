@@ -127,6 +127,7 @@ export default {
       font-size: 16px;
       margin-bottom: 0.5rem;
       color: black;
+      font-weight: bold;
     }
   }
   &__box {
@@ -143,6 +144,7 @@ export default {
       }
       &::placeholder {
         font-size: 16px;
+        color: gray;
       }
       &:hover,
       &:active,

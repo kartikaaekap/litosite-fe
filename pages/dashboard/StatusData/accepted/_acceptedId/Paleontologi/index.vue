@@ -47,7 +47,9 @@
             batuan ini. Klik button di bawah ini untuk menginput data hasil
             laboratorium.
           </p>
-          <base-button class="mb-5 mt-4"> Input Hasil Lab </base-button>
+          <base-button class="mb-5 mt-4" @click="inputPaleo()">
+            Input Hasil Lab
+          </base-button>
         </b-col>
       </b-container>
     </section>
@@ -66,6 +68,11 @@ export default {
     },
     petrografiLink() {
       this.$router.push('/dashboard/StatusData/accepted/_acceptedId/Petrografi')
+    },
+    inputPaleo() {
+      this.$router.push(
+        '/dashboard/StatusData/accepted/_acceptedId/Paleontologi/InputPaleo'
+      )
     },
   },
   // computed: {
