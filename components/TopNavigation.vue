@@ -1,12 +1,11 @@
 <template>
   <b-container fluid class="px-0">
     <b-navbar
-      toggleable="lg"
       fixed="top"
       class="navbar"
       :class="{ 'navbar--shadow': scrollPosition }"
     >
-      <b-container class="px-0">
+      <!-- <b-container class="px-0">
         <b-col cols="4" md="2" class="d-flex px-0">
           <b-navbar-brand href="#" class="d-flex px-0 px-md-3">
             <b-img src="~/assets/img/logo-litosite.png" fluid />
@@ -37,151 +36,90 @@
             </b-nav-form>
           </b-navbar-nav>
         </b-collapse>
-      </b-container>
-      <!-- <b-container class="px-0 px-sm-3">
-        <b-col cols="4" class="d-block d-md-none">
-          <dropdown-menu v-model="isDropdownOpenMenu" left hover>
+      </b-container> -->
+      <b-container class="px-0 px-md-3">
+        <b-row>
+          <b-col cols="4" class="d-block d-md-none">
             <base-button
               variant="secondary"
-              icon="list"
               size="small"
-              class="ml-3"
+              icon="list"
               icon-only
+              @click="toggleSidebar"
             />
-            <div slot="dropdown">
+          </b-col>
+          <!-- <b-col cols="4" md="2" class="d-flex px-0 px-md-3">
+            <b-navbar-brand href="#" class="d-flex px-0 px-md-3">
+              <b-img src="~/assets/img/logo-litosite.png" fluid />
+            </b-navbar-brand>
+          </b-col> -->
+          <b-col cols="4" md="2" class="d-flex px-0">
+            <base-logo is-link class="mx-auto mx-md-0" />
+          </b-col>
+          <b-col>
+            <b-navbar-nav class="ml-auto">
               <template>
-                <base-button variant="text" to="/dashboard/home">
+                <base-button
+                  variant="text"
+                  is-long
+                  class="mr-3"
+                  to="/dashboard/home"
+                >
                   Home
                 </base-button>
-                <base-button variant="text" to="/dashboard/classlist">
-                  List Class
-                </base-button>
               </template>
-            </div>
-          </dropdown-menu>
-        </b-col>
-        <b-col cols="4" md="2" class="d-flex px-0 px-md-3">
-          <b-navbar-brand href="#" class="d-flex px-0 px-md-3">
-            <b-img src="~/assets/img/logo-litosite.png" fluid />
-          </b-navbar-brand>
-        </b-col>
-
-        <b-navbar-toggle target="nav-collapse" />
-
-        <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav class="ml-auto">
-            <template>
-              <base-button variant="text" is-long class="d-none d-md-flex mr-3" to="/dashboard/home">
-                Home
-              </base-button>
-              <base-button variant="tertiary" is-long class="d-none d-md-flex mr-3" to="/login">
-                Sign In
-              </base-button>
-              <base-button variant="primary" is-long class="d-none d-md-flex mr-3" to="/login">
-                Sign Up
-              </base-button>
-            </template>
-            <dropdown-menu v-model="isDropdownOpen" right hover>
               <base-button
-                id="user"
-                variant="secondary"
-                icon="person"
+                variant="tertiary"
                 size="small"
-                class="ml-3"
-                icon-only
-                is-circle
-              />
-              <div slot="dropdown">
-                <template>
-                  <p class="profil__name pl-2 py-2 mb-0">
-                    huhu
-                  </p>
-                  <p class="profil__description pl-2 pb-2 mt-0">
-                    yeye
-                  </p>
-                </template>
-                <b-link class="dropdown__item p-2" to="/signout">
-                  Sign out
-                </b-link>
-              </div>
-            </dropdown-menu>
-          </b-navbar-nav>
-        </b-collapse>
-      </b-container> -->
+                to="/signin"
+                class="d-none d-md-flex"
+                >Sign In</base-button
+              >
+              <base-button
+                variant="primary"
+                size="small"
+                to="/signup"
+                class="d-none d-sm-flex ml-md-3"
+                >Sign Up</base-button
+              >
+            </b-navbar-nav>
+          </b-col>
+        </b-row>
+      </b-container>
     </b-navbar>
     <aside class="sidebar" :class="{ 'sidebar--open': isSidebarOpen }">
-      <b-container class="px-0 px-sm-3">
-        <b-col cols="4" class="d-block d-md-none">
-          <dropdown-menu v-model="isDropdownOpenMenu" left hover>
+      <b-container class="px-0">
+        <b-navbar class="sidebar__header px-0">
+          <b-col cols="4" class="d-block d-md-none">
             <base-button
               variant="secondary"
-              icon="list"
               size="small"
-              class="ml-3"
+              icon="x"
               icon-only
+              @click="toggleSidebar"
             />
-            <div slot="dropdown">
-              <template>
-                <base-button variant="text" to="/dashboard/home">
-                  Home
-                </base-button>
-                <base-button variant="text" to="/dashboard/classlist">
-                  List Class
-                </base-button>
+          </b-col>
+          <b-col cols="4" md="4" class="d-flex px-0 px-md-3">
+            <base-logo is-link class="mx-auto mx-md-0" />
+          </b-col>
+        </b-navbar>
+        <div class="sidebar__menu px-3">
+          <b-nav vertical>
+            <div class="sidebar__menu--top">
+              <template v-if="$route.path === '/'">
+                <base-button variant="text" is-full to="/">Home</base-button>
               </template>
             </div>
-          </dropdown-menu>
-        </b-col>
-        <b-col cols="4" md="2" class="d-flex px-0 px-md-3">
-          <!-- <b-navbar-brand href="#" class="d-flex px-0 px-md-3">
-            <b-img src="~/assets/img/logo-confere.png" fluid />
-          </b-navbar-brand> -->
-        </b-col>
-
-        <b-navbar-toggle target="nav-collapse" />
-
-        <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav class="ml-auto">
-            <template>
-              <base-button
-                variant="text"
-                is-long
-                class="d-none d-md-flex mr-3"
-                to="/dashboard/home"
+            <div class="sidebar__menu--bottom">
+              <base-button variant="secondary" to="/signin" is-full
+                >Sign In</base-button
               >
-                Home
-              </base-button>
-              <base-button
-                variant="text"
-                is-long
-                class="d-none d-md-flex mr-3"
-                to="/dashboard/classlist"
+              <base-button to="/signup" class="mt-3" is-full
+                >Sign Up</base-button
               >
-                List Class
-              </base-button>
-            </template>
-            <dropdown-menu v-model="isDropdownOpen" right hover>
-              <base-button
-                id="user"
-                variant="secondary"
-                icon="person"
-                size="small"
-                class="ml-3"
-                icon-only
-                is-circle
-              />
-              <div slot="dropdown">
-                <template>
-                  <p class="profil__name pl-2 py-2 mb-0">kk</p>
-                  <p class="profil__description pl-2 pb-2 mt-0">lol</p>
-                </template>
-                <b-link class="dropdown__item p-2" to="/signout">
-                  Sign out
-                </b-link>
-              </div>
-            </dropdown-menu>
-          </b-navbar-nav>
-        </b-collapse>
+            </div>
+          </b-nav>
+        </div>
       </b-container>
     </aside>
   </b-container>
@@ -189,11 +127,11 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import DropdownMenu from '@innologica/vue-dropdown-menu'
+// import DropdownMenu from '@innologica/vue-dropdown-menu'
 
 export default {
   name: 'TopNavigation',
-  components: { DropdownMenu },
+  // components: { DropdownMenu },
   // async asyncData () {
   //   return {
   //     userAuth: await window.localStorage.getItem('user')
@@ -203,8 +141,6 @@ export default {
     return {
       scrollPosition: null,
       isDropdownOpen: false,
-      isDropdownOpenMenu: false,
-      openModal: '',
     }
   },
   computed: {

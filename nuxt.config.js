@@ -1,8 +1,8 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
-  env: {
-    baseUrl: process.env.BASE_URL,
-  },
+  // env: {
+  //   baseUrl: process.env.BASE_URL,
+  // },
   head: {
     title: 'Litosite',
     meta: [
@@ -62,7 +62,35 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseUrl: 'http://ec2-54-198-153-24.compute-1.amazonaws.com',
+  },
+
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: 'rest-auth/login/',
+            method: 'post',
+            propertyName: 'key',
+          },
+          user: {
+            url: 'rest-auth/user/',
+            method: 'get',
+            propertyName: 'false',
+          },
+          logout: { url: 'rest-auth/logout/', method: 'post' },
+        },
+        tokenType: 'Token',
+        tokenName: 'Authorization',
+      },
+      redirect: {
+        login: '/login',
+        home: '/',
+      },
+    },
+  },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {

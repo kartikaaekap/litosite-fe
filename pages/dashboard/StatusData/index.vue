@@ -37,14 +37,20 @@
                   <b-icon icon="file-text" color="#337EE1" />
                   <b-col cols="12 pb-2">
                     <p class="status__text mb-0 pb-0">Total Data yang Dibuat</p>
-                    <p class="status__title">10</p>
+                    <p v-if="totalDataZero" class="status__title">0</p>
+                    <p v-else class="status__title">{{ totalData }}</p>
                   </b-col>
                 </div>
                 <div class="h1 d-flex">
                   <b-icon icon="file-text" color="#F73A18" />
                   <b-col cols="12 pb-2">
                     <p class="status__text mb-0 pb-0">Menunggu Konfirmasi</p>
-                    <p class="status__title">6</p>
+                    <p v-if="rockPending.length === 0" class="status__title">
+                      0
+                    </p>
+                    <p v-else class="status__title">
+                      {{ rockPending.length }}
+                    </p>
                   </b-col>
                 </div>
               </div>
@@ -53,14 +59,24 @@
                   <b-icon icon="file-text" color="#F73A18" />
                   <b-col cols="12 pb-2">
                     <p class="status__text mb-0 pb-0">Data Diterima</p>
-                    <p class="status__title">6</p>
+                    <p v-if="rockApproved.length === 0" class="status__title">
+                      0
+                    </p>
+                    <p v-else class="status__title">
+                      {{ rockApproved.length }}
+                    </p>
                   </b-col>
                 </div>
                 <div class="h1 d-flex">
                   <b-icon icon="file-text" color="#3B3B3B" />
                   <b-col cols="12">
                     <p class="status__text mb-0 pb-0">Data Ditolak</p>
-                    <p class="status__title">1</p>
+                    <p v-if="rockRejected.length === 0" class="status__title">
+                      0
+                    </p>
+                    <p v-else class="status__title">
+                      {{ rockRejected.length }}
+                    </p>
                   </b-col>
                 </div>
               </div>
@@ -70,11 +86,11 @@
             <pie-chart
               :donut="true"
               :data="[
-                ['Validating', 3],
-                ['Accepted', 6],
-                ['Rejected', 1],
+                numberRockPending,
+                numberRockApproved,
+                numberRockRejected,
               ]"
-              :colors="['#E3CF1B', '#24C021', '#F73A18']"
+              :colors="chartColor"
             ></pie-chart
           ></b-col>
         </b-row>
@@ -90,12 +106,48 @@
               class="p-0"
               nav-wrapper-class="pills d-flex justify-content-center"
             >
-              <b-tab title="Menunggu Konfirmasi" />
+              <b-tab title="Menunggu Konfirmasi">
+                <section id="pending-table" class="mt-5">
+                  <b-container>
+                    <div class="mt-3" style="overflow-x: auto">
+                      <table id="table">
+                        <thead>
+                          <tr>
+                            <th>Type</th>
+                            <th>Type Detail</th>
+                            <th>Lithology Name</th>
+                            <th>Tanggal Dikirim</th>
+                          </tr>
+                        </thead>
+                        <tbody v-if="rockPending.length === 0">
+                          <tr>
+                            <td colspan="4" class="text-center">
+                              Belum ada data yang dapat ditampilkan
+                            </td>
+                          </tr>
+                        </tbody>
+                        <tbody
+                          v-for="item in rockPending"
+                          v-else
+                          :key="item.id"
+                        >
+                          <tr>
+                            <td>{{ item.type }}</td>
+                            <td>{{ item.type_detail }}</td>
+                            <td>{{ item.lithology_name }}</td>
+                            <td>ini tanggal</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </b-container>
+                </section>
+              </b-tab>
               <b-tab title="Data Diterima">
                 <section id="accepted-table" class="mt-5">
                   <b-container>
                     <div class="mt-3" style="overflow-x: auto">
-                      <table>
+                      <table id="table">
                         <thead>
                           <tr>
                             <th>Type</th>
@@ -105,20 +157,12 @@
                             <th>Aksi</th>
                           </tr>
                         </thead>
-                        <!-- <tbody
-                          v-if="classDetail.studentsId.length === 0"
-                          class="text-center"
-                        >
-                          <tr>
-                            <td colspan="3">There are no record to show</td>
-                          </tr>
-                        </tbody> -->
-                        <tbody v-for="item in dataDiterima" :key="item.id">
+                        <tbody v-for="item in rockApproved" :key="item.id">
                           <tr>
                             <td>{{ item.type }}</td>
-                            <td>{{ item.detail }}</td>
-                            <td>{{ item.litologi }}</td>
-                            <td>{{ item.tanggal }}</td>
+                            <td>{{ item.type_detail }}</td>
+                            <td>{{ item.lithology_name }}</td>
+                            <td>ini tanggal</td>
                             <td>
                               <b-link
                                 class="ml-2"
@@ -134,7 +178,45 @@
                   </b-container>
                 </section>
               </b-tab>
-              <b-tab title="Data Ditolak" />
+              <b-tab title="Data Ditolak">
+                <section id="rejected-table" class="mt-5">
+                  <b-container>
+                    <div class="mt-3" style="overflow-x: auto">
+                      <table id="table">
+                        <thead>
+                          <tr>
+                            <th>Type</th>
+                            <th>Type Detail</th>
+                            <th>Lithology Name</th>
+                            <th>Komentar</th>
+                            <th>Aksi</th>
+                          </tr>
+                        </thead>
+                        <tbody v-if="rockRejected.length === 0">
+                          <tr>
+                            <td colspan="5" class="text-center">
+                              Belum ada data yang dapat ditampilkan
+                            </td>
+                          </tr>
+                        </tbody>
+                        <tbody
+                          v-for="item in rockRejected"
+                          v-else
+                          :key="item.id"
+                        >
+                          <tr>
+                            <td>{{ item.type }}</td>
+                            <td>{{ item.type_detail }}</td>
+                            <td>{{ item.lithology_name }}</td>
+                            <td>{{ item.komentar }}</td>
+                            <td>ini aksi</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </b-container>
+                </section>
+              </b-tab>
             </b-tabs>
           </b-col>
         </b-row>
@@ -154,38 +236,15 @@ Vue.use(Chartkick.use(Chart))
 export default {
   components: {},
   layout: 'landingpagelogin',
+  async asyncData({ store }) {
+    return {
+      rockPending: await store.dispatch('getRockPending'),
+      rockApproved: await store.dispatch('getRockApproved'),
+      rockRejected: await store.dispatch('getRockRejected'),
+    }
+  },
   data: () => {
     return {
-      dataDiterima: [
-        {
-          id: 1,
-          type: 'Metamorf',
-          detail: 'Metamorf Tipe C',
-          litologi: 'Ini Nama A',
-          tanggal: '17-10-2020',
-        },
-        {
-          id: 2,
-          type: 'Metamorf',
-          detail: 'Metamorf Tipe C',
-          litologi: 'Ini Nama A',
-          tanggal: '17-10-2020',
-        },
-        {
-          id: 3,
-          type: 'Metamorf',
-          detail: 'Metamorf Tipe C',
-          litologi: 'Ini Nama A',
-          tanggal: '17-10-2020',
-        },
-        {
-          id: 4,
-          type: 'Metamorf',
-          detail: 'Metamorf Tipe C',
-          litologi: 'Ini Nama A',
-          tanggal: '17-10-2020',
-        },
-      ],
       form: {
         author: '',
         lithology: '',
@@ -234,16 +293,54 @@ export default {
       ],
     }
   },
+  computed: {
+    totalData() {
+      return (
+        this.rockPending.length +
+        this.rockApproved.length +
+        this.rockRejected.length
+      )
+    },
+    totalDataZero() {
+      return (
+        !this.rockPending.length +
+        !this.rockApproved.length +
+        !this.rockRejected.length
+      )
+    },
+    numberRockPending() {
+      return [
+        !this.rockPending.length
+          ? 'Anda belum pernah menginput batuan'
+          : 'Menunggu Konfirmasi',
+        !this.rockPending.length ? 1 : this.rockPending.length,
+      ]
+    },
+    numberRockApproved() {
+      return [
+        !this.rockApproved.length ? '' : 'Data Diterima',
+        !this.rockApproved.length ? '' : this.rockApproved.length,
+      ]
+    },
+    numberRockRejected() {
+      return [
+        !this.rockRejected.length ? '' : 'Data Ditolak',
+        !this.rockRejected.length ? '' : this.rockApproved.length,
+      ]
+    },
+    chartColor() {
+      return [
+        !this.rockPending.length ? 'grey' : '#E3CF1B',
+        !this.rockApproved.length ? '#6a40951a' : '#24C021',
+        !this.rockApproved.length ? '#6a40951a' : '#F73A18',
+      ]
+    },
+  },
   methods: {
     handleAccepted(id) {
       this.$router.push(`/dashboard/StatusData/accepted/${id}`)
     },
   },
-  // computed: {
-  //   ctaLink () {
-  //     return this.user ? (this.user.isAdmin ? '/admin' : '/dashboard') : '/signup'
-  //   }
-  // }
 }
 </script>
 
@@ -253,7 +350,7 @@ export default {
 }
 .section {
   &__introduction {
-    padding-top: 90px;
+    padding-top: 0px;
     padding-bottom: 20px;
   }
   &__chart {
@@ -349,23 +446,33 @@ export default {
     }
   }
 }
-table {
+#table {
   border-collapse: collapse;
-  border-spacing: 0;
   width: 100%;
-  border: 1px solid #ddd;
 }
 
-th,
-td {
-  text-align: left;
-  padding: 16px;
+#table td,
+#table th {
+  border: 1px solid #6a4095;
+  padding: 6px;
 }
 
-tbody tr:nth-child(odd) {
-  background-color: rgba(0, 0, 0, 0.05);
+#tabe tr:hover {
+  background-color: #ddd;
 }
 
+#table td {
+  font-size: 16px;
+}
+
+#table th {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  text-align: center;
+  background-color: #e3bb1b;
+  color: white;
+  font-size: 17px;
+}
 .custom-select {
   height: 40px;
   padding-left: 15px;

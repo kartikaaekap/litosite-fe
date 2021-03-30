@@ -329,7 +329,7 @@ export default {
     }
   }
   &__introduction {
-    padding-top: 90px;
+    padding-top: 0px;
     padding-bottom: 20px;
   }
   &__form {

@@ -44,55 +44,55 @@
             <table>
               <tr>
                 <th>Author Name:</th>
-                <td>Bill Gates</td>
+                <td>{{ rockApproved.author }}</td>
               </tr>
               <tr>
                 <th>Lithology Name:</th>
-                <td>555 77 854</td>
+                <td>{{ rockApproved.lithology_name }}</td>
               </tr>
               <tr>
                 <th>Type:</th>
-                <td>555 77 855</td>
+                <td>{{ rockApproved.type }}</td>
               </tr>
               <tr>
                 <th>Type Detail:</th>
-                <td>555 77 855</td>
+                <td>{{ rockApproved.type_detail }}</td>
               </tr>
               <tr>
                 <th>Age Zone:</th>
-                <td>555 77 855</td>
+                <td>{{ rockApproved.age_zone }}</td>
               </tr>
               <tr>
                 <th>Formation:</th>
-                <td>555 77 855</td>
+                <td>{{ rockApproved.rock_formation }}</td>
               </tr>
               <tr>
                 <th>Year Researched:</th>
-                <td>555 77 855</td>
+                <td>{{ rockApproved.year_research }}</td>
               </tr>
               <tr>
                 <th>Location:</th>
-                <td>555 77 855</td>
+                <td>{{ rockApproved.location }}</td>
               </tr>
               <tr>
                 <th>Latitude:</th>
-                <td>555 77 855</td>
+                <td>{{ rockApproved.latitude }}</td>
               </tr>
               <tr>
                 <th>Longitude:</th>
-                <td>555 77 855</td>
+                <td>{{ rockApproved.longitude }}</td>
               </tr>
               <tr>
                 <th>Altitude:</th>
-                <td>555 77 855</td>
+                <td>{{ rockApproved.altitude }}</td>
               </tr>
               <tr>
                 <th>Strike / Dip:</th>
-                <td>555 77 855</td>
+                <td>{{ rockApproved.strike }} / {{ rockApproved.dip }}</td>
               </tr>
               <tr>
                 <th>Attachment:</th>
-                <td>555 77 855</td>
+                <td>{{ rockApproved.images }}</td>
               </tr>
             </table>
           </b-col>
@@ -105,6 +105,13 @@
 <script>
 export default {
   layout: 'landingpagelogin',
+  async asyncData({ store, params }) {
+    return {
+      rockPending: await store.dispatch('getRockPending'),
+      rockApproved: await store.dispatch('getRockApproved', params.acceptedId),
+      rockRejected: await store.dispatch('getRockRejected'),
+    }
+  },
   data: () => {
     return {
       items: [

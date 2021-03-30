@@ -47,11 +47,14 @@ import {
   BIconLink,
   BIconLink45deg,
   BIconFileEarmark,
+  BIconFileEarmarkCheck,
+  BIconFileEarmarkExcel,
   BIconCardImage,
   BIconAsterisk,
   BIconArchive,
   BIconFileText,
   BIconBell,
+  BIconStopwatch,
 } from 'bootstrap-vue'
 
 // register component
@@ -105,8 +108,11 @@ Vue.component('BIconDropletHalf', BIconDropletHalf)
 Vue.component('BIconLink', BIconLink)
 Vue.component('BIconLink45deg', BIconLink45deg)
 Vue.component('BIconFileEarmark', BIconFileEarmark)
+Vue.component('BIconFileEarmarkCheck', BIconFileEarmarkCheck)
+Vue.component('BIconFileEarmarkExcel', BIconFileEarmarkExcel)
 Vue.component('BIconCardImage', BIconCardImage)
 Vue.component('BIconAsterisk', BIconAsterisk)
 Vue.component('BIconArchieve', BIconArchive)
 Vue.component('BIconFileText', BIconFileText)
 Vue.component('BIconBell', BIconBell)
+Vue.component('BIconStopwatch', BIconStopwatch)

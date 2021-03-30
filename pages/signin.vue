@@ -22,7 +22,7 @@
           </a>
         </div>
         <p class="section__text text-center mt-2">Sign in to your account</p>
-        <b-form class="d-flex flex-column" @submit.prevent="handleSubmit">
+        <b-form class="d-flex flex-column" @submit.prevent="login">
           <label>Email</label>
           <base-input
             id="email"
@@ -100,55 +100,33 @@ export default {
     togglePassword(e) {
       this.isPaswordVisible = !this.isPaswordVisible
     },
-    async handleSubmit() {
-      const { email, password } = this.form
+    async login() {
+      // const { email, password } = this.form
       this.isLoading = true
       try {
-        const user = await this.$store.dispatch('login', { email, password })
-        // const listEmail = this.adminList.length
-        // const listEmail = Array
-        this.$store.commit('setUser', user)
-        this.$axios.setToken(user.token)
-        // await this.$store.dispatch('login', { email, password })
+        // const user = await this.$store.dispatch('login', { email, password })
+        // this.$store.commit('setUser', user)
+        // this.$axios.setToken(user.token)
+        await this.$auth.loginWith('local', {
+          data: {
+            email: this.form.email,
+            password: this.form.password,
+          },
+        })
+
         this.isLoading = false
+        // this.$router.push('/indexlogin')
         let isAdmin = false
         for (const index in this.adminList) {
-          if (this.adminList[index].email === email) {
+          if (this.adminList[index].email === this.form.email) {
             isAdmin = true
           }
         }
         if (isAdmin === true) {
-          this.$swal({
-            title: 'Salah ya Anda',
-            icon: 'warning',
-            showCloseButton: true,
-          })
-          this.$router.push('/signup')
+          this.$router.push('/verifikator')
         } else {
           this.$router.push('/indexlogin')
         }
-        // if (!listEmail.includes(email)) {
-        //   this.$router.push('/indexlogin')
-        // } else {
-        //   this.$swal({
-        //     title: 'Salah ya Anda',
-        //     icon: 'warning',
-        //     showCloseButton: true,
-        //   })
-        //   this.$router.push('/signup')
-        // }
-        // for (let index = 0; index < listEmail.length; index++) {
-        //   if (email !== this.adminList[index].email) {
-        //     this.$router.push('/indexlogin')
-        //   } else {
-        //     this.$swal({
-        //       title: 'Salah ya Anda',
-        //       icon: 'warning',
-        //       showCloseButton: true,
-        //     })
-        //     this.$router.push('/signup')
-        //   }
-        // }
       } catch (error) {
         this.$swal({
           title: 'Wrong Email or Password',

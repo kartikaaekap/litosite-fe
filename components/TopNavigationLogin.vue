@@ -41,15 +41,24 @@
                 is-circle
               />
               <div slot="dropdown">
-                <template>
+                <template v-if="isAuthenticated">
                   <p class="profil__name pl-2 py-2 mb-0">Kartika Eka Putri</p>
                   <p class="profil__description pl-2 pb-2 mt-0">
-                    kartikaaekap@gmail.com
+                    {{ loggedInUser.username }}
                   </p>
+                  <b-link class="dropdown__item p-2" to="/signout">
+                    Sign out
+                  </b-link>
                 </template>
-                <b-link class="dropdown__item p-2" to="/signout">
-                  Sign out
-                </b-link>
+                <template v-else>
+                  <b-link
+                    class="dropdown__item p-2"
+                    to="/signout"
+                    @click="$auth.logout()"
+                  >
+                    Sign out
+                  </b-link>
+                </template>
               </div>
             </dropdown-menu>
           </b-navbar-nav>
@@ -205,7 +214,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations, mapGetters } from 'vuex'
 import DropdownMenu from '@innologica/vue-dropdown-menu'
 
 export default {
@@ -226,6 +235,7 @@ export default {
   },
   computed: {
     ...mapState(['isSidebarOpen']),
+    ...mapGetters(['isAuthenticated', 'loggedInUser']),
   },
   mounted() {
     window.addEventListener('scroll', this.updateScroll)

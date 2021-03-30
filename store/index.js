@@ -29,9 +29,17 @@ export const mutations = {
     state.isInit = false
   },
 }
+export const getters = {
+  isAuthenticated(state) {
+    return state.auth.loggedIn
+  },
 
+  loggedInUser(state) {
+    return state.auth.user
+  },
+}
 export const actions = {
-  useAPI(context, { method, url, data, token }) {
+  useAPI(context, { method, url, data, key }) {
     return new Promise((resolve, reject) => {
       this.$axios[method](url, data)
         .then(({ data: response }) => resolve(response.data || response))
@@ -50,48 +58,48 @@ export const actions = {
   getItems({ dispatch }, payload) {
     return dispatch('useAPI', {
       method: 'get',
-      url: `${process.env.baseUrl}/api/${payload}`,
+      url: `http://ec2-54-198-153-24.compute-1.amazonaws.com/api/${payload}`,
     })
   },
   newUser({ dispatch }, [url, data]) {
     return dispatch('useAPI', {
       method: 'post',
-      url: `${process.env.baseUrl}/${url}`,
+      url: `http://ec2-54-198-153-24.compute-1.amazonaws.com/${url}`,
       data,
     })
   },
   loginUser({ dispatch }, [url, data]) {
     return dispatch('useAPI', {
       method: 'post',
-      url: `${process.env.baseUrl}/${url}`,
+      url: `http://ec2-54-198-153-24.compute-1.amazonaws.com/${url}`,
       data,
     })
   },
   logoutUser({ dispatch }, [url, data]) {
     return dispatch('useAPI', {
       method: 'post',
-      url: `${process.env.baseUrl}/${url}`,
+      url: `http://ec2-54-198-153-24.compute-1.amazonaws.com/${url}`,
       data,
     })
   },
   createItem({ dispatch }, [url, data]) {
     return dispatch('useAPI', {
       method: 'post',
-      url: `${process.env.baseUrl}/api/${url}`,
+      url: `http://ec2-54-198-153-24.compute-1.amazonaws.com/api/${url}`,
       data,
     })
   },
   updateItem({ dispatch }, [url, data]) {
     return dispatch('useAPI', {
       method: 'patch',
-      url: `${process.env.baseUrl}/api/${url}`,
+      url: `http://ec2-54-198-153-24.compute-1.amazonaws.com/api/${url}`,
       data,
     })
   },
   deleteItem({ dispatch }, payload) {
     return dispatch('useAPI', {
       method: 'delete',
-      url: `${process.env.baseUrl}/api/${payload}`,
+      url: `http://ec2-54-198-153-24.compute-1.amazonaws.com/api/${payload}`,
     })
   },
 
@@ -113,5 +121,17 @@ export const actions = {
   // rock actions
   createRockField({ dispatch }, payload) {
     return dispatch('createItem', ['contrib-rock/', payload])
+  },
+  getRockField({ dispatch }) {
+    return dispatch('getItems', 'contrib-rock/')
+  },
+  getRockPending({ dispatch }) {
+    return dispatch('getItems', 'contrib-rock/?status=pnd')
+  },
+  getRockApproved({ dispatch }) {
+    return dispatch('getItems', 'contrib-rock/?status=apr')
+  },
+  getRockRejected({ dispatch }) {
+    return dispatch('getItems', 'contrib-rock/?status=rjt')
   },
 }

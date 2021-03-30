@@ -25,9 +25,21 @@
               class="p-0"
               nav-wrapper-class="pills d-flex justify-content-center"
             >
-              <b-tab title="Upload Dari Excel" />
-              <b-tab title="Input Secara Langsung" class="mb-0 mb-md-3">
+              <b-tab title="Upload Dari Excel" active>
                 <b-row>
+                  <b-col class="text-center">
+                    <h1 class="section__title mt-5 mb-3">
+                      INPUT DATA HASIL LAPANGAN
+                    </h1>
+                  </b-col>
+                </b-row>
+              </b-tab>
+              <b-tab
+                title="Input Secara Langsung"
+                class="mb-0 mb-md-3"
+                @click="handleInputForm()"
+              >
+                <!-- <b-row>
                   <b-col class="text-center">
                     <h1 class="section__title mt-5 mb-3">
                       INPUT DATA HASIL LAPANGAN
@@ -208,7 +220,7 @@
                               is-full
                               class="text-center"
                               @click.native="
-                                props.nextTab(), submitGeneralRock()
+                                submitGeneralRock(), this.props.nextTab()
                               "
                               >Selanjutnya</base-button
                             >
@@ -228,7 +240,7 @@
                       </form-wizard>
                     </b-col>
                   </b-row>
-                </div>
+                </div> -->
               </b-tab>
             </b-tabs>
           </b-col>
@@ -239,111 +251,123 @@
 </template>
 
 <script>
-import { FormWizard, TabContent } from 'vue-form-wizard'
-import BaseInputSelect from '~/components/BaseInputSelect.vue'
+// import { FormWizard, TabContent } from 'vue-form-wizard'
+// import BaseInputSelect from '~/components/BaseInputSelect.vue'
 import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 
 export default {
-  components: { BaseInputSelect, FormWizard, TabContent },
+  // components: { BaseInputSelect, FormWizard, TabContent },
   layout: 'landingpagelogin',
-  data: () => {
-    return {
-      form: {
-        author: '',
-        lithology: '',
-        type: '',
-        typeDetail: '',
-        ageZone: '',
-        formation: '',
-        year: '',
-        location: '',
-        latitude: '',
-        longitude: '',
-        altitude: '',
-        strike: '',
-        dip: '',
-      },
-      typeOptions: [
-        { value: '', text: 'Select type' },
-        { value: 'sedimen', text: 'Sedimen' },
-        { value: 'metamorf', text: 'Metamorf' },
-        { value: 'beku', text: 'Beku' },
-      ],
-      typeDetailOptions: [
-        { value: '', text: 'Select type' },
-        { value: 'coba1', text: 'Coba1' },
-        { value: 'coba2', text: 'Coba2' },
-        { value: 'coba3', text: 'Coba3' },
-      ],
-      ageZoneOptions: [
-        { value: '', text: 'Select age zone' },
-        { value: 'pilosen', text: 'Pilosen (N18-N21)' },
-        { value: 'milosen-akhir', text: 'Milosen Akhir (N13-N17)' },
-        { value: 'milosen-tengah', text: 'Milosen Tengah (N9-N12)' },
-        { value: 'milosen-awal', text: 'Milosen Awal (N4-N8)' },
-        { value: 'oligosen-akhir', text: 'Oligosen Akhir (P21-P22)' },
-        { value: 'oligosen-awal', text: 'Oligosen Awal (P18-P20)' },
-        { value: 'eosen-akhir', text: 'Eosen Akhir (P15-P17)' },
-        { value: 'eosen-tengah', text: 'Eosen Tengah (P10-P14)' },
-        { value: 'eosen-awal', text: 'Eosen Awal (P5-P9)' },
-      ],
-      formationOptions: [
-        { value: '', text: 'Select formation' },
-        { value: 'wungkal-gamping', text: 'Wungkal Gamping' },
-        { value: 'kebo-butak', text: 'Kebo Butak' },
-        { value: 'semilir', text: 'Semilir' },
-        { value: 'nglanggran', text: 'Nglanggran' },
-        { value: 'sambipitu', text: 'Sambipitu' },
-        { value: 'oyo', text: 'Oyo' },
-        { value: 'wonosari', text: 'Wonosari' },
-        { value: 'kepek', text: 'Kepek' },
-        { value: 'nanggulan', text: 'Nanggulan' },
-        { value: 'oaf', text: 'OAF' },
-        { value: 'sentolo', text: 'Sentolo' },
-        { value: 'jonggrangan', text: 'Jonggrangan' },
-      ],
-      isLoading: false,
-    }
-  },
-  computed: {
-    areAllInputsEmpty() {
-      return Object.values(this.form).some((value) => !value)
-    },
-  },
+  // data: () => {
+  //   return {
+  //     form: {
+  //       author: '',
+  //       lithology: '',
+  //       type: '',
+  //       typeDetail: '',
+  //       ageZone: '',
+  //       formation: '',
+  //       year: '',
+  //       location: '',
+  //       latitude: '',
+  //       longitude: '',
+  //       altitude: '',
+  //       strike: '',
+  //       dip: '',
+  //     },
+  //     typeOptions: [
+  //       { value: '', text: 'Select type' },
+  //       { value: 'sedimen', text: 'Sedimen' },
+  //       { value: 'metamorf', text: 'Metamorf' },
+  //       { value: 'beku', text: 'Beku' },
+  //     ],
+  //     typeDetailOptions: [
+  //       { value: '', text: 'Select type' },
+  //       { value: 'coba1', text: 'Coba1' },
+  //       { value: 'coba2', text: 'Coba2' },
+  //       { value: 'coba3', text: 'Coba3' },
+  //     ],
+  //     ageZoneOptions: [
+  //       { value: '', text: 'Select age zone' },
+  //       { value: 'pilosen', text: 'Pilosen (N18-N21)' },
+  //       { value: 'milosen_akhir', text: 'Milosen Akhir (N13-N17)' },
+  //       { value: 'milosen_tengah', text: 'Milosen Tengah (N9-N12)' },
+  //       { value: 'milosen_awal', text: 'Milosen Awal (N4-N8)' },
+  //       { value: 'oligosen_akhir', text: 'Oligosen Akhir (P21-P22)' },
+  //       { value: 'oligosen_awal', text: 'Oligosen Awal (P18-P20)' },
+  //       { value: 'eosen_akhir', text: 'Eosen Akhir (P15-P17)' },
+  //       { value: 'eosen_tengah', text: 'Eosen Tengah (P10-P14)' },
+  //       { value: 'eosen_awal', text: 'Eosen Awal (P5-P9)' },
+  //     ],
+  //     formationOptions: [
+  //       { value: '', text: 'Select formation' },
+  //       { value: 'wungkal_gamping', text: 'Wungkal Gamping' },
+  //       { value: 'kebo_butak', text: 'Kebo Butak' },
+  //       { value: 'semilir', text: 'Semilir' },
+  //       { value: 'nglanggran', text: 'Nglanggran' },
+  //       { value: 'sambipitu', text: 'Sambipitu' },
+  //       { value: 'oyo', text: 'Oyo' },
+  //       { value: 'wonosari', text: 'Wonosari' },
+  //       { value: 'kepek', text: 'Kepek' },
+  //       { value: 'nanggulan', text: 'Nanggulan' },
+  //       { value: 'oaf', text: 'OAF' },
+  //       { value: 'sentolo', text: 'Sentolo' },
+  //       { value: 'jonggrangan', text: 'Jonggrangan' },
+  //     ],
+  //     isLoading: false,
+  //   }
+  // },
+  // computed: {
+  //   areAllInputsEmpty() {
+  //     return Object.values(this.form).some((value) => !value)
+  //   },
+  // },
   methods: {
-    submitform() {
-      this.$swal({
-        title: 'Both passwords must match',
-        icon: 'warning',
-        showCloseButton: true,
-      })
+    handleInputForm() {
+      this.$router.push('/dashboard/InputData/InputDataForm')
     },
-    submitGeneralRock() {
-      this.$store
-        .dispatch('createRockField', {
-          // userId: this.$auth.$state.user.id,
-          author: this.form.author,
-          lithology_name: this.form.lithology,
-          type: this.form.type,
-          type_detail: this.form.typeDetail,
-          age: this.form.ageZone,
-          formation: this.form.formation,
-          year_research: this.form.year,
-          location: this.form.location,
-          latitude: this.form.latitude,
-          longitude: this.form.longitude,
-          altitude: this.form.altitude,
-          strike: this.form.strike,
-          dip: this.form.dip,
-        })
-        .then(() => {
-          this.$swal({
-            title: 'Berhasil menyimpan data',
-            icon: 'success',
-            showCloseButton: true,
-          })
-        })
-    },
+    // submitform() {
+    //   this.$swal({
+    //     title: 'Both passwords must match',
+    //     icon: 'warning',
+    //     showCloseButton: true,
+    //   })
+    // },
+    // async submitGeneralRock() {
+    //   try {
+    //     await this.$store
+    //       .dispatch('createRockField', {
+    //         // userId: this.$auth.$state.user.id,
+    //         author: this.form.author,
+    //         lithology_name: this.form.lithology,
+    //         type: this.form.type,
+    //         type_detail: this.form.typeDetail,
+    //         age: this.form.ageZone,
+    //         formation: this.form.formation,
+    //         year_research: this.form.year,
+    //         location: this.form.location,
+    //         latitude: this.form.latitude,
+    //         longitude: this.form.longitude,
+    //         altitude: this.form.altitude,
+    //         strike: this.form.strike,
+    //         dip: this.form.dip,
+    //       })
+    //       .then(() => {
+    //         this.$swal({
+    //           title: 'Berhasil menyimpan data',
+    //           icon: 'success',
+    //           showCloseButton: true,
+    //         })
+    //         // this.props.nextTab()
+    //       })
+    //   } catch (error) {
+    //     this.$swal({
+    //       title: 'Data yang dimasukkan salah',
+    //       icon: 'error',
+    //       showCloseButton: true,
+    //     })
+    //   }
+    // },
   },
 }
 </script>
@@ -399,7 +423,7 @@ export default {
     }
   }
   &__introduction {
-    padding-top: 90px;
+    padding-top: 0px;
     padding-bottom: 20px;
   }
   &__form {
