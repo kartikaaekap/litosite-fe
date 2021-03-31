@@ -125,6 +125,9 @@ export const actions = {
   getRockField({ dispatch }) {
     return dispatch('getItems', 'contrib-rock/')
   },
+  getRockById({ dispatch }, rockId) {
+    return dispatch('getItems', [`contrib-rock/${rockId}`])
+  },
   getRockPending({ dispatch }) {
     return dispatch('getItems', 'contrib-rock/?status=pnd')
   },

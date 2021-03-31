@@ -39,61 +39,65 @@
             <h1 class="section__title my-4">DATA HASIL LAPANGAN</h1>
           </b-col>
         </b-row>
-        <b-row class="text-center">
-          <b-col cols="12" class="text-center col-md-8 mt-1 mx-auto">
-            <table>
-              <tr>
-                <th>Author Name:</th>
-                <td>{{ rockApproved.author }}</td>
-              </tr>
-              <tr>
-                <th>Lithology Name:</th>
-                <td>{{ rockApproved.lithology_name }}</td>
-              </tr>
-              <tr>
-                <th>Type:</th>
-                <td>{{ rockApproved.type }}</td>
-              </tr>
-              <tr>
-                <th>Type Detail:</th>
-                <td>{{ rockApproved.type_detail }}</td>
-              </tr>
-              <tr>
-                <th>Age Zone:</th>
-                <td>{{ rockApproved.age_zone }}</td>
-              </tr>
-              <tr>
-                <th>Formation:</th>
-                <td>{{ rockApproved.rock_formation }}</td>
-              </tr>
-              <tr>
-                <th>Year Researched:</th>
-                <td>{{ rockApproved.year_research }}</td>
-              </tr>
-              <tr>
-                <th>Location:</th>
-                <td>{{ rockApproved.location }}</td>
-              </tr>
-              <tr>
-                <th>Latitude:</th>
-                <td>{{ rockApproved.latitude }}</td>
-              </tr>
-              <tr>
-                <th>Longitude:</th>
-                <td>{{ rockApproved.longitude }}</td>
-              </tr>
-              <tr>
-                <th>Altitude:</th>
-                <td>{{ rockApproved.altitude }}</td>
-              </tr>
-              <tr>
-                <th>Strike / Dip:</th>
-                <td>{{ rockApproved.strike }} / {{ rockApproved.dip }}</td>
-              </tr>
-              <tr>
-                <th>Attachment:</th>
-                <td>{{ rockApproved.images }}</td>
-              </tr>
+        <b-row>
+          <b-col cols="12" class="col-md-8 mt-1 mx-auto mt-0 mt-md-3">
+            <table id="table-detail">
+              <tbody>
+                <tr>
+                  <th>Author Name:</th>
+                  <td>{{ rockById.author }}</td>
+                </tr>
+                <tr>
+                  <th>Lithology Name:</th>
+                  <td>{{ rockById.lithology_name }}</td>
+                </tr>
+                <tr>
+                  <th>Type:</th>
+                  <td>{{ rockById.type }}</td>
+                </tr>
+                <tr>
+                  <th>Type Detail:</th>
+                  <td>{{ rockById.type_detail }}</td>
+                </tr>
+                <tr>
+                  <th>Age Zone:</th>
+                  <td>{{ rockById.age_zone }}</td>
+                </tr>
+                <tr>
+                  <th>Formation:</th>
+                  <td>{{ rockById.rock_formation }}</td>
+                </tr>
+                <tr>
+                  <th>Year Researched:</th>
+                  <td>{{ rockById.year_research }}</td>
+                </tr>
+                <tr>
+                  <th>Location:</th>
+                  <td>{{ rockById.location }}</td>
+                </tr>
+                <tr>
+                  <th>Latitude:</th>
+                  <td>{{ rockById.latitude }}</td>
+                </tr>
+                <tr>
+                  <th>Longitude:</th>
+                  <td>{{ rockById.longitude }}</td>
+                </tr>
+                <tr>
+                  <th>Altitude:</th>
+                  <td>{{ rockById.altitude }}</td>
+                </tr>
+                <tr>
+                  <th>Strike / Dip:</th>
+                  <td>{{ rockById.strike }} / {{ rockById.dip }}</td>
+                </tr>
+                <tr v-for="item in rockById.images" :key="item.id">
+                  <th>Attachment:</th>
+                  <td>
+                    <b-img :src="item.image" fluid />
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </b-col>
         </b-row>
@@ -107,8 +111,9 @@ export default {
   layout: 'landingpagelogin',
   async asyncData({ store, params }) {
     return {
+      rockById: await store.dispatch('getRockById', params.acceptedId),
       rockPending: await store.dispatch('getRockPending'),
-      rockApproved: await store.dispatch('getRockApproved', params.acceptedId),
+      rockApproved: await store.dispatch('getRockApproved'),
       rockRejected: await store.dispatch('getRockRejected'),
     }
   },
@@ -194,6 +199,28 @@ export default {
 .center {
   margin-left: auto;
   margin-right: auto;
+}
+#table-detail {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #6a4095;
+}
+
+#table-detail td,
+#table-detail th {
+  padding: 6px;
+}
+
+#table-detail td {
+  font-size: 16px;
+}
+
+#table-detail th {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  background-color: #ffffff;
+  color: black;
+  font-size: 17px;
 }
 .breadcrumb-item {
   * {
