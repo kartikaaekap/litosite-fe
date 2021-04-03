@@ -137,4 +137,7 @@ export const actions = {
   getRockRejected({ dispatch }) {
     return dispatch('getItems', 'contrib-rock/?status=rjt')
   },
+  // createRockPaleo({ dispatch }, [rockId, data]) {
+  //   return dispatch('createItem', [`contrib-rock/${rockId}/paleo`, data])
+  // },
 }

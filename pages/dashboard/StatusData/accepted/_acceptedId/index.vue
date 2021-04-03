@@ -141,11 +141,13 @@ export default {
   },
   methods: {
     petrografiLink() {
-      this.$router.push('/dashboard/StatusData/accepted/_acceptedId/Petrografi')
+      this.$router.push(
+        `/dashboard/StatusData/accepted/${this.$route.params.acceptedId}/Petrografi`
+      )
     },
     paleontologiLink() {
       this.$router.push(
-        '/dashboard/StatusData/accepted/_acceptedId/Paleontologi'
+        `/dashboard/StatusData/accepted/${this.$route.params.acceptedId}/Paleontologi`
       )
     },
   },
@@ -209,6 +211,7 @@ export default {
 #table-detail td,
 #table-detail th {
   padding: 6px;
+  border: 1px solid #6a4095;
 }
 
 #table-detail td {

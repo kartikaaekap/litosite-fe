@@ -41,6 +41,7 @@
           </b-col>
         </b-row>
         <b-col
+          v-if="!rockById.petrolabs.length"
           cols="12"
           class="section__emptyState text-center mt-1 col-md-8 mx-auto"
         >
@@ -49,8 +50,49 @@
             ini. Klik button di bawah ini untuk menginput data hasil
             laboratorium.
           </p>
-          <base-button class="mb-5 mt-4"> Input Hasil Lab </base-button>
+          <base-button class="mb-5 mt-4" @click="inputPetro()">
+            Input Hasil Lab
+          </base-button>
         </b-col>
+        <div v-else>
+          <b-row>
+            <b-col cols="12" class="col-md-8 mt-1 mx-auto mt-0 mt-md-3">
+              <table id="table-detail">
+                <tbody v-for="item in rockById.petrolabs" :key="item.id">
+                  <tr>
+                    <th>Lithology Name:</th>
+                    <td>{{ item.lithology_name }}</td>
+                  </tr>
+                  <tr>
+                    <th>Petrography Composition:</th>
+                    <td>{{ item.composition }}</td>
+                  </tr>
+                  <tr>
+                    <th>Petrography Structure:</th>
+                    <td>{{ item.structure }}</td>
+                  </tr>
+                  <tr>
+                    <th>Petrography Texture:</th>
+                    <td>{{ item.texture }}</td>
+                  </tr>
+                  <tr>
+                    <th>Petrography Name:</th>
+                    <td>{{ item.petro_name }}</td>
+                  </tr>
+                  <tr>
+                    <th>Attachment:</th>
+                    <td>
+                      <p>1. Plane-Polarized Light (PPL)</p>
+                      <b-img :src="item.ppl_img_path" fluid />
+                      <p>2. Crossed-Polarized Light (PPL)</p>
+                      <b-img :src="item.cpl_img_path" fluid />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </b-col>
+          </b-row>
+        </div>
       </b-container>
     </section>
   </div>
@@ -59,43 +101,31 @@
 <script>
 export default {
   layout: 'landingpagelogin',
-  data: () => {
+  async asyncData({ store, params }) {
     return {
-      items: [
-        {
-          text: 'Input Data',
-          href: '#',
-        },
-        {
-          text: 'Status Data',
-          href: '#',
-        },
-        {
-          text: 'Data Diterima',
-          href: '#',
-        },
-        {
-          text: 'Details Data Lapangan',
-          active: true,
-        },
-      ],
+      rockById: await store.dispatch('getRockById', params.acceptedId),
     }
+  },
+  data: () => {
+    return {}
   },
   methods: {
     lapanganLink() {
-      this.$router.push('/dashboard/StatusData/accepted/_acceptedId')
+      this.$router.push(
+        `/dashboard/StatusData/accepted/${this.$route.params.acceptedId}`
+      )
     },
     paleontologiLink() {
       this.$router.push(
-        '/dashboard/StatusData/accepted/_acceptedId/Paleontologi'
+        `/dashboard/StatusData/accepted/${this.$route.params.acceptedId}/Paleontologi`
+      )
+    },
+    inputPetro() {
+      this.$router.push(
+        `/dashboard/StatusData/accepted/${this.$route.params.acceptedId}/Petrografi/InputPetro`
       )
     },
   },
-  // computed: {
-  //   ctaLink () {
-  //     return this.user ? (this.user.isAdmin ? '/admin' : '/dashboard') : '/signup'
-  //   }
-  // }
 }
 </script>
 
@@ -156,6 +186,28 @@ export default {
   &.active * {
     color: #e3bb1b;
   }
+}
+#table-detail {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #6a4095;
+}
+#table-detail td,
+#table-detail th {
+  padding: 6px;
+  border: 1px solid #6a4095;
+}
+
+#table-detail td {
+  font-size: 16px;
+}
+
+#table-detail th {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  background-color: #ffffff;
+  color: black;
+  font-size: 17px;
 }
 @media screen and (max-width: 600px) {
   .section {

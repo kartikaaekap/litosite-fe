@@ -14,11 +14,12 @@
           <b-breadcrumb-item href="/dashboard/StatusData/"
             >Data Diterima</b-breadcrumb-item
           >
-          <b-breadcrumb-item
-            href="/dashboard/StatusData/accepted/_acceptedId/Petrografi"
+          <b-breadcrumb-item @click="paleontologiLink"
             >Details Data Laboratorium</b-breadcrumb-item
           >
-          <b-breadcrumb-item active>Input Data Laboratorium</b-breadcrumb-item>
+          <b-breadcrumb-item active
+            >Input Data Lab Paleontologi</b-breadcrumb-item
+          >
         </b-breadcrumb>
       </div>
       <b-container>
@@ -31,7 +32,7 @@
         </b-row>
         <b-row>
           <b-col cols="12" class="col-md-8 mx-auto">
-            <form-wizard
+            <!-- <form-wizard
               ref="wizard"
               title=""
               subtitle=""
@@ -40,129 +41,138 @@
               color="#E3BB1B"
               error-color="#24C021"
             >
-              <tab-content title="Pilih jenis fosil" class="mb-5">
-                <b-col>
-                  <base-input-select
-                    id="fosilType"
-                    v-model="form.fosilType"
-                    label="Jenis Fosil"
-                    :options="fosilTypeOptions"
-                    warning-icon
-                    required
-                  />
-                  <base-input
-                    id="ageRock"
-                    v-model="form.ageRock"
-                    label="Umur Batuan"
-                    placeholder="Input umur batuan"
-                    warning-icon
-                    required
-                  />
-                  <base-input-select
-                    id="ageZone"
-                    v-model="form.ageZone"
-                    label="Age Zone"
-                    :options="ageZoneOptions"
-                    warning-icon
-                    required
-                  />
-                  <base-input
-                    id="abundance"
-                    v-model="form.abundance"
-                    label="Abundance"
-                    placeholder="Input abundance"
-                    warning-icon
-                    required
-                  />
-                </b-col>
-              </tab-content>
-              <tab-content title="Input data fosil" class="mb-5">
-                <b-col v-if="form.fosilType === 'foraminifera'">
-                  <base-input
-                    id="planktonic"
-                    v-model="formSecond.planktonic"
-                    label="Planktonic Fossil Name"
-                    placeholder="Input planktonic fossil name"
-                    warning-icon
-                    required
-                  />
-                  <base-input
-                    id="benthic"
-                    v-model="formSecond.benthic"
-                    label="Benthic Fossil Name"
-                    placeholder="Input benthic fossil name"
-                    warning-icon
-                    required
-                  />
-                  <base-input-select
-                    id="depositional"
-                    v-model="formSecond.depositional"
-                    label="Depositional Environment"
-                    :options="depositionalOptions"
-                    warning-icon
-                    required
-                  />
-                  <div class="section__blacktext">
-                    Attachment <b-icon icon="paperclip" />
+              <tab-content title="Pilih jenis fosil" class="mb-5"> -->
+            <b-col>
+              <base-input-select
+                id="fosilType"
+                v-model="form.fosilType"
+                label="Jenis Fosil"
+                :options="fosilTypeOptions"
+                warning-icon
+                required
+              />
+              <base-input
+                id="ageRock"
+                v-model="form.ageRock"
+                label="Umur Batuan"
+                placeholder="Input umur batuan"
+                warning-icon
+                required
+              />
+              <base-input-select
+                id="ageZone"
+                v-model="form.ageZone"
+                label="Age Zone"
+                :options="ageZoneOptions"
+                warning-icon
+                required
+              />
+              <base-input
+                id="abundance"
+                v-model="form.abundance"
+                label="Abundance"
+                placeholder="Input abundance"
+                warning-icon
+                required
+              />
+            </b-col>
+            <base-button
+              type="submit"
+              :disabled="isLoading || areAllInputsEmpty"
+              class="mx-auto mt-5"
+              is-full
+              @click="submitPaleoRock()"
+            >
+              Selanjutnya
+            </base-button>
+            <!-- </tab-content>
+              <tab-content title="Input data fosil" class="mb-5"> -->
+            <!-- <b-col v-if="form.fosilType === 'foraminifera'">
+              <base-input
+                id="planktonic"
+                v-model="formSecond.planktonic"
+                label="Planktonic Fossil Name"
+                placeholder="Input planktonic fossil name"
+                warning-icon
+                required
+              />
+              <base-input
+                id="benthic"
+                v-model="formSecond.benthic"
+                label="Benthic Fossil Name"
+                placeholder="Input benthic fossil name"
+                warning-icon
+                required
+              />
+              <base-input-select
+                id="depositional"
+                v-model="formSecond.depositional"
+                label="Depositional Environment"
+                :options="depositionalOptions"
+                warning-icon
+                required
+              />
+              <div class="section__blacktext">
+                Attachment <b-icon icon="paperclip" />
+              </div>
+              <p class="section__paragraph">
+                Supported format: .JPG, .JPEG, .PNG,
+              </p>
+              <div>
+                <p>1. Planktonic</p>
+                <b-card class="card py-5">
+                  <div class="text-center section__text--purplehover">
+                    <b-icon icon="card-image" font-scale="2" />
+                    <p>Tambah Foto</p>
                   </div>
-                  <p class="section__paragraph">
-                    Supported format: .JPG, .JPEG, .PNG,
-                  </p>
-                  <div>
-                    <p>1. Planktonic</p>
-                    <b-card class="card py-5">
-                      <div class="text-center section__text--purplehover">
-                        <b-icon icon="card-image" font-scale="2" />
-                        <p>Tambah Foto</p>
-                      </div>
-                    </b-card>
+                </b-card>
+              </div>
+              <div class="mt-4">
+                <p>2. Benthic</p>
+                <b-card class="card py-5">
+                  <div class="text-center section__text--purplehover">
+                    <b-icon icon="card-image" font-scale="2" />
+                    <p>Tambah Foto</p>
                   </div>
-                  <div class="mt-4">
-                    <p>2. Benthic</p>
-                    <b-card class="card py-5">
-                      <div class="text-center section__text--purplehover">
-                        <b-icon icon="card-image" font-scale="2" />
-                        <p>Tambah Foto</p>
-                      </div>
-                    </b-card>
+                </b-card>
+              </div>
+            </b-col>
+            <b-col v-else-if="form.fosilType === 'nannofossil'">
+              <base-input
+                id="planktonic"
+                v-model="formSecond.planktonic"
+                label="Planktonic Fossil Name"
+                placeholder="Input planktonic fossil name"
+                warning-icon
+                required
+              />
+              <div class="section__blacktext">
+                Attachment <b-icon icon="paperclip" />
+              </div>
+              <p class="section__paragraph">
+                Supported format: .JPG, .JPEG, .PNG,
+              </p>
+              <div>
+                <p>1. Planktonic</p>
+                <b-card class="card py-5">
+                  <div class="text-center section__text--purplehover">
+                    <b-icon icon="card-image" font-scale="2" />
+                    <p>Tambah Foto</p>
                   </div>
-                </b-col>
-                <b-col v-else-if="form.fosilType === 'nannofossil'">
-                  <base-input
-                    id="planktonic"
-                    v-model="formSecond.planktonic"
-                    label="Planktonic Fossil Name"
-                    placeholder="Input planktonic fossil name"
-                    warning-icon
-                    required
-                  />
-                  <div class="section__blacktext">
-                    Attachment <b-icon icon="paperclip" />
+                </b-card>
+              </div>
+              <div>
+                <p>2. Benthic</p>
+                <b-card class="card py-5">
+                  <div class="text-center section__text--purplehover">
+                    <b-icon icon="card-image" font-scale="2" />
+                    <p>Tambah Foto</p>
                   </div>
-                  <p class="section__paragraph">
-                    Supported format: .JPG, .JPEG, .PNG,
-                  </p>
-                  <div>
-                    <p>1. Planktonic</p>
-                    <b-card class="card py-5">
-                      <div class="text-center section__text--purplehover">
-                        <b-icon icon="card-image" font-scale="2" />
-                        <p>Tambah Foto</p>
-                      </div>
-                    </b-card>
-                  </div>
-                  <div>
-                    <p>2. Benthic</p>
-                    <b-card class="card py-5">
-                      <div class="text-center section__text--purplehover">
-                        <b-icon icon="card-image" font-scale="2" />
-                        <p>Tambah Foto</p>
-                      </div>
-                    </b-card>
-                  </div>
-                </b-col>
-              </tab-content>
-              <template slot="footer" slot-scope="props">
+                </b-card>
+              </div>
+            </b-col> -->
+            <!-- </tab-content> -->
+            <!-- <template slot="footer" slot-scope="props">
                 <div class="text-center">
                   <base-button
                     v-if="!props.isLastStep"
@@ -189,7 +199,7 @@
                   </base-button>
                 </div>
               </template>
-            </form-wizard>
+            </form-wizard> -->
           </b-col>
         </b-row>
       </b-container>
@@ -198,24 +208,24 @@
 </template>
 
 <script>
-import { FormWizard, TabContent } from 'vue-form-wizard'
-import 'vue-form-wizard/dist/vue-form-wizard.min.css'
+// import { FormWizard, TabContent } from 'vue-form-wizard'
+// import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 
 export default {
-  components: { FormWizard, TabContent },
+  // components: { FormWizard, TabContent },
   layout: 'landingpagelogin',
   data: () => {
     return {
       form: {
         fosilType: '',
-        ageRock: '',
+        ageRock: null,
         ageZone: '',
         abundance: '',
       },
-      formSecond: {
-        planktonic: '',
-        benthic: '',
-      },
+      // formSecond: {
+      //   planktonic: '',
+      //   benthic: '',
+      // },
       fosilTypeOptions: [
         { value: '', text: 'Select type' },
         { value: 'foraminifera', text: 'Foraminifera' },
@@ -240,40 +250,66 @@ export default {
     areAllInputsEmpty() {
       return Object.values(this.form).some((value) => !value)
     },
-    areAllInputsSecondEmpty() {
-      return Object.values(this.formSecond).some((value) => !value)
-    },
   },
   methods: {
-    submitform() {
+    paleontologiLink() {
+      this.$router.push(
+        `/dashboard/StatusData/accepted/${this.$route.params.acceptedId}/Paleontologi`
+      )
+    },
+    async submitPaleoRock() {
+      // const { id } = this.$route.params.acceptedId
       const { fosilType } = this.form
-      if (fosilType === 'foraminifera') {
+      try {
+        await this.$axios
+          .$post(
+            `http://ec2-54-198-153-24.compute-1.amazonaws.com/api/contrib-rock/${this.$route.params.acceptedId}/paleo`,
+            {
+              jenis: this.form.fosilType,
+              umur_batuan: this.form.ageRock,
+              zona: this.form.ageZone,
+              abundance: this.form.abundance,
+            }
+          )
+          // await this.$store
+          //   .dispatch('createRockPaleo', [
+          //     id,
+          //     {
+          //       jenis: this.form.fosilType,
+          //       umur_batuan: this.form.ageRock,
+          //       zona: this.form.ageZone,
+          //       abundance: this.form.abundance,
+          //     },
+          //   ])
+          .then((response) => {
+            this.$swal({
+              title: 'Berhasil menyimpan data',
+              icon: 'success',
+              showCloseButton: true,
+            })
+            // console.log(response.data.id)
+            // console.log(response.id)
+            console.log(response.id)
+            if (fosilType === 'foraminifera') {
+              this.$router.push(
+                `/dashboard/StatusData/accepted/${this.$route.params.acceptedId}/Paleontologi/InputPaleo/foram/${response.id}`
+              )
+            } else if (fosilType === 'nannofossil') {
+              this.$router.push(
+                `/dashboard/StatusData/accepted/${this.$route.params.acceptedId}/Paleontologi/InputPaleo/nannofossil/${response.id}`
+              )
+            }
+          })
+      } catch (error) {
+        console.log(error)
         this.$swal({
-          title: 'This is foraminifera',
-          icon: 'warning',
-          showCloseButton: true,
-        })
-      } else if (fosilType === 'nannofossil') {
-        this.$swal({
-          title: 'This is nannofossil',
-          icon: 'warning',
+          title: 'Data yang dimasukkan salah',
+          icon: 'error',
           showCloseButton: true,
         })
       }
     },
-    submitnext() {
-      this.$swal({
-        title: 'Cobain dulu',
-        icon: 'warning',
-        showCloseButton: true,
-      })
-    },
   },
-  // computed: {
-  //   ctaLink () {
-  //     return this.user ? (this.user.isAdmin ? '/admin' : '/dashboard') : '/signup'
-  //   }
-  // }
 }
 </script>
 

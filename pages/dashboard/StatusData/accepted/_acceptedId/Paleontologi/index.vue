@@ -39,6 +39,7 @@
           </b-col>
         </b-row>
         <b-col
+          v-if="!rockById.paleolabs.length"
           cols="12"
           class="section__emptyState text-center mt-1 col-md-8 mx-auto"
         >
@@ -51,6 +52,57 @@
             Input Hasil Lab
           </base-button>
         </b-col>
+        <div v-else>
+          <b-row>
+            <b-col cols="12" class="col-md-8 mt-1 mx-auto mt-0 mt-md-3">
+              <table
+                id="table-detail"
+                v-for="item in rockById.paleolabs"
+                :key="item.id"
+              >
+                <tbody v-if="item.foram.length && !item.nanno.length">
+                  <tr>
+                    <th>Jenis Fossil:</th>
+                    <td>{{ item.jenis }}</td>
+                  </tr>
+                  <tr>
+                    <th>Umur Batuan:</th>
+                    <td>{{ item.umur_batuan }}</td>
+                  </tr>
+                  <tr>
+                    <th>Age Zone:</th>
+                    <td>{{ item.zona }}</td>
+                  </tr>
+                  <tr>
+                    <th>Abundance:</th>
+                    <td>{{ item.abundance }}</td>
+                  </tr>
+                  <tr v-for="itemForam in item.foram" :key="itemForam.id">
+                    <th>Planktonic Fossil Name:</th>
+                    <td>{{ itemForam.planktonic }}</td>
+                  </tr>
+                  <tr v-for="itemForam in item.foram" :key="itemForam.id">
+                    <th>Benthic Fossil Name:</th>
+                    <td>{{ itemForam.benthic }}</td>
+                  </tr>
+                  <tr v-for="itemForam in item.foram" :key="itemForam.id">
+                    <th>Depositional Environment:</th>
+                    <td>{{ itemForam.depositional }}</td>
+                  </tr>
+                  <tr v-for="itemForam in item.foram" :key="itemForam.id">
+                    <th>Attachment:</th>
+                    <td>
+                      <p>1. Planktonic Fossil Image</p>
+                      <b-img :src="itemForam.planktonic_img" fluid />
+                      <p>2. Benthic Fossil Image</p>
+                      <b-img :src="itemForam.benthic_img" fluid />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </b-col>
+          </b-row>
+        </div>
       </b-container>
     </section>
   </div>
@@ -59,19 +111,28 @@
 <script>
 export default {
   layout: 'landingpagelogin',
+  async asyncData({ store, params }) {
+    return {
+      rockById: await store.dispatch('getRockById', params.acceptedId),
+    }
+  },
   data: () => {
     return {}
   },
   methods: {
     lapanganLink() {
-      this.$router.push('/dashboard/StatusData/accepted/_acceptedId')
+      this.$router.push(
+        `/dashboard/StatusData/accepted/${this.$route.params.acceptedId}`
+      )
     },
     petrografiLink() {
-      this.$router.push('/dashboard/StatusData/accepted/_acceptedId/Petrografi')
+      this.$router.push(
+        `/dashboard/StatusData/accepted/${this.$route.params.acceptedId}/Petrografi`
+      )
     },
     inputPaleo() {
       this.$router.push(
-        '/dashboard/StatusData/accepted/_acceptedId/Paleontologi/InputPaleo'
+        `/dashboard/StatusData/accepted/${this.$route.params.acceptedId}/Paleontologi/InputPaleo`
       )
     },
   },
@@ -140,6 +201,28 @@ export default {
   &.active * {
     color: #e3bb1b;
   }
+}
+#table-detail {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #6a4095;
+}
+#table-detail td,
+#table-detail th {
+  padding: 6px;
+  border: 1px solid #6a4095;
+}
+
+#table-detail td {
+  font-size: 16px;
+}
+
+#table-detail th {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  background-color: #ffffff;
+  color: black;
+  font-size: 17px;
 }
 @media screen and (max-width: 600px) {
   .section {

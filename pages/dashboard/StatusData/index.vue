@@ -135,7 +135,7 @@
                             <td>{{ item.type }}</td>
                             <td>{{ item.type_detail }}</td>
                             <td>{{ item.lithology_name }}</td>
-                            <td>ini tanggal</td>
+                            <td>{{ formatDate(item.created_at) }} WIB</td>
                           </tr>
                         </tbody>
                       </table>
@@ -162,7 +162,7 @@
                             <td>{{ item.type }}</td>
                             <td>{{ item.type_detail }}</td>
                             <td>{{ item.lithology_name }}</td>
-                            <td>ini tanggal</td>
+                            <td>{{ formatDate(item.updated_at) }} WIB</td>
                             <td>
                               <b-link
                                 class="ml-2"
@@ -244,54 +244,7 @@ export default {
     }
   },
   data: () => {
-    return {
-      form: {
-        author: '',
-        lithology: '',
-        type: '',
-        typeDetail: '',
-        ageZone: '',
-        formation: '',
-        year: '',
-        location: '',
-        latitude: '',
-        longitude: '',
-        altitude: '',
-      },
-      typeOptions: [
-        { value: '', text: 'Select type' },
-        { value: 'sedimen', text: 'Sedimen' },
-        { value: 'metamorf', text: 'Metamorf' },
-        { value: 'beku', text: 'Beku' },
-      ],
-      ageZoneOptions: [
-        { value: '', text: 'Select age zone' },
-        { value: 'pilosen', text: 'Pilosen (N18-N21)' },
-        { value: 'milosen-akhir', text: 'Milosen Akhir (N13-N17)' },
-        { value: 'milosen-tengah', text: 'Milosen Tengah (N9-N12)' },
-        { value: 'milosen-awal', text: 'Milosen Awal (N4-N8)' },
-        { value: 'oligosen-akhir', text: 'Oligosen Akhir (P21-P22)' },
-        { value: 'oligosen-awal', text: 'Oligosen Awal (P18-P20)' },
-        { value: 'eosen-akhir', text: 'Eosen Akhir (P15-P17)' },
-        { value: 'eosen-tengah', text: 'Eosen Tengah (P10-P14)' },
-        { value: 'eosen-awal', text: 'Eosen Awal (P5-P9)' },
-      ],
-      formationOptions: [
-        { value: '', text: 'Select formation' },
-        { value: 'wungkal-gamping', text: 'Wungkal Gamping' },
-        { value: 'kebo-butak', text: 'Kebo Butak' },
-        { value: 'semilir', text: 'Semilir' },
-        { value: 'nglanggran', text: 'Nglanggran' },
-        { value: 'sambipitu', text: 'Sambipitu' },
-        { value: 'oyo', text: 'Oyo' },
-        { value: 'wonosari', text: 'Wonosari' },
-        { value: 'kepek', text: 'Kepek' },
-        { value: 'nanggulan', text: 'Nanggulan' },
-        { value: 'oaf', text: 'OAF' },
-        { value: 'sentolo', text: 'Sentolo' },
-        { value: 'jonggrangan', text: 'Jonggrangan' },
-      ],
-    }
+    return {}
   },
   computed: {
     totalData() {
@@ -339,6 +292,16 @@ export default {
   methods: {
     handleAccepted(id) {
       this.$router.push(`/dashboard/StatusData/accepted/${id}`)
+    },
+    formatDate(dateISO) {
+      const date = new Date(dateISO)
+      return date.toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+      })
     },
   },
 }

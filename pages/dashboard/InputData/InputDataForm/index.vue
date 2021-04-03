@@ -340,7 +340,6 @@ export default {
       try {
         await this.$store
           .dispatch('createRockField', {
-            // userId: this.$auth.$state.user.id,
             author: this.form.author,
             lithology_name: this.form.lithology,
             type: this.form.type,
