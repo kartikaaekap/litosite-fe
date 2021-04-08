@@ -156,8 +156,8 @@ export default {
         planktonic: '',
         benthic: '',
         depositional: '',
-        benthic_img: null,
-        planktonic_img: null,
+        benthicImg: null,
+        planktonicImg: null,
       },
       depositionalOptions: [
         { value: '', text: 'Select type' },
@@ -193,7 +193,7 @@ export default {
       if (!files.length) {
         return
       }
-      this.form.planktonic_img = files[0]
+      this.form.planktonicImg = files[0]
       this.createImagePlanktonic(files[0])
     },
     createImagePlanktonic(file) {
@@ -209,7 +209,7 @@ export default {
       if (!files.length) {
         return
       }
-      this.form.benthic_img = files[0]
+      this.form.benthicImg = files[0]
       this.createImageBenthic(files[0])
     },
     createImageBenthic(file) {

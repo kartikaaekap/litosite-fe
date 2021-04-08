@@ -137,7 +137,27 @@ export const actions = {
   getRockRejected({ dispatch }) {
     return dispatch('getItems', 'contrib-rock/?status=rjt')
   },
+  updateRejectedRock({ dispatch }, [rockId, data]) {
+    return dispatch('updateItem', [`contrib-rock/edit/${rockId}`, data])
+  },
   // createRockPaleo({ dispatch }, [rockId, data]) {
   //   return dispatch('createItem', [`contrib-rock/${rockId}/paleo`, data])
   // },
+
+  // validator-actions
+  getRockPendingValidator({ dispatch }) {
+    return dispatch('getItems', 'valid-rock/?status=pnd')
+  },
+  getRockApprovedValidator({ dispatch }) {
+    return dispatch('getItems', 'valid-rock/?status=apr')
+  },
+  getRockRejectedValidator({ dispatch }) {
+    return dispatch('getItems', 'valid-rock/?status=rjt')
+  },
+  getRockByIdValidator({ dispatch }, rockId) {
+    return dispatch('getItems', [`valid-rock/${rockId}`])
+  },
+  getAllRockValidator({ dispatch }) {
+    return dispatch('getItems', 'valid-rock/')
+  },
 }

@@ -60,14 +60,42 @@
                 v-for="item in rockById.paleolabs"
                 :key="item.id"
               >
-                <tbody v-if="item.foram.length && !item.nanno.length">
+                <tbody v-if="!item.foram.length && item.nanno.length">
                   <tr>
                     <th>Jenis Fossil:</th>
                     <td>{{ item.jenis }}</td>
                   </tr>
                   <tr>
                     <th>Umur Batuan:</th>
-                    <td>{{ item.umur_batuan }}</td>
+                    <td>{{ item.umurBatuan }}</td>
+                  </tr>
+                  <tr>
+                    <th>Age Zone:</th>
+                    <td>{{ item.zona }}</td>
+                  </tr>
+                  <tr>
+                    <th>Abundance:</th>
+                    <td>{{ item.abundance }}</td>
+                  </tr>
+                  <tr v-for="itemNanno in item.nanno" :key="itemNanno.id">
+                    <th>Spesies Nannofossil:</th>
+                    <td>{{ itemNanno.spesies }}</td>
+                  </tr>
+                  <tr v-for="itemNanno in item.nanno" :key="itemNanno.id">
+                    <th>Attachment:</th>
+                    <td>
+                      <b-img :src="itemNanno.image" fluid />
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody v-else-if="item.foram.length && !item.nanno.length">
+                  <tr>
+                    <th>Jenis Fossil:</th>
+                    <td>{{ item.jenis }}</td>
+                  </tr>
+                  <tr>
+                    <th>Umur Batuan:</th>
+                    <td>{{ item.umurBatuan }}</td>
                   </tr>
                   <tr>
                     <th>Age Zone:</th>
@@ -93,9 +121,9 @@
                     <th>Attachment:</th>
                     <td>
                       <p>1. Planktonic Fossil Image</p>
-                      <b-img :src="itemForam.planktonic_img" fluid />
+                      <b-img :src="itemForam.planktonicImg" fluid />
                       <p>2. Benthic Fossil Image</p>
-                      <b-img :src="itemForam.benthic_img" fluid />
+                      <b-img :src="itemForam.benthicImg" fluid />
                     </td>
                   </tr>
                 </tbody>

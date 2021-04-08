@@ -2,7 +2,12 @@
   <div>
     <b-row>
       <b-col>
-        <base-title>DATA DITOLAK (20)</base-title>
+        <base-title v-if="!rockRejectedValidator.length"
+          >DATA DITOLAK (0)</base-title
+        >
+        <base-title v-else
+          >DATA DITOLAK ({{ rockRejectedValidator.length }})</base-title
+        >
       </b-col>
     </b-row>
   </div>
@@ -11,6 +16,13 @@
 <script>
 export default {
   layout: 'verifikator',
+  async asyncData({ store }) {
+    return {
+      rockPendingValidator: await store.dispatch('getRockPendingValidator'),
+      rockApprovedValidator: await store.dispatch('getRockApprovedValidator'),
+      rockRejectedValidator: await store.dispatch('getRockRejectedValidator'),
+    }
+  },
 }
 </script>
 

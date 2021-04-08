@@ -57,8 +57,8 @@
                             required
                           />
                           <base-input
-                            id="lithology"
-                            v-model="form.lithology"
+                            id="lithologyName"
+                            v-model="form.lithologyName"
                             label="Lithology Name"
                             placeholder="Input lithology name"
                             warning-icon
@@ -89,16 +89,16 @@
                             required
                           />
                           <base-input-select
-                            id="formation"
-                            v-model="form.formation"
+                            id="rockFormation"
+                            v-model="form.rockFormation"
                             label="Formation"
                             :options="formationOptions"
                             warning-icon
                             required
                           />
                           <base-input
-                            id="year"
-                            v-model="form.year"
+                            id="yearResearch"
+                            v-model="form.yearResearch"
                             label="Year Researched"
                             placeholder="Input year researched"
                             warning-icon
@@ -262,12 +262,12 @@ export default {
     return {
       form: {
         author: '',
-        lithology: '',
+        lithologyName: '',
         type: '',
         typeDetail: '',
         ageZone: '',
-        formation: '',
-        year: '',
+        rockFormation: '',
+        yearResearch: '',
         location: '',
         latitude: '',
         longitude: '',
@@ -290,19 +290,19 @@ export default {
       ageZoneOptions: [
         { value: '', text: 'Select age zone' },
         { value: 'pilosen', text: 'Pilosen (N18-N21)' },
-        { value: 'milosen_akhir', text: 'Milosen Akhir (N13-N17)' },
-        { value: 'milosen_tengah', text: 'Milosen Tengah (N9-N12)' },
-        { value: 'milosen_awal', text: 'Milosen Awal (N4-N8)' },
-        { value: 'oligosen_akhir', text: 'Oligosen Akhir (P21-P22)' },
-        { value: 'oligosen_awal', text: 'Oligosen Awal (P18-P20)' },
-        { value: 'eosen_akhir', text: 'Eosen Akhir (P15-P17)' },
-        { value: 'eosen_tengah', text: 'Eosen Tengah (P10-P14)' },
-        { value: 'eosen_awal', text: 'Eosen Awal (P5-P9)' },
+        { value: 'milosenAkhir', text: 'Milosen Akhir (N13-N17)' },
+        { value: 'milosenTengah', text: 'Milosen Tengah (N9-N12)' },
+        { value: 'milosenAwal', text: 'Milosen Awal (N4-N8)' },
+        { value: 'oligosenAkhir', text: 'Oligosen Akhir (P21-P22)' },
+        { value: 'oligosenAwal', text: 'Oligosen Awal (P18-P20)' },
+        { value: 'eosenAkhir', text: 'Eosen Akhir (P15-P17)' },
+        { value: 'eosenTengah', text: 'Eosen Tengah (P10-P14)' },
+        { value: 'eosenAwal', text: 'Eosen Awal (P5-P9)' },
       ],
       formationOptions: [
         { value: '', text: 'Select formation' },
-        { value: 'wungkal_gamping', text: 'Wungkal Gamping' },
-        { value: 'kebo_butak', text: 'Kebo Butak' },
+        { value: 'wungkalGamping', text: 'Wungkal Gamping' },
+        { value: 'keboButak', text: 'Kebo Butak' },
         { value: 'semilir', text: 'Semilir' },
         { value: 'nglanggran', text: 'Nglanggran' },
         { value: 'sambipitu', text: 'Sambipitu' },
@@ -341,12 +341,12 @@ export default {
         await this.$store
           .dispatch('createRockField', {
             author: this.form.author,
-            lithology_name: this.form.lithology,
+            lithologyName: this.form.lithologyName,
             type: this.form.type,
-            type_detail: this.form.typeDetail,
-            age_zone: this.form.ageZone,
-            rock_formation: this.form.formation,
-            year_research: this.form.year,
+            typeDetail: this.form.typeDetail,
+            ageZone: this.form.ageZone,
+            rockFormation: this.form.rockFormation,
+            yearResearch: this.form.yearResearch,
             location: this.form.location,
             latitude: this.form.latitude,
             longitude: this.form.longitude,

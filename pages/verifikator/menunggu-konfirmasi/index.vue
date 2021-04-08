@@ -2,217 +2,209 @@
   <div>
     <b-row>
       <b-col>
-        <base-title>MENUNGGU KONFIRMASI (10)</base-title>
+        <base-title v-if="!rockPendingValidator.length"
+          >MENUNGGU KONFIRMASI (0)</base-title
+        >
+        <base-title v-else
+          >MENUNGGU KONFIRMASI ({{ rockPendingValidator.length }})</base-title
+        >
       </b-col>
     </b-row>
     <b-row>
-      <b-container>
-        <table id="table">
-          <thead>
-            <tr>
-              <th>Author Name</th>
-              <th>Lithology Name</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody v-for="item in menungguKonfirmasi" :key="item.id">
-            <tr>
-              <td>{{ item.author }}</td>
-              <td>{{ item.lithology }}</td>
-              <td>
-                <b-link class="ml-2" @click="showPopUpDetails(item.id)">
-                  Details
-                </b-link>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </b-container>
-    </b-row>
-    <base-modal
-      v-if="popUpDetails"
-      v-model="popUpDetails"
-      title="Detail Data"
-      ok-label="Terima"
-      @ok="handleAcceptData"
-    >
-      <table style="width: 100%" class="mx-auto">
-        <tr>
-          <th>Author Name:</th>
-          <td>Bill Gates</td>
-        </tr>
-        <tr>
-          <th>Lithology Name:</th>
-          <td>555 77 854</td>
-        </tr>
-        <tr>
-          <th>Type:</th>
-          <td>555 77 855</td>
-        </tr>
-        <tr>
-          <th>Type Detail:</th>
-          <td>555 77 855</td>
-        </tr>
-        <tr>
-          <th>Age Zone:</th>
-          <td>555 77 855</td>
-        </tr>
-        <tr>
-          <th>Formation:</th>
-          <td>555 77 855</td>
-        </tr>
-        <tr>
-          <th>Year Researched:</th>
-          <td>555 77 855</td>
-        </tr>
-        <tr>
-          <th>Location:</th>
-          <td>555 77 855</td>
-        </tr>
-        <tr>
-          <th>Latitude:</th>
-          <td>555 77 855</td>
-        </tr>
-        <tr>
-          <th>Longitude:</th>
-          <td>555 77 855</td>
-        </tr>
-        <tr>
-          <th>Altitude:</th>
-          <td>555 77 855</td>
-        </tr>
-        <tr>
-          <th>Strike / Dip:</th>
-          <td>555 77 855</td>
-        </tr>
-        <tr>
-          <th>Attachment:</th>
-          <td>555 77 855</td>
-        </tr>
-      </table>
-      <!-- <b-col class="mx-auto">
-        <b-row class="mx-auto">
-          <b-col cols="12" class="mx-auto">
-            <table>
-              <tr>
-                <th>Author Name:</th>
-                <td>Bill Gates</td>
-              </tr>
-              <tr>
-                <th>Lithology Name:</th>
-                <td>555 77 854</td>
-              </tr>
-              <tr>
-                <th>Type:</th>
-                <td>555 77 855</td>
-              </tr>
-              <tr>
-                <th>Type Detail:</th>
-                <td>555 77 855</td>
-              </tr>
-              <tr>
-                <th>Age Zone:</th>
-                <td>555 77 855</td>
-              </tr>
-              <tr>
-                <th>Formation:</th>
-                <td>555 77 855</td>
-              </tr>
-              <tr>
-                <th>Year Researched:</th>
-                <td>555 77 855</td>
-              </tr>
-              <tr>
-                <th>Location:</th>
-                <td>555 77 855</td>
-              </tr>
-              <tr>
-                <th>Latitude:</th>
-                <td>555 77 855</td>
-              </tr>
-              <tr>
-                <th>Longitude:</th>
-                <td>555 77 855</td>
-              </tr>
-              <tr>
-                <th>Altitude:</th>
-                <td>555 77 855</td>
-              </tr>
-              <tr>
-                <th>Strike / Dip:</th>
-                <td>555 77 855</td>
-              </tr>
-              <tr>
-                <th>Attachment:</th>
-                <td>555 77 855</td>
-              </tr>
-            </table>
-          </b-col>
-        </b-row>
-      </b-col> -->
-    </base-modal>
-    <!-- <section id="table">
       <b-container>
         <b-table
           responsive
           striped
           hover
-          :fields="fields"
+          show-empty
+          :items="rockPendingValidator"
+          :fields="fieldsPending"
           :busy="isLoading"
-          :items="menungguKonfirmasi"
         >
           <template v-slot:cell(author)="{ item: { author } }">
             <span>{{ author }}</span>
           </template>
-          <template v-slot:cell(lithology)="{ item: { lithology } }">
-            <span>{{ lithology }}</span>
+          <template v-slot:cell(lithologyName)="{ item: { lithologyName } }">
+            <span>{{ lithologyName }}</span>
           </template>
-          <template v-slot:cell(action)="row">
-            <b-link @click="showPopUpDetails(row)"> Details </b-link>
+          <template v-slot:cell(aksi)="{ item: { id } }">
+            <b-link @click="showPopUpDetails(id)"> Details </b-link>
+          </template>
+          <template v-slot:empty>
+            <p class="text-center mb-0">
+              Belum ada data yang dapat ditampilkan
+            </p>
           </template>
         </b-table>
       </b-container>
-    </section> -->
+    </b-row>
+    <base-modal-validator
+      v-if="isModalDetails"
+      v-model="isModalDetails"
+      title="Detail Data"
+      ok-label="Terima"
+      @ok="handleAcceptData"
+      @click="handleRejectData"
+    >
+      <table id="table-detail">
+        <tbody>
+          <tr>
+            <th>Author Name:</th>
+            <td>{{ rockById.author }}</td>
+          </tr>
+          <tr>
+            <th>Lithology Name:</th>
+            <td>{{ rockById.lithologyName }}</td>
+          </tr>
+          <tr>
+            <th>Type:</th>
+            <td>{{ rockById.type }}</td>
+          </tr>
+          <tr>
+            <th>Type Detail:</th>
+            <td>{{ rockById.typeDetail }}</td>
+          </tr>
+          <tr>
+            <th>Age Zone:</th>
+            <td>{{ rockById.ageZone }}</td>
+          </tr>
+          <tr>
+            <th>Formation:</th>
+            <td>{{ rockById.rockFormation }}</td>
+          </tr>
+          <tr>
+            <th>Year Researched:</th>
+            <td>{{ rockById.yearResearch }}</td>
+          </tr>
+          <tr>
+            <th>Location:</th>
+            <td>{{ rockById.location }}</td>
+          </tr>
+          <tr>
+            <th>Latitude:</th>
+            <td>{{ rockById.latitude }}</td>
+          </tr>
+          <tr>
+            <th>Longitude:</th>
+            <td>{{ rockById.longitude }}</td>
+          </tr>
+          <tr>
+            <th>Altitude:</th>
+            <td>{{ rockById.altitude }}</td>
+          </tr>
+          <tr>
+            <th>Strike / Dip:</th>
+            <td>{{ rockById.strike }} / {{ rockById.dip }}</td>
+          </tr>
+          <tr v-for="item in rockById.images" :key="item.id">
+            <th>Attachment:</th>
+            <td>
+              <b-img :src="item.image" fluid />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </base-modal-validator>
+    <base-modal
+      v-if="isModalComments"
+      v-model="isModalComments"
+      title="Alasan Penolakan"
+      is-danger
+      ok-label="Kirim"
+      @ok="handleSendComments"
+    >
+      <base-input
+        id="komentar"
+        v-model="form.komentar"
+        label="Alasan Penolakan"
+        placeholder="Beri alasan penolakan"
+        warning-icon
+        required
+        size="xtraLarge"
+      />
+    </base-modal>
   </div>
 </template>
 
 <script>
 export default {
   layout: 'verifikator',
+  async asyncData({ store }) {
+    // const id = this.id
+    return {
+      rockPendingValidator: await store.dispatch('getRockPendingValidator'),
+      rockApprovedValidator: await store.dispatch('getRockApprovedValidator'),
+      rockRejectedValidator: await store.dispatch('getRockRejectedValidator'),
+    }
+  },
   data: () => {
     return {
-      menungguKonfirmasi: [
-        {
-          id: 1,
-          author: 'Kartika Eka Putri',
-          lithology: 'Sedimen Type A',
-        },
-        {
-          id: 2,
-          author: 'Theofilus Marcel',
-          lithology: 'Sedimen Type A',
-        },
-        {
-          id: 3,
-          author: 'Kartika Eka Putri',
-          lithology: 'Sedimen Type A',
-        },
-        {
-          id: 4,
-          author: 'Taris Hibatul',
-          lithology: 'Sedimen Type A',
-        },
-      ],
+      rockById: {},
       form: {
-        id: '',
+        komentar: '',
+        status: 'rjt',
       },
+      formApproved: {
+        komentar: '',
+        status: 'apr',
+      },
+      fieldsPending: [
+        { key: 'author', label: 'Author Name' },
+        { key: 'lithologyName', label: 'Lithology Name' },
+        { key: 'aksi', label: 'Aksi' },
+      ],
       popUpDetails: false,
+      isModalDetails: false,
+      isModalComments: false,
     }
   },
   methods: {
-    showPopUpDetails(id) {
-      this.popUpDetails = true
-      this.form = { ...this.form, id }
+    async showPopUpDetails(id) {
+      this.isModalDetails = true
+      // this.id = id
+      await this.$axios
+        .$get(
+          `http://ec2-54-198-153-24.compute-1.amazonaws.com/api/valid-rock/${id}`
+        )
+        .then((response) => {
+          this.rockById = response
+        })
+      // if (this.handleRejectData()) {
+      //   try {
+      //     await this.$axios.$post(
+      //       `http://ec2-54-198-153-24.compute-1.amazonaws.com/api/valid-rock/${id}`,
+      //       this.form.komentar,
+      //       this.form.status
+      //     )
+      //     this.$router.push('/verifikator/data-ditolak')
+      //   } catch (e) {
+      //     console.log(e)
+      //   }
+      // } else {
+      //   try {
+      //     await this.$axios.$post(
+      //       `http://ec2-54-198-153-24.compute-1.amazonaws.com/api/valid-rock/${id}`,
+      //       this.form.komentar,
+      //       this.form.status
+      //     )
+      //     this.$router.push('/verifikator/data-diterima')
+      //   } catch (e) {
+      //     console.log(e)
+      //   }
+      // }
+    },
+    handleRejectData() {
+      this.isModalComments = true
+      //   try {
+      //     await this.$axios.$post(
+      //       `http://ec2-54-198-153-24.compute-1.amazonaws.com/api/contrib-rock/${this.$route.params.inputimagesId}/image`,
+      //       formData,
+      //       config
+      //     )
+      //     this.$router.push('/dashboard/StatusData')
+      //   } catch (e) {
+      //     console.log(e)
+      //   }
     },
   },
 }

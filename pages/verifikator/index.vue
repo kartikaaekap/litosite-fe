@@ -9,19 +9,22 @@
       <b-col>
         <b-card class="statistic text-center">
           <span>Menunggu Konfirmasi</span>
-          <h2>10</h2>
+          <h2 v-if="!rockPendingValidator.length">0</h2>
+          <h2 v-else>{{ rockPendingValidator.length }}</h2>
         </b-card>
       </b-col>
       <b-col>
         <b-card class="statistic text-center">
           <span>Data Diterima</span>
-          <h2>205</h2>
+          <h2 v-if="!rockApprovedValidator.length">0</h2>
+          <h2 v-else>{{ rockApprovedValidator.length }}</h2>
         </b-card>
       </b-col>
       <b-col>
         <b-card class="statistic text-center">
           <span>Data Ditolak</span>
-          <h2>20</h2>
+          <h2 v-if="!rockRejectedValidator.length">0</h2>
+          <h2 v-else>{{ rockRejectedValidator.length }}</h2>
         </b-card>
       </b-col>
     </b-row>
@@ -34,6 +37,13 @@
 <script>
 export default {
   layout: 'verifikator',
+  async asyncData({ store }) {
+    return {
+      rockPendingValidator: await store.dispatch('getRockPendingValidator'),
+      rockApprovedValidator: await store.dispatch('getRockApprovedValidator'),
+      rockRejectedValidator: await store.dispatch('getRockRejectedValidator'),
+    }
+  },
 }
 </script>
 

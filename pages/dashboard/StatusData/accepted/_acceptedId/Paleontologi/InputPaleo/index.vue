@@ -228,20 +228,23 @@ export default {
       // },
       fosilTypeOptions: [
         { value: '', text: 'Select type' },
-        { value: 'foraminifera', text: 'Foraminifera' },
-        { value: 'nannofossil', text: 'Nannofossil/Nannoplankton' },
+        { value: 'Foraminifera', text: 'Foraminifera' },
+        {
+          value: 'Nannofossil/Nannoplankton',
+          text: 'Nannofossil/Nannoplankton',
+        },
       ],
       ageZoneOptions: [
         { value: '', text: 'Select age zone' },
         { value: 'pilosen', text: 'Pilosen (N18-N21)' },
-        { value: 'milosen-akhir', text: 'Milosen Akhir (N13-N17)' },
-        { value: 'milosen-tengah', text: 'Milosen Tengah (N9-N12)' },
-        { value: 'milosen-awal', text: 'Milosen Awal (N4-N8)' },
-        { value: 'oligosen-akhir', text: 'Oligosen Akhir (P21-P22)' },
-        { value: 'oligosen-awal', text: 'Oligosen Awal (P18-P20)' },
-        { value: 'eosen-akhir', text: 'Eosen Akhir (P15-P17)' },
-        { value: 'eosen-tengah', text: 'Eosen Tengah (P10-P14)' },
-        { value: 'eosen-awal', text: 'Eosen Awal (P5-P9)' },
+        { value: 'milosenAkhir', text: 'Milosen Akhir (N13-N17)' },
+        { value: 'milosenTengah', text: 'Milosen Tengah (N9-N12)' },
+        { value: 'milosenAwal', text: 'Milosen Awal (N4-N8)' },
+        { value: 'oligosenAkhir', text: 'Oligosen Akhir (P21-P22)' },
+        { value: 'oligosenAwal', text: 'Oligosen Awal (P18-P20)' },
+        { value: 'eosenAkhir', text: 'Eosen Akhir (P15-P17)' },
+        { value: 'eosenTengah', text: 'Eosen Tengah (P10-P14)' },
+        { value: 'eosenAwal', text: 'Eosen Awal (P5-P9)' },
       ],
       isLoading: false,
     }
@@ -266,7 +269,7 @@ export default {
             `http://ec2-54-198-153-24.compute-1.amazonaws.com/api/contrib-rock/${this.$route.params.acceptedId}/paleo`,
             {
               jenis: this.form.fosilType,
-              umur_batuan: this.form.ageRock,
+              umurBatuan: this.form.ageRock,
               zona: this.form.ageZone,
               abundance: this.form.abundance,
             }
@@ -290,11 +293,11 @@ export default {
             // console.log(response.data.id)
             // console.log(response.id)
             console.log(response.id)
-            if (fosilType === 'foraminifera') {
+            if (fosilType === 'Foraminifera') {
               this.$router.push(
                 `/dashboard/StatusData/accepted/${this.$route.params.acceptedId}/Paleontologi/InputPaleo/foram/${response.id}`
               )
-            } else if (fosilType === 'nannofossil') {
+            } else if (fosilType === 'Nannofossil/Nannoplankton') {
               this.$router.push(
                 `/dashboard/StatusData/accepted/${this.$route.params.acceptedId}/Paleontologi/InputPaleo/nannofossil/${response.id}`
               )

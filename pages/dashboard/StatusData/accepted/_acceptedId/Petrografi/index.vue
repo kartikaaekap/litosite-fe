@@ -61,7 +61,7 @@
                 <tbody v-for="item in rockById.petrolabs" :key="item.id">
                   <tr>
                     <th>Lithology Name:</th>
-                    <td>{{ item.lithology_name }}</td>
+                    <td>{{ item.lithologyName }}</td>
                   </tr>
                   <tr>
                     <th>Petrography Composition:</th>
@@ -77,15 +77,15 @@
                   </tr>
                   <tr>
                     <th>Petrography Name:</th>
-                    <td>{{ item.petro_name }}</td>
+                    <td>{{ item.petroName }}</td>
                   </tr>
                   <tr>
                     <th>Attachment:</th>
                     <td>
                       <p>1. Plane-Polarized Light (PPL)</p>
-                      <b-img :src="item.ppl_img_path" fluid />
+                      <b-img :src="item.pplImgPath" fluid />
                       <p>2. Crossed-Polarized Light (PPL)</p>
-                      <b-img :src="item.cpl_img_path" fluid />
+                      <b-img :src="item.cplImgPath" fluid />
                     </td>
                   </tr>
                 </tbody>

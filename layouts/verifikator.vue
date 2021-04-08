@@ -39,7 +39,7 @@ export default {
       },
       {
         icon: 'file-earmark-excel',
-        name: 'Data Diterima',
+        name: 'Data Ditolak',
         path: '/verifikator/data-ditolak/',
       },
     ],

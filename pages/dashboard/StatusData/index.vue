@@ -110,7 +110,47 @@
                 <section id="pending-table" class="mt-5">
                   <b-container>
                     <div class="mt-3" style="overflow-x: auto">
-                      <table id="table">
+                      <b-table
+                        responsive
+                        striped
+                        hover
+                        show-empty
+                        :items="rockPending"
+                        :fields="fieldsPending"
+                        :busy="isLoading"
+                      >
+                        <template v-slot:cell(type)="{ item: { type } }">
+                          <span>{{ type }}</span>
+                        </template>
+                        <template
+                          v-slot:cell(typeDetail)="{ item: { typeDetail } }"
+                        >
+                          <span>{{ typeDetail }}</span>
+                        </template>
+                        <template
+                          v-slot:cell(lithologyName)="{
+                            item: { lithologyName },
+                          }"
+                        >
+                          <span>{{ lithologyName }}</span>
+                        </template>
+                        <template
+                          v-slot:cell(createAt)="{ item: { createAt } }"
+                        >
+                          <span>{{ formatDate(createAt) }}</span>
+                        </template>
+                        <template
+                          v-slot:cell(updatedAt)="{ item: { updatedAt } }"
+                        >
+                          <span>{{ formatDate(updatedAt) }}</span>
+                        </template>
+                        <template v-slot:empty>
+                          <p class="text-center mb-0">
+                            Belum ada data yang dapat ditampilkan
+                          </p>
+                        </template>
+                      </b-table>
+                      <!-- <table id="table">
                         <thead>
                           <tr>
                             <th>Type</th>
@@ -133,12 +173,12 @@
                         >
                           <tr>
                             <td>{{ item.type }}</td>
-                            <td>{{ item.type_detail }}</td>
-                            <td>{{ item.lithology_name }}</td>
-                            <td>{{ formatDate(item.created_at) }} WIB</td>
+                            <td>{{ item.typeDetail }}</td>
+                            <td>{{ item.lithologyName }}</td>
+                            <td>{{ formatDate(item.createAt) }} WIB</td>
                           </tr>
                         </tbody>
-                      </table>
+                      </table> -->
                     </div>
                   </b-container>
                 </section>
@@ -147,7 +187,45 @@
                 <section id="accepted-table" class="mt-5">
                   <b-container>
                     <div class="mt-3" style="overflow-x: auto">
-                      <table id="table">
+                      <b-table
+                        responsive
+                        striped
+                        hover
+                        show-empty
+                        :items="rockApproved"
+                        :fields="fieldsApproved"
+                        :busy="isLoading"
+                      >
+                        <template v-slot:cell(type)="{ item: { type } }">
+                          <span>{{ type }}</span>
+                        </template>
+                        <template
+                          v-slot:cell(typeDetail)="{ item: { typeDetail } }"
+                        >
+                          <span>{{ typeDetail }}</span>
+                        </template>
+                        <template
+                          v-slot:cell(lithologyName)="{
+                            item: { lithologyName },
+                          }"
+                        >
+                          <span>{{ lithologyName }}</span>
+                        </template>
+                        <template
+                          v-slot:cell(updatedAt)="{ item: { updatedAt } }"
+                        >
+                          <span>{{ formatDate(updatedAt) }}</span>
+                        </template>
+                        <template v-slot:cell(aksi)="{ item: { id } }">
+                          <b-link @click="handleAccepted(id)"> Details </b-link>
+                        </template>
+                        <template v-slot:empty>
+                          <p class="text-center mb-0">
+                            Belum ada data yang dapat ditampilkan
+                          </p>
+                        </template>
+                      </b-table>
+                      <!-- <table id="table">
                         <thead>
                           <tr>
                             <th>Type</th>
@@ -173,7 +251,7 @@
                             </td>
                           </tr>
                         </tbody>
-                      </table>
+                      </table> -->
                     </div>
                   </b-container>
                 </section>
@@ -182,7 +260,48 @@
                 <section id="rejected-table" class="mt-5">
                   <b-container>
                     <div class="mt-3" style="overflow-x: auto">
-                      <table id="table">
+                      <b-table
+                        responsive
+                        striped
+                        hover
+                        show-empty
+                        :items="rockRejected"
+                        :fields="fields"
+                        :busy="isLoading"
+                      >
+                        <template v-slot:cell(type)="{ item: { type } }">
+                          <span>{{ type }}</span>
+                        </template>
+                        <template
+                          v-slot:cell(typeDetail)="{ item: { typeDetail } }"
+                        >
+                          <span>{{ typeDetail }}</span>
+                        </template>
+                        <template
+                          v-slot:cell(lithologyName)="{
+                            item: { lithologyName },
+                          }"
+                        >
+                          <span>{{ lithologyName }}</span>
+                        </template>
+                        <template
+                          v-slot:cell(komentar)="{ item: { komentar } }"
+                        >
+                          <span>{{ komentar }}</span>
+                        </template>
+                        <template v-slot:cell(aksi)="row">
+                          <b-link @click="showModalEdit(row)">
+                            Edit Data
+                          </b-link>
+                          <!-- <b-link class="ml-2"> Delete </b-link> -->
+                        </template>
+                        <template v-slot:empty>
+                          <p class="text-center mb-0">
+                            Belum ada data yang dapat ditampilkan
+                          </p>
+                        </template>
+                      </b-table>
+                      <!-- <table id="table">
                         <thead>
                           <tr>
                             <th>Type</th>
@@ -209,10 +328,150 @@
                             <td>{{ item.type_detail }}</td>
                             <td>{{ item.lithology_name }}</td>
                             <td>{{ item.komentar }}</td>
-                            <td>ini aksi</td>
+                            <td>
+                              <b-link class="ml-2" @click="showModalEdit()">
+                                Edit Data
+                              </b-link>
+                            </td>
                           </tr>
                         </tbody>
-                      </table>
+                      </table> -->
+                      <base-modal
+                        v-if="isModalEdit"
+                        v-model="isModalEdit"
+                        title="Edit Data Lapangan"
+                        ok-label="Kirim Ulang"
+                        @ok="handleEditData"
+                      >
+                        <b-form @submit.prevent="handleEditData">
+                          <base-input
+                            id="author"
+                            v-model="form.author"
+                            label="Author Name"
+                            placeholder="Input author name"
+                            warning-icon
+                            required
+                          />
+                          <base-input
+                            id="lithologyName"
+                            v-model="form.lithologyName"
+                            label="Lithology Name"
+                            placeholder="Input lithology name"
+                            warning-icon
+                            required
+                          />
+                          <base-input-select
+                            id="type"
+                            v-model="form.type"
+                            label="Type"
+                            :options="typeOptions"
+                            warning-icon
+                            required
+                          />
+                          <base-input-select
+                            id="typeDetail"
+                            v-model="form.typeDetail"
+                            label="Type Detail"
+                            :options="typeDetailOptions"
+                            warning-icon
+                            required
+                          />
+                          <base-input-select
+                            id="ageZone"
+                            v-model="form.ageZone"
+                            label="Age Zone"
+                            :options="ageZoneOptions"
+                            warning-icon
+                            required
+                          />
+                          <base-input-select
+                            id="rockFormation"
+                            v-model="form.rockFormation"
+                            label="Formation"
+                            :options="formationOptions"
+                            warning-icon
+                            required
+                          />
+                          <base-input
+                            id="yearResearch"
+                            v-model="form.yearResearch"
+                            label="Year Researched"
+                            placeholder="Input year researched"
+                            warning-icon
+                            required
+                          />
+                          <base-input
+                            id="location"
+                            v-model="form.location"
+                            label="Location"
+                            placeholder="Input location"
+                            warning-icon
+                            required
+                          />
+                          <b-row>
+                            <b-col>
+                              <base-input
+                                id="latitude"
+                                v-model="form.latitude"
+                                label="Latitude"
+                                placeholder="(dalam satuan derajat)"
+                                warning-icon
+                                required
+                              />
+                            </b-col>
+                            <b-col>
+                              <base-input
+                                id="longitude"
+                                v-model="form.longitude"
+                                label="Longitude"
+                                placeholder="(dalam satuan derajat)"
+                                warning-icon
+                                required
+                              />
+                            </b-col>
+                            <b-col>
+                              <base-input
+                                id="altitude"
+                                v-model="form.altitude"
+                                label="Altitude"
+                                placeholder="(dalam satuan derajat))"
+                                warning-icon
+                                required
+                              />
+                            </b-col>
+                          </b-row>
+                          <p class="section__form pb-0 mb-2">Strike / Dip</p>
+                          <b-row>
+                            <b-col cols="4">
+                              <base-input
+                                id="strike"
+                                v-model="form.strike"
+                                placeholder="Input strike"
+                                warning-icon
+                                required
+                              />
+                            </b-col>
+                            <b-col cols="1">
+                              <h2 class="section__depth">°</h2>
+                            </b-col>
+                            <b-col cols="1">
+                              <h1 class="section__depth">/</h1>
+                            </b-col>
+                            <b-col cols="4">
+                              <base-input
+                                id="dip"
+                                v-model="form.dip"
+                                placeholder="Input dip"
+                                warning-icon
+                                required
+                              />
+                            </b-col>
+                            <b-col cols="1">
+                              <h2 class="section__depth">°S</h2>
+                            </b-col>
+                          </b-row>
+                        </b-form>
+                      </base-modal>
                     </div>
                   </b-container>
                 </section>
@@ -244,9 +503,101 @@ export default {
     }
   },
   data: () => {
-    return {}
+    return {
+      form: {
+        id: '',
+        author: '',
+        lithologyName: '',
+        type: '',
+        typeDetail: '',
+        ageZone: '',
+        rockFormation: '',
+        yearResearch: '',
+        location: '',
+        latitude: '',
+        longitude: '',
+        altitude: '',
+        strike: '',
+        dip: '',
+      },
+      fieldsPending: [
+        { key: 'type', label: 'Type' },
+        { key: 'typeDetail', label: 'Type Detail' },
+        { key: 'lithologyName', label: 'Lithology Name' },
+        { key: 'createAt', label: 'Tanggal Dikirim' },
+        { key: 'updatedAt', label: 'Terakhir Diperbaharui' },
+      ],
+      fields: [
+        { key: 'type', label: 'Type' },
+        { key: 'typeDetail', label: 'Type Detail' },
+        { key: 'lithologyName', label: 'Lithology Name' },
+        { key: 'komentar', label: 'Komentar' },
+        { key: 'aksi', label: 'Aksi' },
+      ],
+      fieldsApproved: [
+        { key: 'type', label: 'Type' },
+        { key: 'typeDetail', label: 'Type Detail' },
+        { key: 'lithologyName', label: 'Lithology Name' },
+        { key: 'updatedAt', label: 'Tanggal Diterima' },
+        { key: 'aksi', label: 'Aksi' },
+      ],
+      typeOptions: [
+        { value: '', text: 'Select type' },
+        { value: 'sedimen', text: 'Sedimen' },
+        { value: 'metamorf', text: 'Metamorf' },
+        { value: 'beku', text: 'Beku' },
+      ],
+      typeDetailOptions: [
+        { value: '', text: 'Select type' },
+        { value: 'coba1', text: 'Coba1' },
+        { value: 'coba2', text: 'Coba2' },
+        { value: 'coba3', text: 'Coba3' },
+      ],
+      ageZoneOptions: [
+        { value: '', text: 'Select age zone' },
+        { value: 'pilosen', text: 'Pilosen (N18-N21)' },
+        { value: 'milosenAkhir', text: 'Milosen Akhir (N13-N17)' },
+        { value: 'milosenTengah', text: 'Milosen Tengah (N9-N12)' },
+        { value: 'milosenAwal', text: 'Milosen Awal (N4-N8)' },
+        { value: 'oligosenAkhir', text: 'Oligosen Akhir (P21-P22)' },
+        { value: 'oligosenAwal', text: 'Oligosen Awal (P18-P20)' },
+        { value: 'eosenAkhir', text: 'Eosen Akhir (P15-P17)' },
+        { value: 'eosenTengah', text: 'Eosen Tengah (P10-P14)' },
+        { value: 'eosenAwal', text: 'Eosen Awal (P5-P9)' },
+      ],
+      formationOptions: [
+        { value: '', text: 'Select formation' },
+        { value: 'wungkalGamping', text: 'Wungkal Gamping' },
+        { value: 'keboButak', text: 'Kebo Butak' },
+        { value: 'semilir', text: 'Semilir' },
+        { value: 'nglanggran', text: 'Nglanggran' },
+        { value: 'sambipitu', text: 'Sambipitu' },
+        { value: 'oyo', text: 'Oyo' },
+        { value: 'wonosari', text: 'Wonosari' },
+        { value: 'kepek', text: 'Kepek' },
+        { value: 'nanggulan', text: 'Nanggulan' },
+        { value: 'oaf', text: 'OAF' },
+        { value: 'sentolo', text: 'Sentolo' },
+        { value: 'jonggrangan', text: 'Jonggrangan' },
+      ],
+      isModalEdit: false,
+      isLoading: false,
+    }
   },
   computed: {
+    // filteredData() {
+    //   return this.rockRejected.filter(({ type }) => {
+    //     return type
+    //       .toLowerCase()
+    //       .split(' ')
+    //       .join()
+    //       .includes(this.filter.trim().toLowerCase())
+    //   })
+    // },
+    // noResultMessage() {
+    //   const filter = this.filter.trim().toLowerCase()
+    //   return filter ? `No rock with "${filter}"` : 'No rock to show'
+    // },
     totalData() {
       return (
         this.rockPending.length +
@@ -293,6 +644,70 @@ export default {
     handleAccepted(id) {
       this.$router.push(`/dashboard/StatusData/accepted/${id}`)
     },
+    showModalEdit({
+      item: {
+        id,
+        author,
+        lithologyName,
+        type,
+        typeDetail,
+        ageZone,
+        rockFormation,
+        yearResearch,
+        location,
+        latitude,
+        longitude,
+        altitude,
+        strike,
+        dip,
+      },
+    }) {
+      this.isModalEdit = true
+      this.form = {
+        ...this.form,
+        id,
+        author,
+        lithologyName,
+        type,
+        typeDetail,
+        ageZone,
+        rockFormation,
+        yearResearch,
+        location,
+        latitude,
+        longitude,
+        altitude,
+        strike,
+        dip,
+      }
+    },
+    handleEditData() {
+      const { id } = this.form
+      this.isLoading = true
+      this.$store
+        .dispatch('updateRejectedRock', [
+          id,
+          {
+            author: this.form.author,
+            lithologyName: this.form.lithologyName,
+            type: this.form.type,
+            typeDetail: this.form.typeDetail,
+            ageZone: this.form.ageZone,
+            rockFormation: this.form.rockFormation,
+            yearResearch: this.form.yearResearch,
+            location: this.form.location,
+            latitude: this.form.latitude,
+            longitude: this.form.longitude,
+            altitude: this.form.altitude,
+            strike: this.form.strike,
+            dip: this.form.dip,
+          },
+        ])
+        .then(() =>
+          this.handleRefreshList().then(() => (this.isLoading = false))
+        )
+        .catch(() => (this.isLoading = false))
+    },
     formatDate(dateISO) {
       const date = new Date(dateISO)
       return date.toLocaleDateString('en-GB', {
@@ -302,6 +717,11 @@ export default {
         hour: 'numeric',
         minute: 'numeric',
       })
+    },
+    async handleRefreshList() {
+      this.rockPending = await this.$store.dispatch('getRockPending')
+      this.rockApproved = await this.$store.dispatch('getRockApproved')
+      this.rockRejected = await this.$store.dispatch('getRockRejected')
     },
   },
 }

@@ -34,8 +34,8 @@
           <b-col cols="12" class="col-md-8 mx-auto">
             <b-col>
               <base-input
-                id="lithology_name"
-                v-model="form.lithology_name"
+                id="lithologyName"
+                v-model="form.lithologyName"
                 label="Lithology Name"
                 placeholder="Input lithology name"
                 warning-icon
@@ -66,8 +66,8 @@
                 required
               />
               <base-input
-                id="petro_name"
-                v-model="form.petro_name"
+                id="petroName"
+                v-model="form.petroName"
                 label="Petrography Name"
                 placeholder="Input petrography name"
                 warning-icon
@@ -167,13 +167,13 @@ export default {
   data: () => {
     return {
       form: {
-        lithology_name: '',
+        lithologyName: '',
         composition: '',
         structure: '',
         texture: '',
-        petro_name: '',
-        ppl_img_path: '',
-        cpl_img_path: '',
+        petroName: '',
+        pplImgPath: '',
+        cplImgPath: '',
       },
       isLoading: false,
       previewPPL: '',
@@ -196,7 +196,7 @@ export default {
       if (!files.length) {
         return
       }
-      this.form.ppl_img_path = files[0]
+      this.form.pplImgPath = files[0]
       this.createImagePPL(files[0])
     },
     createImagePPL(file) {
@@ -212,7 +212,7 @@ export default {
       if (!files.length) {
         return
       }
-      this.form.cpl_img_path = files[0]
+      this.form.cplImgPath = files[0]
       this.createImageCPL(files[0])
     },
     createImageCPL(file) {

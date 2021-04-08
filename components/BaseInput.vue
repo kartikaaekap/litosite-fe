@@ -197,6 +197,15 @@ export default {
       min-width: 2.5rem;
     }
   }
+  &--xtraLarge {
+    height: 3rem;
+    span {
+      padding: 0.25rem;
+    }
+    button {
+      min-width: 3rem;
+    }
+  }
   &--small,
   &--medium {
     height: 2.25rem;

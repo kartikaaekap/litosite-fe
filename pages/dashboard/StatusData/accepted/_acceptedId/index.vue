@@ -49,7 +49,7 @@
                 </tr>
                 <tr>
                   <th>Lithology Name:</th>
-                  <td>{{ rockById.lithology_name }}</td>
+                  <td>{{ rockById.lithologyName }}</td>
                 </tr>
                 <tr>
                   <th>Type:</th>
@@ -57,19 +57,19 @@
                 </tr>
                 <tr>
                   <th>Type Detail:</th>
-                  <td>{{ rockById.type_detail }}</td>
+                  <td>{{ rockById.typeDetail }}</td>
                 </tr>
                 <tr>
                   <th>Age Zone:</th>
-                  <td>{{ rockById.age_zone }}</td>
+                  <td>{{ rockById.ageZone }}</td>
                 </tr>
                 <tr>
                   <th>Formation:</th>
-                  <td>{{ rockById.rock_formation }}</td>
+                  <td>{{ rockById.rockFormation }}</td>
                 </tr>
                 <tr>
                   <th>Year Researched:</th>
-                  <td>{{ rockById.year_research }}</td>
+                  <td>{{ rockById.yearResearch }}</td>
                 </tr>
                 <tr>
                   <th>Location:</th>
