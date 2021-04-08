@@ -43,6 +43,16 @@
               <h1 class="section__title mt-5 mb-5">PETA GEOLOGI</h1>
             </b-col>
           </b-row>
+          <div id="map-wrap" style="height: 100vh">
+            <client-only>
+              <l-map :zoom="13" :center="[-7.872954, 110.1440792]">
+                <l-tile-layer
+                  url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+                ></l-tile-layer>
+                <l-marker :lat-lng="[-7.872954, 110.1440792]"></l-marker>
+              </l-map>
+            </client-only>
+          </div>
         </b-col>
       </b-container>
     </section>
