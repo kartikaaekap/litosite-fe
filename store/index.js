@@ -140,9 +140,6 @@ export const actions = {
   updateRejectedRock({ dispatch }, [rockId, data]) {
     return dispatch('updateItem', [`contrib-rock/edit/${rockId}`, data])
   },
-  // createRockPaleo({ dispatch }, [rockId, data]) {
-  //   return dispatch('createItem', [`contrib-rock/${rockId}/paleo`, data])
-  // },
 
   // validator-actions
   getRockPendingValidator({ dispatch }) {
@@ -159,5 +156,10 @@ export const actions = {
   },
   getAllRockValidator({ dispatch }) {
     return dispatch('getItems', 'valid-rock/')
+  },
+
+  // Map
+  getPinPoints({ dispatch }) {
+    return dispatch('getItems', 'map/')
   },
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="content admin">
-    <top-navigation />
+    <top-navigation-admin />
     <b-container>
       <b-row tag="section">
         <b-col cols="auto" md="0" class="column px-0">
@@ -16,10 +16,10 @@
 
 <script>
 import SideNavigation from '~/components/SideNavigation'
-import TopNavigation from '~/components/TopNavigation'
+import TopNavigationAdmin from '~/components/TopNavigationAdmin'
 
 export default {
-  components: { SideNavigation, TopNavigation },
+  components: { SideNavigation, TopNavigationAdmin },
   data: () => ({
     menus: [
       {

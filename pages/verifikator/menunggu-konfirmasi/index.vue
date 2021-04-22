@@ -1,6 +1,13 @@
 <template>
   <div>
-    <b-row>
+    <div fluid class="breadcrumb__container">
+      <b-breadcrumb>
+        <b-breadcrumb-item active class="ml-1 pl-0 pl-md-4">
+          List Data Menunggu Konfirmasi
+        </b-breadcrumb-item>
+      </b-breadcrumb>
+    </div>
+    <b-row class="pt-1 pt-lg-4">
       <b-col>
         <base-title v-if="!rockPendingValidator.length"
           >MENUNGGU KONFIRMASI (0)</base-title
@@ -28,7 +35,7 @@
             <span>{{ lithologyName }}</span>
           </template>
           <template v-slot:cell(aksi)="{ item: { id } }">
-            <b-link @click="showPopUpDetails(id)"> Details </b-link>
+            <b-link @click="showDetailsData(id)"> Details </b-link>
           </template>
           <template v-slot:empty>
             <p class="text-center mb-0">
@@ -38,7 +45,7 @@
         </b-table>
       </b-container>
     </b-row>
-    <base-modal-validator
+    <!-- <base-modal-validator
       v-if="isModalDetails"
       v-model="isModalDetails"
       title="Detail Data"
@@ -122,7 +129,7 @@
         required
         size="xtraLarge"
       />
-    </base-modal>
+    </base-modal> -->
   </div>
 </template>
 
@@ -159,6 +166,9 @@ export default {
     }
   },
   methods: {
+    showDetailsData(id) {
+      this.$router.push(`/verifikator/menunggu-konfirmasi/konfirmasi/${id}`)
+    },
     async showPopUpDetails(id) {
       this.isModalDetails = true
       // this.id = id
@@ -221,6 +231,21 @@ export default {
   }
   h2 {
     font-weight: bold;
+  }
+}
+.breadcrumb {
+  background-color: #6a40951a;
+  padding: 10px 0;
+}
+.breadcrumb-item {
+  * {
+    font-family: 'Nunito Sans';
+    font-size: 14px;
+    font-weight: bold;
+    color: #8e8e8e;
+  }
+  &.active * {
+    color: #e3bb1b;
   }
 }
 #table {

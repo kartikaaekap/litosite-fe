@@ -5,38 +5,6 @@
       class="navbar"
       :class="{ 'navbar--shadow': scrollPosition }"
     >
-      <!-- <b-container class="px-0">
-        <b-col cols="4" md="2" class="d-flex px-0">
-          <b-navbar-brand href="#" class="d-flex px-0 px-md-3">
-            <b-img src="~/assets/img/logo-litosite.png" fluid />
-          </b-navbar-brand>
-        </b-col>
-
-        <b-navbar-toggle target="nav-collapse" />
-
-        <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav class="ml-auto">
-            <b-nav-item>
-              <base-button
-                variant="text"
-                is-long
-                class="mr-3"
-                to="/dashboard/home"
-              >
-                Home
-              </base-button>
-            </b-nav-item>
-            <b-nav-form>
-              <base-button variant="tertiary" is-long class="mr-3" to="/signin">
-                Sign In
-              </base-button>
-              <base-button variant="primary" is-long to="/signup">
-                Sign Up
-              </base-button>
-            </b-nav-form>
-          </b-navbar-nav>
-        </b-collapse>
-      </b-container> -->
       <b-container class="px-0 px-md-3">
         <b-row>
           <b-col cols="4" class="d-block d-md-none">
@@ -56,29 +24,37 @@
           <b-col cols="4" md="2" class="d-flex px-0">
             <base-logo is-link class="mx-auto mx-md-0" />
           </b-col>
-          <b-col>
-            <b-navbar-nav class="ml-auto">
-              <template>
-                <base-button variant="text" is-long class="mr-3" to="/">
-                  Home
-                </base-button>
+          <dropdown-menu v-model="isDropdownOpen" right hover>
+            <base-button
+              id="user"
+              variant="primary"
+              icon="person-fill"
+              size="small"
+              class="ml-3"
+              icon-only
+              is-circle
+            />
+            <div slot="dropdown">
+              <template v-if="isAuthenticated">
+                <p class="profil__name pl-2 py-2 mb-0">Kartika Eka Putri</p>
+                <p class="profil__description pl-2 pb-2 mt-0">
+                  {{ loggedInUser.username }}
+                </p>
+                <b-link class="dropdown__item p-2" to="/signout">
+                  Sign out
+                </b-link>
               </template>
-              <base-button
-                variant="tertiary"
-                size="small"
-                to="/signin"
-                class="d-none d-md-flex"
-                >Sign In</base-button
-              >
-              <base-button
-                variant="primary"
-                size="small"
-                to="/signup"
-                class="d-none d-sm-flex ml-md-3"
-                >Sign Up</base-button
-              >
-            </b-navbar-nav>
-          </b-col>
+              <template v-else>
+                <b-link
+                  class="dropdown__item p-2"
+                  to="/signout"
+                  @click="$auth.logout()"
+                >
+                  Sign out
+                </b-link>
+              </template>
+            </div>
+          </dropdown-menu>
         </b-row>
       </b-container>
     </b-navbar>
@@ -121,12 +97,12 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
-// import DropdownMenu from '@innologica/vue-dropdown-menu'
+import { mapState, mapMutations, mapGetters } from 'vuex'
+import DropdownMenu from '@innologica/vue-dropdown-menu'
 
 export default {
-  name: 'TopNavigation',
-  // components: { DropdownMenu },
+  name: 'TopNavigationAdmin',
+  components: { DropdownMenu },
   // async asyncData () {
   //   return {
   //     userAuth: await window.localStorage.getItem('user')
@@ -140,6 +116,7 @@ export default {
   },
   computed: {
     ...mapState(['isSidebarOpen']),
+    ...mapGetters(['isAuthenticated', 'loggedInUser']),
   },
   mounted() {
     window.addEventListener('scroll', this.updateScroll)

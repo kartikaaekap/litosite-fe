@@ -23,7 +23,9 @@
               <span class="section__text--purple"> Ikut berkontribusi </span>
               dalam bidang Geologi
             </p>
-            <base-button class="mb-5"> Lihat Peta </base-button>
+            <base-button class="mb-5" @click="cobaMap">
+              Lihat Peta
+            </base-button>
           </b-col>
           <b-col
             cols="12"
@@ -43,13 +45,15 @@
               <h1 class="section__title mt-5 mb-5">PETA GEOLOGI</h1>
             </b-col>
           </b-row>
-          <div id="map-wrap" style="height: 100vh">
+          <div id="map" style="height: 100vh">
             <client-only>
-              <l-map :zoom="13" :center="[-7.872954, 110.1440792]">
+              <l-map :zoom="9" :center="[-7.6145, 110.7122]">
+                <!-- <l-map :zoom="8" :center="[47.31322, -1.319482]"> -->
                 <l-tile-layer
                   url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
                 ></l-tile-layer>
-                <l-marker :lat-lng="[-7.872954, 110.1440792]"></l-marker>
+                <l-geo-json :geojson="geojson"></l-geo-json>
+                <l-marker :lat-lng="markerLatLng"></l-marker>
               </l-map>
             </client-only>
           </div>
@@ -64,38 +68,44 @@
 
 export default {
   layout: 'landingpage',
-  data: () => {
+  async asyncData({ store }) {
     return {
-      testimonials: [
-        {
-          id: 1,
-          testi:
-            'getdebug’s great! The service helped us a lot in finding bugs in our system. I can’t reccomend them enough. Keep it up!',
-          client: 'Budi',
-          company: ' PT. Fiction Labs',
-        },
-        {
-          id: 2,
-          testi:
-            'Disini banyak sekali freelancer QA yang bisa membantu perkembangan dalam pengembangan perusahaan kami',
-          client: 'Joko',
-          company: 'PT. Hokya Hokya',
-        },
-        {
-          id: 3,
-          testi:
-            'Berkat GetDeBug perusahaan saya yang tidak memiliki QA bisa sangat terbantu, dan kami jadi dapat menemukan masalah dengan cepat, thank you..',
-          client: 'Alien',
-          company: 'PT. Abadi',
-        },
-      ],
+      pinPoints: await store.dispatch('getPinPoints'),
     }
   },
-  // computed: {
-  //   ctaLink () {
-  //     return this.user ? (this.user.isAdmin ? '/admin' : '/dashboard') : '/signup'
-  //   }
-  // }
+  data: () => {
+    return {
+      geojson: null,
+    }
+  },
+  computed: {
+    // markerLatLng() {
+    //   for (const index in this.pinPoints) {
+    //     return [this.pinPoints[index].latitude, this.pinPoints[index].longitude]
+    //   }
+    // },
+  },
+  async created() {
+    const response = await fetch(
+      'https://raw.githubusercontent.com/Litosite/GeoJSON/main/Geology-DIY.geojson'
+    )
+    this.geojson = await response.json()
+  },
+  methods: {
+    cobaMap() {
+      for (const index in this.pinPoints) {
+        console.log([
+          this.pinPoints[index].latitude,
+          this.pinPoints[index].longitude,
+        ])
+      }
+    },
+    // markerLatLng() {
+    //   for (const index in this.pinPoints) {
+    //     [this.pinPoints[index].latitude, this.pinPoints[index].longitude]
+    //   }
+    // },
+  },
 }
 </script>
 
