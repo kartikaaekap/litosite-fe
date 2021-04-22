@@ -52,8 +52,12 @@
                 <l-tile-layer
                   url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
                 ></l-tile-layer>
-                <l-geo-json :geojson="geojson"></l-geo-json>
-                <l-marker :lat-lng="markerLatLng"></l-marker>
+                <l-geo-json
+                  :geojson="geojson"
+                  :options="options"
+                  :options-style="styleFunction"
+                ></l-geo-json>
+                <!-- <l-marker :lat-lng="markerLatLng"></l-marker> -->
               </l-map>
             </client-only>
           </div>
@@ -76,9 +80,41 @@ export default {
   data: () => {
     return {
       geojson: null,
+      enableTooltip: true,
     }
   },
   computed: {
+    options() {
+      return {
+        onEachFeature: this.onEachFeatureFunction,
+      }
+    },
+    onEachFeatureFunction() {
+      if (!this.enableTooltip) {
+        return () => {}
+      }
+      return (feature, layer) => {
+        layer.bindTooltip(
+          '<div>Nama Formasi Batuan:' +
+            feature.properties.NAME +
+            '</div><div>Nama Lembar: ' +
+            feature.properties.NM_LEMBAR +
+            '</div>',
+          { permanent: false, sticky: true }
+        )
+        this.styleFunction.fillColor = feature.properties.fill
+        // console.log(feature.properties.fill)
+      }
+    },
+    styleFunction() {
+      return {
+        weight: 2,
+        color: '#000000',
+        opacity: 1,
+        fillColor: '',
+        fillOpacity: 0.8,
+      }
+    },
     // markerLatLng() {
     //   for (const index in this.pinPoints) {
     //     return [this.pinPoints[index].latitude, this.pinPoints[index].longitude]
@@ -92,14 +128,14 @@ export default {
     this.geojson = await response.json()
   },
   methods: {
-    cobaMap() {
-      for (const index in this.pinPoints) {
-        console.log([
-          this.pinPoints[index].latitude,
-          this.pinPoints[index].longitude,
-        ])
-      }
-    },
+    // cobaMap() {
+    //   for (const index in this.pinPoints) {
+    //     console.log([
+    //       this.pinPoints[index].latitude,
+    //       this.pinPoints[index].longitude,
+    //     ])
+    //   }
+    // },
     // markerLatLng() {
     //   for (const index in this.pinPoints) {
     //     [this.pinPoints[index].latitude, this.pinPoints[index].longitude]
