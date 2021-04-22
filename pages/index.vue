@@ -57,7 +57,11 @@
                 <l-tile-layer
                   url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
                 ></l-tile-layer>
-                <l-geo-json :geojson="geojson"></l-geo-json>
+                <l-geo-json
+                  :geojson="geojson"
+                  :options="options"
+                  :options-style="styleFunction"
+                ></l-geo-json>
                 <!-- <l-marker :lat-lng="markerLatLng"></l-marker> -->
               </l-map>
             </client-only>
@@ -82,7 +86,6 @@ export default {
     return {
       geojson: null,
       enableTooltip: true,
-      fillColor: '#e4ce7f',
     }
   },
   computed: {
@@ -91,32 +94,30 @@ export default {
         onEachFeature: this.onEachFeatureFunction,
       }
     },
-    styleFunction() {
-      const fillColor = this.fillColor
-      return () => {
-        return {
-          weight: 2,
-          color: '#ECEFF1',
-          opacity: 1,
-          // eslint-disable-next-line object-shorthand
-          fillColor: fillColor,
-          fillOpacity: 1,
-        }
-      }
-    },
     onEachFeatureFunction() {
       if (!this.enableTooltip) {
         return () => {}
       }
       return (feature, layer) => {
         layer.bindTooltip(
-          '<div>code:' +
-            feature.properties.code +
-            '</div><div>nom: ' +
-            feature.properties.nom +
+          '<div>Nama Formasi Batuan:' +
+            feature.properties.NAME +
+            '</div><div>Nama Lembar: ' +
+            feature.properties.NM_LEMBAR +
             '</div>',
           { permanent: false, sticky: true }
         )
+        this.styleFunction.fillColor = feature.properties.fill
+        // console.log(feature.properties.fill)
+      }
+    },
+    styleFunction() {
+      return {
+        weight: 2,
+        color: '#000000',
+        opacity: 1,
+        fillColor: '',
+        fillOpacity: 0.8,
       }
     },
     // markerLatLng() {
