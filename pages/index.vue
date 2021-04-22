@@ -47,13 +47,18 @@
           </b-row>
           <div id="map" style="height: 100vh">
             <client-only>
-              <l-map :zoom="9" :center="[-7.6145, 110.7122]">
+              <l-map
+                :zoom="9"
+                :center="[-7.6145, 110.7122]"
+                :options="options"
+                :options-style="styleFunction"
+              >
                 <!-- <l-map :zoom="8" :center="[47.31322, -1.319482]"> -->
                 <l-tile-layer
                   url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
                 ></l-tile-layer>
                 <l-geo-json :geojson="geojson"></l-geo-json>
-                <l-marker :lat-lng="markerLatLng"></l-marker>
+                <!-- <l-marker :lat-lng="markerLatLng"></l-marker> -->
               </l-map>
             </client-only>
           </div>
@@ -76,12 +81,56 @@ export default {
   data: () => {
     return {
       geojson: null,
+      enableTooltip: true,
+      fillColor: '#e4ce7f',
     }
   },
   computed: {
+    options() {
+      return {
+        onEachFeature: this.onEachFeatureFunction,
+      }
+    },
+    styleFunction() {
+      const fillColor = this.fillColor
+      return () => {
+        return {
+          weight: 2,
+          color: '#ECEFF1',
+          opacity: 1,
+          // eslint-disable-next-line object-shorthand
+          fillColor: fillColor,
+          fillOpacity: 1,
+        }
+      }
+    },
+    onEachFeatureFunction() {
+      if (!this.enableTooltip) {
+        return () => {}
+      }
+      return (feature, layer) => {
+        layer.bindTooltip(
+          '<div>code:' +
+            feature.properties.code +
+            '</div><div>nom: ' +
+            feature.properties.nom +
+            '</div>',
+          { permanent: false, sticky: true }
+        )
+      }
+    },
     // markerLatLng() {
     //   for (const index in this.pinPoints) {
     //     return [this.pinPoints[index].latitude, this.pinPoints[index].longitude]
+    //   }
+    // },
+    // eslint-disable-next-line vue/return-in-computed-property
+    // markerLatLng() {
+    //   const points = this.pinPoints
+    //   // eslint-disable-next-line no-unreachable-loop
+    //   for (let i = 0; i < points.length; i++) {
+    //     console.log([points[i].latitude, points[i].longitude])
+    //     // return [points[i].latitude, points[i].longitude]
     //   }
     // },
   },
@@ -92,14 +141,14 @@ export default {
     this.geojson = await response.json()
   },
   methods: {
-    cobaMap() {
-      for (const index in this.pinPoints) {
-        console.log([
-          this.pinPoints[index].latitude,
-          this.pinPoints[index].longitude,
-        ])
-      }
-    },
+    // cobaMap() {
+    //   for (const index in this.pinPoints) {
+    //     console.log([
+    //       this.pinPoints[index].latitude,
+    //       this.pinPoints[index].longitude,
+    //     ])
+    //   }
+    // },
     // markerLatLng() {
     //   for (const index in this.pinPoints) {
     //     [this.pinPoints[index].latitude, this.pinPoints[index].longitude]
