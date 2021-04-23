@@ -243,7 +243,7 @@ export default {
     },
     styleFunction(feature) {
       return {
-        fillColor: this.getColor(),
+        fillColor: this.getColor(feature.properties.FORMATION),
         fillOpacity: 0.8,
         color: '',
       }
