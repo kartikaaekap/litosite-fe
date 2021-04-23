@@ -47,12 +47,7 @@
           </b-row>
           <div id="map" style="height: 100vh">
             <client-only>
-              <l-map
-                :zoom="9"
-                :center="[-7.6145, 110.7122]"
-                :options="options"
-                :options-style="styleFunction"
-              >
+              <l-map :zoom="9" :center="[-7.6145, 110.7122]">
                 <!-- <l-map :zoom="8" :center="[47.31322, -1.319482]"> -->
                 <l-tile-layer
                   url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
@@ -109,18 +104,152 @@ export default {
           { permanent: false, sticky: true }
         )
         this.styleFunction.fillColor = feature.properties.fill
-        // console.log(feature.properties.fill)
+        this.getColor.f = feature.properties.FORMATION
+        this.styleFunction.color = null
+        // console.log(feature.properties.FORMATION)
+        // console.log(feature.properties.SYMBOLS)
+        // console.log(this.styleFunction.fillColor)
       }
     },
-    styleFunction() {
+    getColor(f) {
+      return f === 'Andesite'
+        ? '#FF4269'
+        : f === 'LavaDomeandFlow'
+        ? '#FF6E83'
+        : f === 'Dacite'
+        ? '#F70D3D'
+        : f === 'BrecciatedRocks'
+        ? '#974788'
+        : f === 'Metamorphicrock'
+        ? '#DA255C'
+        : f === 'AvalancheDep.(Ladus)FromNueeArdente'
+        ? '#FF6650'
+        : f === 'Alluvium'
+        ? '#F7FFE5'
+        : f === 'Alluvium'
+        ? '#F7FFE5'
+        : f === 'Alluvium'
+        ? '#F7FFE5'
+        : f === 'Alluvium'
+        ? '#E4ECEA'
+        : f === 'Alluvium'
+        ? '#F7FFE5'
+        : f === 'Coastaldeposits'
+        ? '#E5E8D3'
+        : f === 'Volcanicbreccia'
+        ? '#FE9A56'
+        : f === 'BaturetnoFormation'
+        ? '#EDF8FA'
+        : f === 'Colluvium'
+        ? '#FFFDD5'
+        : f === 'Cinderconeashdeposits'
+        ? '#F99C94'
+        : f === 'Condongvolcanic'
+        ? '#893243'
+        : f === 'GilipetungVolcanic'
+        ? '#E0A13B'
+        : f === 'GiantiVolcanics'
+        ? '#FFA3A6'
+        : f === 'JembanganVolcanic'
+        ? '#D497A1'
+        : f === 'LawuLahar'
+        ? '#FCFCFC'
+        : f === 'SumbingLava'
+        ? '#CD3146'
+        : f === 'YoungvolcanicdepositsofMerapi'
+        ? '#FFE8D6'
+        : f === 'OldVolcanicDepositsofMerapiVolcano'
+        ? '#F45940'
+        : f === 'KabuhFormation'
+        ? '#F8EC14'
+        : f === 'KaligetasFormation'
+        ? '#F4C090'
+        : f === 'Andesiteporphyryandlahar'
+        ? '#8F0E19'
+        : f === 'NotopuroFormation'
+        ? '#FBC5C1'
+        : f === 'PucanganFormation'
+        ? '#F5E464'
+        : f === 'SumbingVolcanics'
+        ? '#A6667F'
+        : f === 'OldSumbingVolcanics'
+        ? '#E77634'
+        : f === 'OldSumbingVolcanics'
+        ? '#FFAB78'
+        : f === 'SundoroVolcanic'
+        ? '#ED5B84'
+        : f === 'Terracedeposits'
+        ? '#FEF9D4'
+        : f === 'OlderAluvium'
+        ? '#FDFFF4'
+        : f === 'DamarFormation'
+        ? '#FFE6A4'
+        : f === 'LigungFormation'
+        ? '#F8BF9D'
+        : f === 'UndifferentiatedVolcanicRocks'
+        ? '#EEB193'
+        : f === 'NanggulanFormation'
+        ? '#D2F6C9'
+        : f === 'WungkalFormation'
+        ? '#7EC288'
+        : f === 'JonggranganFormation'
+        ? '#65BF81'
+        : f === 'KerekFormation'
+        ? '#DFD42D'
+        : f === 'NampolFormation'
+        ? '#FFD894'
+        : f === 'FormasiNgalanggran'
+        ? '#FFAC8F'
+        : f === 'OyoFormation'
+        ? '#FEFFD5'
+        : f === 'PenosoganFormation'
+        ? '#FFF0B4'
+        : f === 'HalangFormation'
+        ? '#FBC064'
+        : f === 'HalangFormation'
+        ? '#EBDC73'
+        : f === 'KalibengFormation'
+        ? '#C5E0DB'
+        : f === 'KepekFormation'
+        ? '#58C6CF'
+        : f === 'SentoloFormation'
+        ? '#FEFCD4'
+        : f === 'SemilirFormation'
+        ? '#FFF3D2'
+        : f === 'SemilirFormation'
+        ? '#FFCB78'
+        : f === 'SambipituFormation'
+        ? '#FBFDCE'
+        : f === 'WuniFormation'
+        ? '#FFDE57'
+        : f === 'WaturandaFormation'
+        ? '#FFE200'
+        : f === 'WonosariFormation'
+        ? '#4C99D7'
+        : f === 'WaturondaFormation'
+        ? '#FA9F58'
+        : f === 'KebobutakFormation'
+        ? '#FFCC4F'
+        : f === 'KebobutakFormation'
+        ? '#FFA886'
+        : f === 'MandalikaFormation'
+        ? '#FD8063'
+        : f === 'TotoganFormation'
+        ? '#EFD509'
+        : f === 'Penduldiorite'
+        ? '#FF6E96'
+        : f === 'PenironFormation'
+        ? '#FAD1CA'
+        : '#FABDA4'
+    },
+    styleFunction(feature) {
       return {
-        weight: 2,
-        color: '#000000',
-        opacity: 1,
-        fillColor: '',
+        fillColor: this.getColor(feature.properties.FORMATION),
         fillOpacity: 0.8,
+        color: '',
       }
     },
+<<<<<<< HEAD
     // markerLatLng() {
     //   for (const index in this.pinPoints) {
     //     return [this.pinPoints[index].latitude, this.pinPoints[index].longitude]
@@ -143,6 +272,8 @@ export default {
         // return [points[i].latitude, points[i].longitude]
       }
     },
+=======
+>>>>>>> afb914379f0bc387dd68a95af60d139ec32d321f
   },
   async created() {
     const response = await fetch(
