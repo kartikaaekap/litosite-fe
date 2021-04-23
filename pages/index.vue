@@ -62,7 +62,7 @@
                   :options="options"
                   :options-style="styleFunction"
                 ></l-geo-json>
-                <!-- <l-marker :lat-lng="markerLatLng"></l-marker> -->
+                <l-marker :lat-lng="markerLatLng"></l-marker>
               </l-map>
             </client-only>
           </div>
@@ -86,6 +86,7 @@ export default {
     return {
       geojson: null,
       enableTooltip: true,
+      // markerLatLng: ['-7.614500000000000', '110.712200000000000'],
     }
   },
   computed: {
@@ -126,14 +127,22 @@ export default {
     //   }
     // },
     // eslint-disable-next-line vue/return-in-computed-property
-    // markerLatLng() {
-    //   const points = this.pinPoints
-    //   // eslint-disable-next-line no-unreachable-loop
-    //   for (let i = 0; i < points.length; i++) {
-    //     console.log([points[i].latitude, points[i].longitude])
-    //     // return [points[i].latitude, points[i].longitude]
-    //   }
-    // },
+    markerLatLng() {
+      const points = this.pinPoints
+      // return ['-7.614500000000000', '110.712200000000000']
+      // eslint-disable-next-line no-unreachable-loop
+      for (const index in points) {
+        const latud = points[index].latitude
+        const longi = points[index].longitude
+        // const arrayPoints = [points[index].latitude, points[index].longitude]
+        // for (const index1 in arrayPoints) {
+
+        // }
+        // return [latud, longi]
+        console.log([latud, longi])
+        // return [points[i].latitude, points[i].longitude]
+      }
+    },
   },
   async created() {
     const response = await fetch(
