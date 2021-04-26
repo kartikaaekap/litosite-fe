@@ -180,40 +180,6 @@ export default {
       border: 1px solid rgb(104, 104, 104);
     }
   }
-  // &--fourth {
-  //   &:not(.disabled) {
-  //     background-color: $blue-1;
-  //     color: $white;
-  //     border: 1px solid $blue-1;
-  //     box-shadow: 0px 0.25rem 0.5rem rgba($black, 0.04);
-  //     &:hover {
-  //       background-color: darken($blue-1, 10);
-  //     }
-  //     &:active {
-  //       background-color: darken($blue-1, 15);
-  //     }
-  //   }
-  //   &.disabled {
-  //     background-color: $light-grey-3;
-  //   }
-  // }
-  // &--fifth {
-  //   &:not(.disabled) {
-  //     background-color: $light-red;
-  //     color: $color-primary;
-  //     border: 1px solid $light-red;
-  //     box-shadow: 0px 0.25rem 0.5rem rgba($black, 0.04);
-  //     &:hover {
-  //       background-color: darken($light-red, 10);
-  //     }
-  //     &:active {
-  //       background-color: darken($light-red, 15);
-  //     }
-  //   }
-  //   &.disabled {
-  //     background-color: $light-grey-3;
-  //   }
-  // }
   &--text {
     padding: 0.25rem 1rem;
     color: rgb(17, 160, 255);
@@ -226,6 +192,27 @@ export default {
       }
       &:active {
         color: darken(rgb(17, 160, 255), 20);
+        text-decoration: underline;
+      }
+    }
+    &.disabled {
+      background: unset;
+      border: unset;
+    }
+  }
+
+  &--textWhite {
+    padding: 0.25rem 1rem;
+    color: white;
+    font-weight: bold;
+    &:not(.disabled) {
+      &:hover {
+        color: white;
+        text-decoration: underline;
+        cursor: default;
+      }
+      &:active {
+        color: white;
         text-decoration: underline;
       }
     }

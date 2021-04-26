@@ -5,38 +5,6 @@
       class="navbar"
       :class="{ 'navbar--shadow': scrollPosition }"
     >
-      <!-- <b-container class="px-0">
-        <b-col cols="4" md="2" class="d-flex px-0">
-          <b-navbar-brand href="#" class="d-flex px-0 px-md-3">
-            <b-img src="~/assets/img/logo-litosite.png" fluid />
-          </b-navbar-brand>
-        </b-col>
-
-        <b-navbar-toggle target="nav-collapse" />
-
-        <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav class="ml-auto">
-            <b-nav-item>
-              <base-button
-                variant="text"
-                is-long
-                class="mr-3"
-                to="/dashboard/home"
-              >
-                Home
-              </base-button>
-            </b-nav-item>
-            <b-nav-form>
-              <base-button variant="tertiary" is-long class="mr-3" to="/signin">
-                Sign In
-              </base-button>
-              <base-button variant="primary" is-long to="/signup">
-                Sign Up
-              </base-button>
-            </b-nav-form>
-          </b-navbar-nav>
-        </b-collapse>
-      </b-container> -->
       <b-container class="px-0 px-md-3">
         <b-row>
           <b-col cols="4" class="d-block d-md-none">
@@ -48,35 +16,53 @@
               @click="toggleSidebar"
             />
           </b-col>
-          <!-- <b-col cols="4" md="2" class="d-flex px-0 px-md-3">
-            <b-navbar-brand href="#" class="d-flex px-0 px-md-3">
-              <b-img src="~/assets/img/logo-litosite.png" fluid />
-            </b-navbar-brand>
-          </b-col> -->
-          <b-col cols="4" md="2" class="d-flex px-0">
+          <b-col cols="4" md="2" class="d-flex px-0 px-md-3">
             <base-logo is-link class="mx-auto mx-md-0" />
           </b-col>
-          <b-col>
-            <b-navbar-nav class="ml-auto">
+          <b-col cols="4" md="10" class="d-flex justify-content-end ml-auto">
+            <b-navbar-nav class="navbar__nav">
               <template>
-                <base-button variant="text" is-long class="mr-3" to="/">
+                <base-button
+                  variant="textWhite"
+                  is-long
+                  class="d-none d-md-flex"
+                  >I want to tell you About Us</base-button
+                >
+                <base-button
+                  variant="textWhite"
+                  is-long
+                  class="d-none d-md-flex"
+                  >Features amazing star</base-button
+                >
+                <base-button
+                  variant="textWhite"
+                  is-long
+                  class="d-none d-md-flex"
+                  >Features Very Unique</base-button
+                >
+                <base-button
+                  variant="text"
+                  is-long
+                  class="mr-3 d-none d-md-flex"
+                  to="/"
+                >
                   Home
                 </base-button>
+                <base-button
+                  variant="tertiary"
+                  size="small"
+                  to="/signin"
+                  class="d-none d-md-flex"
+                  >Sign In</base-button
+                >
+                <base-button
+                  variant="primary"
+                  size="small"
+                  to="/signup"
+                  class="d-none d-sm-flex ml-md-3"
+                  >Sign Up</base-button
+                >
               </template>
-              <base-button
-                variant="tertiary"
-                size="small"
-                to="/signin"
-                class="d-none d-md-flex"
-                >Sign In</base-button
-              >
-              <base-button
-                variant="primary"
-                size="small"
-                to="/signup"
-                class="d-none d-sm-flex ml-md-3"
-                >Sign Up</base-button
-              >
             </b-navbar-nav>
           </b-col>
         </b-row>
@@ -97,16 +83,36 @@
           <b-col cols="4" md="4" class="d-flex px-0 px-md-3">
             <base-logo is-link class="mx-auto mx-md-0" />
           </b-col>
+          <b-col cols="4" class="text-right">
+            <dropdown-menu v-model="isDropdownOpen" right hover>
+              <base-button
+                id="user"
+                variant="secondary"
+                icon="person"
+                size="small"
+                class="ml-3"
+                icon-only
+                is-circle
+              />
+              <div slot="dropdown">
+                <b-link class="dropdown__item p-2" to="/signout"
+                  >Sign Out</b-link
+                >
+              </div>
+            </dropdown-menu>
+          </b-col>
         </b-navbar>
         <div class="sidebar__menu px-3">
           <b-nav vertical>
             <div class="sidebar__menu--top">
               <template v-if="$route.path === '/'">
-                <base-button variant="text" is-full to="/">Home</base-button>
+                <base-button variant="text" is-full to="/" @click="sidebarClose"
+                  >Home</base-button
+                >
               </template>
             </div>
             <div class="sidebar__menu--bottom">
-              <base-button variant="secondary" to="/signin" is-full
+              <base-button variant="tertiary" to="/signin" is-full
                 >Sign In</base-button
               >
               <base-button to="/signup" class="mt-3" is-full
@@ -152,6 +158,9 @@ export default {
     updateScroll() {
       this.scrollPosition = window.scrollY
     },
+    sidebarClose() {
+      this.toggleSidebar(false)
+    },
   },
 }
 </script>
@@ -164,9 +173,6 @@ export default {
   &__nav {
     display: flex;
     align-items: center;
-    a {
-      color: blue;
-    }
   }
   &--shadow {
     box-shadow: 0px 5px 10px rgba(black, 0.12);

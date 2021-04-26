@@ -1,191 +1,114 @@
 <template>
   <b-container fluid class="px-0">
     <b-navbar
-      toggleable="lg"
       fixed="top"
       class="navbar"
       :class="{ 'navbar--shadow': scrollPosition }"
     >
-      <b-container class="px-0">
-        <b-col cols="4" md="2" class="d-flex px-0">
-          <b-navbar-brand href="#" class="d-flex px-0 px-md-3">
-            <b-img src="~/assets/img/logo-litosite.png" fluid />
-          </b-navbar-brand>
-        </b-col>
-
-        <b-navbar-toggle target="nav-collapse" />
-
-        <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav class="ml-auto">
-            <template>
-              <base-button variant="text" is-long class="mr-3" to="/indexlogin">
-                Home
-              </base-button>
-              <base-button
-                variant="text"
-                is-long
-                class="mr-3"
-                to="/dashboard/inputData"
-              >
-                Input Data
-              </base-button>
-            </template>
-            <dropdown-menu v-model="isDropdownOpen" right hover>
-              <base-button
-                id="user"
-                variant="primary"
-                icon="person-fill"
-                size="small"
-                class="ml-3"
-                icon-only
-                is-circle
-              />
-              <div slot="dropdown">
-                <template v-if="isAuthenticated">
-                  <p class="profil__name pl-2 py-2 mb-0">Kartika Eka Putri</p>
-                  <p class="profil__description pl-2 pb-2 mt-0">
-                    {{ loggedInUser.username }}
-                  </p>
-                  <b-link class="dropdown__item p-2" to="/signout">
-                    Sign out
-                  </b-link>
-                </template>
-                <template v-else>
-                  <b-link
-                    class="dropdown__item p-2"
-                    to="/signout"
-                    @click="$auth.logout()"
-                  >
-                    Sign out
-                  </b-link>
-                </template>
-              </div>
-            </dropdown-menu>
-          </b-navbar-nav>
-        </b-collapse>
-      </b-container>
-      <!-- <b-container class="px-0 px-sm-3">
-        <b-col cols="4" class="d-block d-md-none">
-          <dropdown-menu v-model="isDropdownOpenMenu" left hover>
+      <b-container class="px-0 px-md-3">
+        <b-row>
+          <b-col cols="4" class="d-block d-md-none">
             <base-button
               variant="secondary"
-              icon="list"
               size="small"
-              class="ml-3"
+              icon="list"
               icon-only
+              @click="toggleSidebar"
             />
-            <div slot="dropdown">
+          </b-col>
+          <b-col cols="4" md="2" class="d-flex px-0 px-md-3">
+            <base-logo is-link class="mx-auto mx-md-0" />
+          </b-col>
+          <b-col cols="4" md="10" class="d-flex justify-content-end ml-auto">
+            <b-navbar-nav class="navbar__nav">
               <template>
-                <base-button variant="text" to="/dashboard/home">
+                <base-button
+                  variant="textWhite"
+                  is-long
+                  class="d-none d-md-flex"
+                  >I want to tell you About Us</base-button
+                >
+                <base-button
+                  variant="textWhite"
+                  is-long
+                  class="d-none d-md-flex"
+                  >Features amazing star</base-button
+                >
+                <base-button
+                  variant="textWhite"
+                  is-long
+                  class="d-none d-md-flex"
+                  >Features Light Star Ocean Blue Yellow</base-button
+                >
+                <base-button
+                  variant="text"
+                  is-long
+                  class="d-none d-md-flex"
+                  to="/indexlogin"
+                >
                   Home
                 </base-button>
-                <base-button variant="text" to="/dashboard/classlist">
-                  List Class
+                <base-button
+                  variant="text"
+                  is-long
+                  class="mr-3 d-none d-md-flex"
+                  to="/dashboard/inputData"
+                >
+                  Input Data
                 </base-button>
               </template>
-            </div>
-          </dropdown-menu>
-        </b-col>
-        <b-col cols="4" md="2" class="d-flex px-0 px-md-3">
-          <b-navbar-brand href="#" class="d-flex px-0 px-md-3">
-            <b-img src="~/assets/img/logo-litosite.png" fluid />
-          </b-navbar-brand>
-        </b-col>
-
-        <b-navbar-toggle target="nav-collapse" />
-
-        <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav class="ml-auto">
-            <template>
-              <base-button variant="text" is-long class="d-none d-md-flex mr-3" to="/dashboard/home">
-                Home
-              </base-button>
-              <base-button variant="tertiary" is-long class="d-none d-md-flex mr-3" to="/login">
-                Sign In
-              </base-button>
-              <base-button variant="primary" is-long class="d-none d-md-flex mr-3" to="/login">
-                Sign Up
-              </base-button>
-            </template>
-            <dropdown-menu v-model="isDropdownOpen" right hover>
-              <base-button
-                id="user"
-                variant="secondary"
-                icon="person"
-                size="small"
-                class="ml-3"
-                icon-only
-                is-circle
-              />
-              <div slot="dropdown">
-                <template>
-                  <p class="profil__name pl-2 py-2 mb-0">
-                    huhu
-                  </p>
-                  <p class="profil__description pl-2 pb-2 mt-0">
-                    yeye
-                  </p>
-                </template>
-                <b-link class="dropdown__item p-2" to="/signout">
-                  Sign out
-                </b-link>
-              </div>
-            </dropdown-menu>
-          </b-navbar-nav>
-        </b-collapse>
-      </b-container> -->
+              <dropdown-menu v-model="isDropdownOpen" right hover>
+                <base-button
+                  id="user"
+                  variant="primary"
+                  icon="person-fill"
+                  size="small"
+                  icon-only
+                  class="ml-3"
+                  is-circle
+                />
+                <div slot="dropdown">
+                  <template v-if="isAuthenticated">
+                    <p class="profil__name pl-2 py-2 mb-0">Kartika Eka Putri</p>
+                    <p class="profil__description pl-2 pb-2 mt-0">
+                      {{ loggedInUser.username }}
+                    </p>
+                    <b-link class="dropdown__item p-2" to="/signout">
+                      Sign out
+                    </b-link>
+                  </template>
+                  <template v-else>
+                    <b-link
+                      class="dropdown__item p-2"
+                      to="/signout"
+                      @click="$auth.logout()"
+                    >
+                      Sign out
+                    </b-link>
+                  </template>
+                </div>
+              </dropdown-menu>
+            </b-navbar-nav>
+          </b-col>
+        </b-row>
+      </b-container>
     </b-navbar>
     <aside class="sidebar" :class="{ 'sidebar--open': isSidebarOpen }">
-      <b-container class="px-0 px-sm-3">
-        <b-col cols="4" class="d-block d-md-none">
-          <dropdown-menu v-model="isDropdownOpenMenu" left hover>
+      <b-container class="px-0">
+        <b-navbar class="sidebar__header px-0">
+          <b-col cols="4" class="d-block d-md-none">
             <base-button
               variant="secondary"
-              icon="list"
               size="small"
-              class="ml-3"
+              icon="x"
               icon-only
+              @click="toggleSidebar"
             />
-            <div slot="dropdown">
-              <template>
-                <base-button variant="text" to="/dashboard/home">
-                  Home
-                </base-button>
-                <base-button variant="text" to="/dashboard/classlist">
-                  List Class
-                </base-button>
-              </template>
-            </div>
-          </dropdown-menu>
-        </b-col>
-        <b-col cols="4" md="2" class="d-flex px-0 px-md-3">
-          <!-- <b-navbar-brand href="#" class="d-flex px-0 px-md-3">
-            <b-img src="~/assets/img/logo-confere.png" fluid />
-          </b-navbar-brand> -->
-        </b-col>
-
-        <b-navbar-toggle target="nav-collapse" />
-
-        <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav class="ml-auto">
-            <template>
-              <base-button
-                variant="text"
-                is-long
-                class="d-none d-md-flex mr-3"
-                to="/dashboard/home"
-              >
-                Home
-              </base-button>
-              <base-button
-                variant="text"
-                is-long
-                class="d-none d-md-flex mr-3"
-                to="/dashboard/classlist"
-              >
-                List Class
-              </base-button>
-            </template>
+          </b-col>
+          <b-col cols="4" md="4" class="d-flex px-0 px-md-3">
+            <base-logo is-link class="mx-auto mx-md-0" />
+          </b-col>
+          <b-col cols="4" class="text-right">
             <dropdown-menu v-model="isDropdownOpen" right hover>
               <base-button
                 id="user"
@@ -197,17 +120,43 @@
                 is-circle
               />
               <div slot="dropdown">
-                <template>
-                  <p class="profil__name pl-2 py-2 mb-0">kk</p>
-                  <p class="profil__description pl-2 pb-2 mt-0">lol</p>
-                </template>
-                <b-link class="dropdown__item p-2" to="/signout">
-                  Sign out
-                </b-link>
+                <b-link class="dropdown__item p-2" to="/signout"
+                  >Sign Out</b-link
+                >
               </div>
             </dropdown-menu>
-          </b-navbar-nav>
-        </b-collapse>
+          </b-col>
+        </b-navbar>
+        <div class="sidebar__menu px-3">
+          <b-nav vertical>
+            <div class="sidebar__menu--top">
+              <template
+                v-if="
+                  $route.path === '/indexlogin' ||
+                  $route.path === '/dashboard/inputData' ||
+                  $route.path.includes('/dashboard/inputData') ||
+                  $route.path === '/dashboard/StatusData' ||
+                  $route.path.includes('/dashboard/StatusData')
+                "
+              >
+                <base-button
+                  variant="text"
+                  is-full
+                  to="/indexlogin"
+                  @click="sidebarClose"
+                  >Home</base-button
+                >
+                <base-button
+                  variant="text"
+                  is-full
+                  to="/dashboard/inputData"
+                  @click="sidebarClose"
+                  >Input Data</base-button
+                >
+              </template>
+            </div>
+          </b-nav>
+        </div>
       </b-container>
     </aside>
   </b-container>
@@ -230,7 +179,6 @@ export default {
       scrollPosition: null,
       isDropdownOpen: false,
       isDropdownOpenMenu: false,
-      openModal: '',
     }
   },
   computed: {
@@ -248,6 +196,9 @@ export default {
     updateScroll() {
       this.scrollPosition = window.scrollY
     },
+    sidebarClose() {
+      this.toggleSidebar(false)
+    },
   },
 }
 </script>
@@ -260,9 +211,6 @@ export default {
   &__nav {
     display: flex;
     align-items: center;
-    a {
-      color: blue;
-    }
   }
   &--shadow {
     box-shadow: 0px 5px 10px rgba(black, 0.12);

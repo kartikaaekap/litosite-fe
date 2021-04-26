@@ -16,6 +16,7 @@
         v-for="page in pages"
         :key="page.name"
         :to="page.path"
+        @click="sidebarClose"
         exact-active-class="sidebar__menu--active"
         class="sidebar__page"
       >
@@ -53,6 +54,9 @@ export default {
   },
   methods: {
     ...mapMutations(['toggleSidebar']),
+    sidebarClose() {
+      this.toggleSidebar(false)
+    },
   },
 }
 </script>

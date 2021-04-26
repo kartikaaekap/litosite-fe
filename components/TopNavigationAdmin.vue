@@ -16,45 +16,76 @@
               @click="toggleSidebar"
             />
           </b-col>
-          <!-- <b-col cols="4" md="2" class="d-flex px-0 px-md-3">
-            <b-navbar-brand href="#" class="d-flex px-0 px-md-3">
-              <b-img src="~/assets/img/logo-litosite.png" fluid />
-            </b-navbar-brand>
-          </b-col> -->
-          <b-col cols="4" md="2" class="d-flex px-0">
+          <b-col cols="4" md="2" class="d-flex px-0 px-md-3">
             <base-logo is-link class="mx-auto mx-md-0" />
           </b-col>
-          <dropdown-menu v-model="isDropdownOpen" right hover>
-            <base-button
-              id="user"
-              variant="primary"
-              icon="person-fill"
-              size="small"
-              class="ml-3"
-              icon-only
-              is-circle
-            />
-            <div slot="dropdown">
-              <template v-if="isAuthenticated">
-                <p class="profil__name pl-2 py-2 mb-0">Kartika Eka Putri</p>
-                <p class="profil__description pl-2 pb-2 mt-0">
-                  {{ loggedInUser.username }}
-                </p>
-                <b-link class="dropdown__item p-2" to="/signout">
-                  Sign out
-                </b-link>
-              </template>
-              <template v-else>
-                <b-link
-                  class="dropdown__item p-2"
-                  to="/signout"
-                  @click="$auth.logout()"
+          <b-col cols="4" md="10" class="d-flex justify-content-end ml-auto">
+            <b-navbar-nav class="navbar__nav">
+              <template>
+                <base-button
+                  variant="textWhite"
+                  is-long
+                  class="d-none d-md-flex"
+                  >I want to tell you About Us</base-button
                 >
-                  Sign out
-                </b-link>
+                <base-button
+                  variant="textWhite"
+                  is-long
+                  class="d-none d-md-flex"
+                  >Features amazing star light</base-button
+                >
+                <base-button
+                  variant="textWhite"
+                  is-long
+                  class="d-none d-md-flex"
+                  >Features Very Unique</base-button
+                >
+                <base-button
+                  variant="textWhite"
+                  is-long
+                  class="d-none d-md-flex"
+                  >Pricing in cheap ya guys</base-button
+                >
+                <base-button
+                  variant="textWhite"
+                  is-long
+                  class="d-none d-md-flex mr-3"
+                  >Help</base-button
+                >
               </template>
-            </div>
-          </dropdown-menu>
+              <dropdown-menu v-model="isDropdownOpen" right hover>
+                <base-button
+                  id="user"
+                  variant="primary"
+                  icon="person-fill"
+                  size="small"
+                  icon-only
+                  class="ml-3"
+                  is-circle
+                />
+                <div slot="dropdown">
+                  <template v-if="isAuthenticated">
+                    <p class="profil__name pl-2 py-2 mb-0">Kartika Eka Putri</p>
+                    <p class="profil__description pl-2 pb-2 mt-0">
+                      {{ loggedInUser.username }}
+                    </p>
+                    <b-link class="dropdown__item p-2" to="/signout">
+                      Sign out
+                    </b-link>
+                  </template>
+                  <template v-else>
+                    <b-link
+                      class="dropdown__item p-2"
+                      to="/signout"
+                      @click="$auth.logout()"
+                    >
+                      Sign out
+                    </b-link>
+                  </template>
+                </div>
+              </dropdown-menu>
+            </b-navbar-nav>
+          </b-col>
         </b-row>
       </b-container>
     </b-navbar>
@@ -73,24 +104,25 @@
           <b-col cols="4" md="4" class="d-flex px-0 px-md-3">
             <base-logo is-link class="mx-auto mx-md-0" />
           </b-col>
+          <b-col cols="4" class="text-right">
+            <dropdown-menu v-model="isDropdownOpen" right hover>
+              <base-button
+                id="user"
+                variant="secondary"
+                icon="person"
+                size="small"
+                class="ml-3"
+                icon-only
+                is-circle
+              />
+              <div slot="dropdown">
+                <b-link class="dropdown__item p-2" to="/signout"
+                  >Sign Out</b-link
+                >
+              </div>
+            </dropdown-menu>
+          </b-col>
         </b-navbar>
-        <div class="sidebar__menu px-3">
-          <b-nav vertical>
-            <div class="sidebar__menu--top">
-              <template v-if="$route.path === '/'">
-                <base-button variant="text" is-full to="/">Home</base-button>
-              </template>
-            </div>
-            <div class="sidebar__menu--bottom">
-              <base-button variant="secondary" to="/signin" is-full
-                >Sign In</base-button
-              >
-              <base-button to="/signup" class="mt-3" is-full
-                >Sign Up</base-button
-              >
-            </div>
-          </b-nav>
-        </div>
       </b-container>
     </aside>
   </b-container>
@@ -142,13 +174,16 @@ export default {
     display: flex;
     align-items: center;
     a {
-      color: blue;
+      color: rgb(36, 152, 219);
     }
   }
   &--shadow {
     box-shadow: 0px 5px 10px rgba(black, 0.12);
     transition: box-shadow 0.2s ease-in-out;
   }
+}
+.white-text {
+  color: white;
 }
 .profil {
   &__name {

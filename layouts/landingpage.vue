@@ -31,7 +31,7 @@
               :key="filename"
               :link="link"
             >
-              <a :href="link" class="mx-3">
+              <a :href="link" class="mx-3" target="_blank">
                 <b-img
                   width="24"
                   :src="require(`~/assets/img/icon-sosmed/${filename}.svg`)"
@@ -71,9 +71,9 @@ export default {
   data: () => {
     return {
       socialMedia: {
-        facebook: 'https://www.facebook.com/qatrosdotcom',
-        instagram: 'https://instagram.com/qatros.teknologi?igshid=gr1y32ryqlqx',
-        twitter: 'https://twitter.com/Qatrosteknologi?s=08',
+        gmail: 'mailto:cplitosite@gmail.com',
+        instagram: 'https://www.instagram.com/litosite.project/',
+        twitter: 'https://twitter.com/LitositeP',
       },
     }
   },

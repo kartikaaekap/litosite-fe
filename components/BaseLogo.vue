@@ -2,7 +2,7 @@
   <div class="logo">
     <a :href="href" class="logo__img">
       <b-img
-        src="~/assets/img/logo-litosite.png"
+        src="../assets/img/logo-litosite.png"
         :class="{ 'logo__img--small': isSmall }"
         fluid
       />
@@ -23,17 +23,6 @@ export default {
       default: false,
     },
   },
-  // computed: {
-  //   href() {
-  //     return this.isLink
-  //       ? this.user
-  //         ? this.user.isAdmin
-  //           ? '/admin'
-  //           : '/dashboard'
-  //         : '/'
-  //       : false
-  //   },
-  // },
 }
 </script>
 
