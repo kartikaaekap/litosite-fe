@@ -81,6 +81,7 @@
                   Supported format: .JPG, .JPEG, .PNG,
                 </p>
                 <div>
+                  <p>1. Plane-Polarized Light (PPL)</p>
                   <b-card class="card text-center">
                     <img
                       v-if="previewPPL"
@@ -111,7 +112,8 @@
                     @change="imageSelectedPPL"
                   />
                 </div>
-                <div>
+                <div class="mt-3">
+                  <p>2. Crossed-Polarized Light (PPL)</p>
                   <b-card class="card text-center">
                     <img
                       v-if="previewCPL"

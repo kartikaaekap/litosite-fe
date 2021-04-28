@@ -23,9 +23,7 @@
               <span class="section__text--purple"> Ikut berkontribusi </span>
               dalam bidang Geologi
             </p>
-            <base-button class="mb-5" @click="cobaMap">
-              Lihat Peta
-            </base-button>
+            <base-button class="mb-5" to="#peta"> Lihat Peta </base-button>
           </b-col>
           <b-col
             cols="12"
@@ -48,7 +46,6 @@
           <div id="map" style="height: 100vh">
             <client-only>
               <l-map :zoom="9" :center="[-7.6145, 110.7122]">
-                <!-- <l-map :zoom="8" :center="[47.31322, -1.319482]"> -->
                 <l-tile-layer
                   url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
                 ></l-tile-layer>
@@ -57,7 +54,45 @@
                   :options="options"
                   :options-style="styleFunction"
                 ></l-geo-json>
-                <!-- <l-marker :lat-lng="markerLatLng"></l-marker> -->
+                <l-marker
+                  v-for="points in pinPoints"
+                  :key="points.id"
+                  :lat-lng="[points.latitude, points.longitude]"
+                >
+                  <!-- <l-icon
+                    :icon-size="dynamicSize"
+                    :icon-anchor="dynamicAnchor"
+                    icon-url="../assets/img/hammer.png"
+                  >
+                  </l-icon> -->
+                  <l-popup>
+                    <table id="table-detail">
+                      <tbody>
+                        <tr>
+                          <th>Lithology Name:</th>
+                          <td>{{ points.lithologyName }}</td>
+                        </tr>
+                        <tr>
+                          <th>Type:</th>
+                          <td>{{ points.type }}</td>
+                        </tr>
+                        <tr>
+                          <th>Type Detail:</th>
+                          <td>{{ points.typeDetail }}</td>
+                        </tr>
+                        <tr>
+                          <th>Age Zone:</th>
+                          <td>{{ points.ageZone }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <b-link
+                      class="text-center"
+                      @click="handleDetailsRock(points.id)"
+                      ><p>Lihat Detail Batuan</p></b-link
+                    >
+                  </l-popup>
+                </l-marker>
               </l-map>
             </client-only>
           </div>
@@ -68,8 +103,7 @@
 </template>
 
 <script>
-// import { Carousel, Slide } from 'vue-carousel'
-
+// import '../assets/img/hammer.png'
 export default {
   layout: 'landingpage',
   async asyncData({ store }) {
@@ -81,10 +115,16 @@ export default {
     return {
       geojson: null,
       enableTooltip: true,
-      // markerLatLng: ['-7.614500000000000', '110.712200000000000'],
+      iconSize: 64,
     }
   },
   computed: {
+    dynamicSize() {
+      return [this.iconSize, this.iconSize * 1.15]
+    },
+    dynamicAnchor() {
+      return [this.iconSize / 2, this.iconSize * 1.15]
+    },
     options() {
       return {
         onEachFeature: this.onEachFeatureFunction,
@@ -95,6 +135,10 @@ export default {
         return () => {}
       }
       return (feature, layer) => {
+        this.styleFunction.fillColor = feature.properties.fill
+        // this.getColor.featureColor = feature.properties.FORMATION
+        this.styleFunction.color = null
+        // console.log(feature.properties.FORMATION)
         layer.bindTooltip(
           '<div>Nama Formasi Batuan:' +
             feature.properties.NAME +
@@ -103,11 +147,6 @@ export default {
             '</div>',
           { permanent: false, sticky: true }
         )
-        const colorMap = feature.properties.fill
-        this.styleFunction.fillColor = colorMap
-        // this.getColor.featureColor = feature.properties.FORMATION
-        this.styleFunction.color = null
-        // console.log(feature.properties.FORMATION)
       }
     },
     // getColor(featureColor) {
@@ -246,28 +285,11 @@ export default {
       // console.log(feature.properties.fill)
       return {
         // fillColor: feature.properties.fill,
-        fillColor: this.colorMap,
+        fillColor: '',
         fillOpacity: 0.8,
         color: '',
       }
     },
-    // eslint-disable-next-line vue/return-in-computed-property
-    // markerLatLng() {
-    //   const points = this.pinPoints
-    //   // return ['-7.614500000000000', '110.712200000000000']
-    //   // eslint-disable-next-line no-unreachable-loop
-    //   for (const index in points) {
-    //     const latud = points[index].latitude
-    //     const longi = points[index].longitude
-    //     // const arrayPoints = [points[index].latitude, points[index].longitude]
-    //     // for (const index1 in arrayPoints) {
-
-    //     // }
-    //     // return [latud, longi]
-    //     console.log([latud, longi])
-    //     // return [points[i].latitude, points[i].longitude]
-    //   }
-    // },
   },
   async created() {
     const response = await fetch(
@@ -276,19 +298,9 @@ export default {
     this.geojson = await response.json()
   },
   methods: {
-    // cobaMap() {
-    //   for (const index in this.pinPoints) {
-    //     console.log([
-    //       this.pinPoints[index].latitude,
-    //       this.pinPoints[index].longitude,
-    //     ])
-    //   }
-    // },
-    // markerLatLng() {
-    //   for (const index in this.pinPoints) {
-    //     [this.pinPoints[index].latitude, this.pinPoints[index].longitude]
-    //   }
-    // },
+    handleDetailsRock(id) {
+      this.$router.push(`/dashboard/details/${id}`)
+    },
   },
 }
 </script>

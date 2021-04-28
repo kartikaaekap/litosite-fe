@@ -1,37 +1,12 @@
 <template>
   <div>
-    <!-- <section id="breadcrumb" class="section__breadcrumb">
-      <b-row class="mt-3">
-        <b-container> <b-breadcrumb :items="items"></b-breadcrumb></b-container>
-      </b-row>
-    </section> -->
     <section id="introduction" class="section__introduction">
-      <div fluid class="breadcrumb__container">
-        <b-breadcrumb>
-          <b-breadcrumb-item
-            href="/dashboard/InputData/"
-            class="ml-3 pl-0 ml-md-5 pl-md-4"
-            >Input Data</b-breadcrumb-item
-          >
-          <b-breadcrumb-item href="/dashboard/StatusData/"
-            >Status Data</b-breadcrumb-item
-          >
-          <b-breadcrumb-item href="/dashboard/StatusData/"
-            >Data Diterima</b-breadcrumb-item
-          >
-          <b-breadcrumb-item active>Details Data Lapangan</b-breadcrumb-item>
-        </b-breadcrumb>
-      </div>
       <b-container>
         <b-row class="mt-4">
           <b-col class="d-flex my-auto">
             <b-link class="tabs tabs--active mb-0 mr-5"> Data Lapangan </b-link>
-            <b-link class="tabs mb-0 mr-5" @click="petrografiLink()">
-              Data Lab Petrografi
-            </b-link>
-            <b-link class="tabs" @click="paleontologiLink()">
-              Data Lab Paleontologi
-            </b-link>
+            <b-link class="tabs mb-0 mr-5"> Data Lab Petrografi </b-link>
+            <b-link class="tabs"> Data Lab Paleontologi </b-link>
           </b-col>
         </b-row>
         <b-row class="mt-5">
@@ -107,59 +82,24 @@
 </template>
 
 <script>
+// import '../../../../assets/img/'
 export default {
   layout: 'landingpagelogin',
   async asyncData({ store, params }) {
     return {
-      rockById: await store.dispatch('getRockById', params.acceptedId),
-      rockPending: await store.dispatch('getRockPending'),
-      rockApproved: await store.dispatch('getRockApproved'),
-      rockRejected: await store.dispatch('getRockRejected'),
+      rockById: await store.dispatch('getRockById', params.detailsloginId),
     }
   },
   data: () => {
-    return {
-      items: [
-        {
-          text: 'Input Data',
-          href: '#',
-        },
-        {
-          text: 'Status Data',
-          href: '#',
-        },
-        {
-          text: 'Data Diterima',
-          href: '#',
-        },
-        {
-          text: 'Details Data Lapangan',
-          active: true,
-        },
-      ],
-    }
+    return {}
   },
-  methods: {
-    petrografiLink() {
-      this.$router.push(
-        `/dashboard/StatusData/accepted/${this.$route.params.acceptedId}/Petrografi`
-      )
-    },
-    paleontologiLink() {
-      this.$router.push(
-        `/dashboard/StatusData/accepted/${this.$route.params.acceptedId}/Paleontologi`
-      )
-    },
-  },
-  // computed: {
-  //   ctaLink () {
-  //     return this.user ? (this.user.isAdmin ? '/admin' : '/dashboard') : '/signup'
-  //   }
-  // }
+  computed: {},
+
+  methods: {},
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 * {
   font-family: 'Nunito Sans';
 }
@@ -167,7 +107,6 @@ export default {
   &__title {
     font-size: 36px;
     font-weight: bold;
-    color: black;
     &--white {
       color: white;
     }
@@ -178,6 +117,22 @@ export default {
       color: white;
       font-weight: 300;
     }
+  }
+  &__text {
+    font-size: 20px;
+    &--purple {
+      color: #6a4095;
+    }
+  }
+  &__introduction {
+    padding-top: 0px;
+    padding-bottom: 20px;
+  }
+  &__testimonial {
+    text-align: center;
+    padding-top: 60px;
+    padding-bottom: 60px;
+    background: grey;
   }
 }
 .tabs {
@@ -193,14 +148,6 @@ export default {
     text-decoration: none;
     color: rgb(94, 94, 94);
   }
-}
-.breadcrumb {
-  background-color: #6a40951a;
-  padding: 10px 0;
-}
-.center {
-  margin-left: auto;
-  margin-right: auto;
 }
 #table-detail {
   border-collapse: collapse;
@@ -225,22 +172,7 @@ export default {
   color: black;
   font-size: 17px;
 }
-.breadcrumb-item {
-  * {
-    font-family: 'Nunito Sans';
-    font-size: 14px;
-    font-weight: bold;
-    color: #8e8e8e;
-  }
-  &.active * {
-    color: #e3bb1b;
-  }
-}
-@media screen and (max-width: 600px) {
-  .section {
-    &__title {
-      font-size: 28px;
-    }
-  }
+strong {
+  font-weight: bold;
 }
 </style>

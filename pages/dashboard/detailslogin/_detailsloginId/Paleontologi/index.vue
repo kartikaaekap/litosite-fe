@@ -1,24 +1,6 @@
 <template>
   <div>
     <section id="introduction" class="section__introduction">
-      <div fluid class="breadcrumb__container">
-        <b-breadcrumb>
-          <b-breadcrumb-item
-            href="/dashboard/InputData/"
-            class="ml-3 pl-0 ml-md-5 pl-md-4"
-            >Input Data</b-breadcrumb-item
-          >
-          <b-breadcrumb-item href="/dashboard/StatusData/"
-            >Status Data</b-breadcrumb-item
-          >
-          <b-breadcrumb-item href="/dashboard/StatusData/"
-            >Data Diterima</b-breadcrumb-item
-          >
-          <b-breadcrumb-item active
-            >Details Data Laboratorium</b-breadcrumb-item
-          >
-        </b-breadcrumb>
-      </div>
       <b-container>
         <b-row class="mt-4">
           <b-col class="d-flex my-auto">
@@ -43,14 +25,7 @@
           cols="12"
           class="section__emptyState text-center mt-1 col-md-8 mx-auto"
         >
-          <p>
-            Anda belum menginput data hasil laboratorium paleontologi untuk
-            batuan ini. Klik button di bawah ini untuk menginput data hasil
-            laboratorium.
-          </p>
-          <base-button class="mb-5 mt-4" @click="inputPaleo()">
-            Input Hasil Lab
-          </base-button>
+          <b-img src="../../../../../assets/img/animasi-3.png" fluid />
         </b-col>
         <div v-else>
           <b-row>
@@ -137,42 +112,38 @@
 </template>
 
 <script>
+// import '../../../../../assets/img/animasi-3.png'
 export default {
   layout: 'landingpagelogin',
   async asyncData({ store, params }) {
     return {
-      rockById: await store.dispatch('getRockById', params.acceptedId),
+      rockById: await store.dispatch('getRockById', params.detailsId),
     }
   },
   data: () => {
     return {}
   },
+  computed: {},
+
   methods: {
     lapanganLink() {
-      this.$router.push(
-        `/dashboard/StatusData/accepted/${this.$route.params.acceptedId}`
-      )
+      this.$router.push(`/dashboard/details/${this.$route.params.detailsId}`)
     },
     petrografiLink() {
       this.$router.push(
-        `/dashboard/StatusData/accepted/${this.$route.params.acceptedId}/Petrografi`
+        `/dashboard/details/${this.$route.params.detailsId}/Petrografi`
       )
     },
-    inputPaleo() {
+    paleontologiLink() {
       this.$router.push(
-        `/dashboard/StatusData/accepted/${this.$route.params.acceptedId}/Paleontologi/InputPaleo`
+        `/dashboard/details/${this.$route.params.detailsId}/Paleontologi`
       )
     },
   },
-  // computed: {
-  //   ctaLink () {
-  //     return this.user ? (this.user.isAdmin ? '/admin' : '/dashboard') : '/signup'
-  //   }
-  // }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 * {
   font-family: 'Nunito Sans';
 }
@@ -180,7 +151,6 @@ export default {
   &__title {
     font-size: 36px;
     font-weight: bold;
-    color: black;
     &--white {
       color: white;
     }
@@ -192,9 +162,21 @@ export default {
       font-weight: 300;
     }
   }
-  &__emptyState {
+  &__text {
     font-size: 20px;
-    color: rgb(155, 155, 155);
+    &--purple {
+      color: #6a4095;
+    }
+  }
+  &__introduction {
+    padding-top: 0px;
+    padding-bottom: 20px;
+  }
+  &__testimonial {
+    text-align: center;
+    padding-top: 60px;
+    padding-bottom: 60px;
+    background: grey;
   }
 }
 .tabs {
@@ -211,30 +193,12 @@ export default {
     color: rgb(94, 94, 94);
   }
 }
-.breadcrumb {
-  background-color: #6a40951a;
-  padding: 10px 0;
-}
-.center {
-  margin-left: auto;
-  margin-right: auto;
-}
-.breadcrumb-item {
-  * {
-    font-family: 'Nunito Sans';
-    font-size: 14px;
-    font-weight: bold;
-    color: #8e8e8e;
-  }
-  &.active * {
-    color: #e3bb1b;
-  }
-}
 #table-detail {
   border-collapse: collapse;
   width: 100%;
   border: 1px solid #6a4095;
 }
+
 #table-detail td,
 #table-detail th {
   padding: 6px;
@@ -252,11 +216,7 @@ export default {
   color: black;
   font-size: 17px;
 }
-@media screen and (max-width: 600px) {
-  .section {
-    &__title {
-      font-size: 28px;
-    }
-  }
+strong {
+  font-weight: bold;
 }
 </style>

@@ -65,6 +65,7 @@
               </template>
             </b-navbar-nav>
           </b-col>
+          <b-col cols="4" class="d-md-none"></b-col>
         </b-row>
       </b-container>
     </b-navbar>
@@ -83,24 +84,7 @@
           <b-col cols="4" md="4" class="d-flex px-0 px-md-3">
             <base-logo is-link class="mx-auto mx-md-0" />
           </b-col>
-          <b-col cols="4" class="text-right">
-            <dropdown-menu v-model="isDropdownOpen" right hover>
-              <base-button
-                id="user"
-                variant="secondary"
-                icon="person"
-                size="small"
-                class="ml-3"
-                icon-only
-                is-circle
-              />
-              <div slot="dropdown">
-                <b-link class="dropdown__item p-2" to="/signout"
-                  >Sign Out</b-link
-                >
-              </div>
-            </dropdown-menu>
-          </b-col>
+          <b-col cols="4"></b-col>
         </b-navbar>
         <div class="sidebar__menu px-3">
           <b-nav vertical>

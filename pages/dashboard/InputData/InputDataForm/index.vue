@@ -185,54 +185,6 @@
                           </b-row>
                         </b-col>
                       </b-row>
-                      <!-- </tab-content>
-                        <tab-content title="Input Foto Lampiran" class="mb-5">
-                          <div class="section__blacktext">
-                            Attachment <b-icon icon="paperclip" />
-                          </div>
-                          <p class="section__paragraph">
-                            Supported format: .JPG, .JPEG, .PNG,
-                          </p>
-                          <div>
-                            <b-card class="card py-5">
-                              <div
-                                class="text-center section__text--purplehover"
-                              >
-                                <b-icon icon="card-image" font-scale="2" />
-                                <p>Tambah Foto</p>
-                              </div>
-                            </b-card>
-                          </div>
-                        </tab-content>
-                        <template slot="footer" slot-scope="props">
-                          <div class="text-center">
-                            <base-button
-                              v-if="!props.isLastStep"
-                              id="btnNext"
-                              slot="next"
-                              :disabled="isLoading || areAllInputsEmpty"
-                              variant="primary"
-                              is-full
-                              class="text-center"
-                              @click.native="
-                                submitGeneralRock(), this.props.nextTab()
-                              "
-                              >Selanjutnya</base-button
-                            >
-                            <base-button
-                              v-else
-                              id="btnSubmit"
-                              slot="next"
-                              variant="primary"
-                              is-full
-                              class="text-center"
-                              @click.native="submitform()"
-                            >
-                              {{ props.isLastStep ? 'Kirim' : 'Selanjutnya' }}
-                            </base-button>
-                          </div>
-                        </template>
-                      </form-wizard> -->
                     </b-col>
                   </b-row>
                 </div>

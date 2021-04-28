@@ -46,19 +46,21 @@
         </tr>
         <tr>
           <th>Latitude:</th>
-          <td>{{ rockByIdValidator.latitude }}</td>
+          <td>{{ rockByIdValidator.latitude }}°</td>
         </tr>
         <tr>
           <th>Longitude:</th>
-          <td>{{ rockByIdValidator.longitude }}</td>
+          <td>{{ rockByIdValidator.longitude }}°</td>
         </tr>
         <tr>
           <th>Altitude:</th>
-          <td>{{ rockByIdValidator.altitude }}</td>
+          <td>{{ rockByIdValidator.altitude }}°</td>
         </tr>
         <tr>
           <th>Strike / Dip:</th>
-          <td>{{ rockByIdValidator.strike }} / {{ rockByIdValidator.dip }}</td>
+          <td>
+            {{ rockByIdValidator.strike }}° / {{ rockByIdValidator.dip }}°S
+          </td>
         </tr>
         <tr v-for="item in rockByIdValidator.images" :key="item.id">
           <th>Attachment:</th>

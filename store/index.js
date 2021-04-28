@@ -162,4 +162,7 @@ export const actions = {
   getPinPoints({ dispatch }) {
     return dispatch('getItems', 'map/')
   },
+  getRockByIdUnauthorized({ dispatch }, rockId) {
+    return dispatch('getItems', [`map/${rockId}`])
+  },
 }

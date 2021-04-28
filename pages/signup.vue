@@ -17,7 +17,7 @@
     >
       <div is-link class="logo mt-5">
         <a class="logo__img">
-          <b-img src="~/assets/img/logo2-litosite.png" fluid />
+          <b-img src="~/assets/img/logo-litosite-2.png" fluid />
         </a>
       </div>
       <p class="signup__text text-center mt-2">Sign up for an account</p>

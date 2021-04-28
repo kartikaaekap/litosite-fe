@@ -23,7 +23,7 @@
               <span class="section__text--purple"> Ikut berkontribusi </span>
               dalam bidang Geologi
             </p>
-            <base-button class="mb-5"> Lihat Peta </base-button>
+            <base-button class="mb-5" to="#peta"> Lihat Peta </base-button>
           </b-col>
           <b-col
             cols="12"
@@ -49,8 +49,44 @@
                 <l-tile-layer
                   url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
                 ></l-tile-layer>
-                <l-geo-json :geojson="geojson"></l-geo-json>
-                <!-- <l-marker :lat-lng="[-7.872954, 110.1440792]"></l-marker> -->
+                <l-geo-json
+                  :geojson="geojson"
+                  :options="options"
+                  :options-style="styleFunction"
+                ></l-geo-json>
+                <l-marker
+                  v-for="points in pinPoints"
+                  :key="points.id"
+                  :lat-lng="[points.latitude, points.longitude]"
+                >
+                  <l-popup>
+                    <table id="table-detail">
+                      <tbody>
+                        <tr>
+                          <th>Lithology Name:</th>
+                          <td>{{ points.lithologyName }}</td>
+                        </tr>
+                        <tr>
+                          <th>Type:</th>
+                          <td>{{ points.type }}</td>
+                        </tr>
+                        <tr>
+                          <th>Type Detail:</th>
+                          <td>{{ points.typeDetail }}</td>
+                        </tr>
+                        <tr>
+                          <th>Age Zone:</th>
+                          <td>{{ points.ageZone }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <b-link
+                      class="text-center"
+                      @click="handleDetailsRock(points.id)"
+                      ><p>Lihat Detail Batuan</p></b-link
+                    >
+                  </l-popup>
+                </l-marker>
               </l-map>
             </client-only>
           </div>
@@ -65,16 +101,70 @@
 
 export default {
   layout: 'landingpagelogin',
+  async asyncData({ store }) {
+    return {
+      pinPoints: await store.dispatch('getPinPoints'),
+    }
+  },
   data: () => {
     return {
       geojson: null,
+      enableTooltip: true,
+      iconSize: 64,
     }
+  },
+  computed: {
+    dynamicSize() {
+      return [this.iconSize, this.iconSize * 1.15]
+    },
+    dynamicAnchor() {
+      return [this.iconSize / 2, this.iconSize * 1.15]
+    },
+    options() {
+      return {
+        onEachFeature: this.onEachFeatureFunction,
+      }
+    },
+    onEachFeatureFunction() {
+      if (!this.enableTooltip) {
+        return () => {}
+      }
+      return (feature, layer) => {
+        this.styleFunction.fillColor = feature.properties.fill
+        // this.getColor.featureColor = feature.properties.FORMATION
+        this.styleFunction.color = null
+        // console.log(feature.properties.FORMATION)
+        layer.bindTooltip(
+          '<div>Nama Formasi Batuan:' +
+            feature.properties.NAME +
+            '</div><div>Nama Lembar: ' +
+            feature.properties.NM_LEMBAR +
+            '</div>',
+          { permanent: false, sticky: true }
+        )
+      }
+    },
+    styleFunction() {
+      // console.log(this.getColor(feature.properties.FORMATION))
+      // console.log(feature.properties.fill)
+      return {
+        // fillColor: feature.properties.fill,
+        fillColor: '',
+        fillOpacity: 0.8,
+        color: '',
+      }
+    },
   },
   async created() {
     const response = await fetch(
       'https://raw.githubusercontent.com/Litosite/GeoJSON/main/Geology-DIY.geojson'
     )
     this.geojson = await response.json()
+  },
+  methods: {
+    handleDetailsRock(id) {
+      this.$router.push(`/dashboard/detailslogin/${id}`)
+    },
   },
 }
 </script>
