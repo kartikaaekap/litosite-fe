@@ -96,7 +96,6 @@
 </template>
 
 <script>
-import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import BaseButton from '~/components/BaseButton.vue'
 
 export default {

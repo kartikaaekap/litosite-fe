@@ -11,6 +11,8 @@
     "lint": "npm run lint:js"
   },
   "dependencies": {
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.13.8",
+    "@babel/plugin-proposal-optional-chaining": "^7.13.12",
     "@innologica/vue-dropdown-menu": "^0.1.4",
     "@nuxtjs/auth": "^4.9.1",
     "@nuxtjs/axios": "^5.12.5",
@@ -26,7 +28,6 @@
     "nuxt-leaflet": "0.0.25",
     "sass-loader": "^10.1.0",
     "vue-chartkick": "^0.6.1",
-    "vue-form-wizard": "^0.8.4",
     "vue-sweetalert2": "^4.2.0",
     "vue2-leaflet": "^2.7.0",
     "vuex": "^3.6.2",

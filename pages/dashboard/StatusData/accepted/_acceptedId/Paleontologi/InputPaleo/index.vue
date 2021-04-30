@@ -32,16 +32,6 @@
         </b-row>
         <b-row>
           <b-col cols="12" class="col-md-8 mx-auto">
-            <!-- <form-wizard
-              ref="wizard"
-              title=""
-              subtitle=""
-              class="mx-auto"
-              step-size="xs"
-              color="#E3BB1B"
-              error-color="#24C021"
-            >
-              <tab-content title="Pilih jenis fosil" class="mb-5"> -->
             <b-col>
               <base-input-select
                 id="fosilType"
@@ -85,121 +75,6 @@
             >
               Selanjutnya
             </base-button>
-            <!-- </tab-content>
-              <tab-content title="Input data fosil" class="mb-5"> -->
-            <!-- <b-col v-if="form.fosilType === 'foraminifera'">
-              <base-input
-                id="planktonic"
-                v-model="formSecond.planktonic"
-                label="Planktonic Fossil Name"
-                placeholder="Input planktonic fossil name"
-                warning-icon
-                required
-              />
-              <base-input
-                id="benthic"
-                v-model="formSecond.benthic"
-                label="Benthic Fossil Name"
-                placeholder="Input benthic fossil name"
-                warning-icon
-                required
-              />
-              <base-input-select
-                id="depositional"
-                v-model="formSecond.depositional"
-                label="Depositional Environment"
-                :options="depositionalOptions"
-                warning-icon
-                required
-              />
-              <div class="section__blacktext">
-                Attachment <b-icon icon="paperclip" />
-              </div>
-              <p class="section__paragraph">
-                Supported format: .JPG, .JPEG, .PNG,
-              </p>
-              <div>
-                <p>1. Planktonic</p>
-                <b-card class="card py-5">
-                  <div class="text-center section__text--purplehover">
-                    <b-icon icon="card-image" font-scale="2" />
-                    <p>Tambah Foto</p>
-                  </div>
-                </b-card>
-              </div>
-              <div class="mt-4">
-                <p>2. Benthic</p>
-                <b-card class="card py-5">
-                  <div class="text-center section__text--purplehover">
-                    <b-icon icon="card-image" font-scale="2" />
-                    <p>Tambah Foto</p>
-                  </div>
-                </b-card>
-              </div>
-            </b-col>
-            <b-col v-else-if="form.fosilType === 'nannofossil'">
-              <base-input
-                id="planktonic"
-                v-model="formSecond.planktonic"
-                label="Planktonic Fossil Name"
-                placeholder="Input planktonic fossil name"
-                warning-icon
-                required
-              />
-              <div class="section__blacktext">
-                Attachment <b-icon icon="paperclip" />
-              </div>
-              <p class="section__paragraph">
-                Supported format: .JPG, .JPEG, .PNG,
-              </p>
-              <div>
-                <p>1. Planktonic</p>
-                <b-card class="card py-5">
-                  <div class="text-center section__text--purplehover">
-                    <b-icon icon="card-image" font-scale="2" />
-                    <p>Tambah Foto</p>
-                  </div>
-                </b-card>
-              </div>
-              <div>
-                <p>2. Benthic</p>
-                <b-card class="card py-5">
-                  <div class="text-center section__text--purplehover">
-                    <b-icon icon="card-image" font-scale="2" />
-                    <p>Tambah Foto</p>
-                  </div>
-                </b-card>
-              </div>
-            </b-col> -->
-            <!-- </tab-content> -->
-            <!-- <template slot="footer" slot-scope="props">
-                <div class="text-center">
-                  <base-button
-                    v-if="!props.isLastStep"
-                    id="btnNext"
-                    slot="next"
-                    variant="primary"
-                    :disabled="isLoading || areAllInputsEmpty"
-                    is-full
-                    class="text-center"
-                    @click.native="props.nextTab(), submitnext()"
-                    >Selanjutnya</base-button
-                  >
-                  <base-button
-                    v-else
-                    id="btnSubmit"
-                    slot="next"
-                    variant="primary"
-                    :disabled="isLoading || areAllInputsSecondEmpty"
-                    is-full
-                    class="text-center"
-                    @click.native="submitform()"
-                  >
-                    {{ props.isLastStep ? 'Kirim' : 'Selanjutnya' }}
-                  </base-button>
-                </div>
-              </template>
-            </form-wizard> -->
           </b-col>
         </b-row>
       </b-container>
@@ -208,9 +83,6 @@
 </template>
 
 <script>
-// import { FormWizard, TabContent } from 'vue-form-wizard'
-// import 'vue-form-wizard/dist/vue-form-wizard.min.css'
-
 export default {
   // components: { FormWizard, TabContent },
   layout: 'landingpagelogin',

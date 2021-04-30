@@ -200,7 +200,6 @@
 <script>
 // import { FormWizard, TabContent } from 'vue-form-wizard'
 import BaseInputSelect from '~/components/BaseInputSelect.vue'
-import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 
 export default {
   components: { BaseInputSelect },

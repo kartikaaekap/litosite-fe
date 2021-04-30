@@ -150,35 +150,6 @@
                           </p>
                         </template>
                       </b-table>
-                      <!-- <table id="table">
-                        <thead>
-                          <tr>
-                            <th>Type</th>
-                            <th>Type Detail</th>
-                            <th>Lithology Name</th>
-                            <th>Tanggal Dikirim</th>
-                          </tr>
-                        </thead>
-                        <tbody v-if="rockPending.length === 0">
-                          <tr>
-                            <td colspan="4" class="text-center">
-                              Belum ada data yang dapat ditampilkan
-                            </td>
-                          </tr>
-                        </tbody>
-                        <tbody
-                          v-for="item in rockPending"
-                          v-else
-                          :key="item.id"
-                        >
-                          <tr>
-                            <td>{{ item.type }}</td>
-                            <td>{{ item.typeDetail }}</td>
-                            <td>{{ item.lithologyName }}</td>
-                            <td>{{ formatDate(item.createAt) }} WIB</td>
-                          </tr>
-                        </tbody>
-                      </table> -->
                     </div>
                   </b-container>
                 </section>
@@ -225,33 +196,6 @@
                           </p>
                         </template>
                       </b-table>
-                      <!-- <table id="table">
-                        <thead>
-                          <tr>
-                            <th>Type</th>
-                            <th>Type Detail</th>
-                            <th>Lithology Name</th>
-                            <th>Tanggal Diterima</th>
-                            <th>Aksi</th>
-                          </tr>
-                        </thead>
-                        <tbody v-for="item in rockApproved" :key="item.id">
-                          <tr>
-                            <td>{{ item.type }}</td>
-                            <td>{{ item.type_detail }}</td>
-                            <td>{{ item.lithology_name }}</td>
-                            <td>{{ formatDate(item.updated_at) }} WIB</td>
-                            <td>
-                              <b-link
-                                class="ml-2"
-                                @click="handleAccepted(item.id)"
-                              >
-                                Details
-                              </b-link>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table> -->
                     </div>
                   </b-container>
                 </section>

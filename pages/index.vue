@@ -37,66 +37,151 @@
     </section>
     <section id="peta">
       <b-container>
-        <b-col>
-          <b-row>
-            <b-col class="text-center">
-              <h1 class="section__title mt-5 mb-5">PETA GEOLOGI</h1>
-            </b-col>
-          </b-row>
-          <div id="map" style="height: 100vh">
-            <client-only>
-              <l-map :zoom="9" :center="[-7.6145, 110.7122]">
-                <l-tile-layer
-                  url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
-                ></l-tile-layer>
-                <l-geo-json
-                  :geojson="geojson"
-                  :options="options"
-                  :options-style="styleFunction"
-                ></l-geo-json>
-                <l-marker
-                  v-for="points in pinPoints"
-                  :key="points.id"
-                  :lat-lng="[points.latitude, points.longitude]"
-                >
-                  <!-- <l-icon
+        <!-- <b-col> -->
+        <b-row>
+          <b-col class="text-center">
+            <h1 class="section__title mt-5 mb-5">PETA GEOLOGI</h1>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col cols="12" class="col-md-3 mr-0 pr-0">
+            <b-card class="filter-card">
+              <p class="section__text--purpleBold text-center mb-4">
+                FILTER BATUAN
+              </p>
+              <base-input-select
+                id="filterType"
+                v-model="form.filterType"
+                label="Pilih filter berdasarkan"
+                :options="filterTypeOptions"
+              />
+              <div v-if="form.filterType === 'tipe'">
+                <b-form-group>
+                  <b-form-checkbox-group
+                    id="selectedType"
+                    v-model="selectedType"
+                    :options="optionsType"
+                    stacked
+                  ></b-form-checkbox-group>
+                </b-form-group>
+              </div>
+              <div v-else-if="form.filterType === 'formasi'">
+                <b-form-group>
+                  <b-form-checkbox-group
+                    id="selectedFormation"
+                    v-model="selectedFormation"
+                    :options="optionsFormation"
+                    stacked
+                  ></b-form-checkbox-group>
+                </b-form-group>
+              </div>
+              <div v-else-if="form.filterType === 'age'">
+                <b-form-group>
+                  <b-form-checkbox-group
+                    id="selectedAge"
+                    v-model="selectedAge"
+                    :options="optionsAge"
+                    stacked
+                  ></b-form-checkbox-group>
+                </b-form-group>
+              </div>
+              <!-- <div v-if="toggleFilterType === false">
+                <div class="d-flex">
+                  <p class="mr-3 section__text-filter">Tipe Batuan</p>
+                  <b-icon
+                    class="h4"
+                    icon="chevron-up"
+                    color="#e3bb1b"
+                    style="cursor: pointer"
+                    @click="showListType()"
+                  />
+                </div>
+              </div>
+              <div v-else>
+                <div class="d-flex">
+                  <p class="mr-3 section__text-filter">Tipe Batuan</p>
+                  <b-icon
+                    class="h4"
+                    icon="chevron-down"
+                    color="#e3bb1b"
+                    style="cursor: pointer"
+                    @click="hideListType()"
+                  />
+                </div>
+                <div v-for="(typeRock, index) in optionsType" :key="typeRock">
+                  <label
+                    ><input
+                      type="checkbox"
+                      :value="index"
+                      v-model="selectedType"
+                      :disabled="
+                        selectedType.length >= max &&
+                        selectedType.indexOf(index) == -1
+                      "
+                    />
+                    {{ typeRock }}</label
+                  >
+                </div>
+              </div> -->
+            </b-card>
+          </b-col>
+          <b-col cols="12" class="col-md-9 ml-0 pl-0">
+            <div id="map" style="height: 100vh">
+              <client-only>
+                <l-map :zoom="9" :center="[-7.6145, 110.7122]">
+                  <l-tile-layer
+                    url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+                  ></l-tile-layer>
+                  <l-geo-json
+                    :geojson="geojson"
+                    :options="options"
+                    :options-style="styleFunction"
+                  ></l-geo-json>
+                  <l-marker
+                    v-for="points in pinPoints"
+                    :key="points.id"
+                    :lat-lng="[points.latitude, points.longitude]"
+                  >
+                    <!-- <l-icon
                     :icon-size="dynamicSize"
                     :icon-anchor="dynamicAnchor"
                     icon-url="../assets/img/hammer.png"
                   >
                   </l-icon> -->
-                  <l-popup>
-                    <table id="table-detail">
-                      <tbody>
-                        <tr>
-                          <th>Lithology Name:</th>
-                          <td>{{ points.lithologyName }}</td>
-                        </tr>
-                        <tr>
-                          <th>Type:</th>
-                          <td>{{ points.type }}</td>
-                        </tr>
-                        <tr>
-                          <th>Type Detail:</th>
-                          <td>{{ points.typeDetail }}</td>
-                        </tr>
-                        <tr>
-                          <th>Age Zone:</th>
-                          <td>{{ points.ageZone }}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <b-link
-                      class="text-center"
-                      @click="handleDetailsRock(points.id)"
-                      ><p>Lihat Detail Batuan</p></b-link
-                    >
-                  </l-popup>
-                </l-marker>
-              </l-map>
-            </client-only>
-          </div>
-        </b-col>
+                    <l-popup>
+                      <table id="table-detail">
+                        <tbody>
+                          <tr>
+                            <th>Lithology Name:</th>
+                            <td>{{ points.lithologyName }}</td>
+                          </tr>
+                          <tr>
+                            <th>Type:</th>
+                            <td>{{ points.type }}</td>
+                          </tr>
+                          <tr>
+                            <th>Type Detail:</th>
+                            <td>{{ points.typeDetail }}</td>
+                          </tr>
+                          <tr>
+                            <th>Age Zone:</th>
+                            <td>{{ points.ageZone }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <b-link
+                        class="text-center"
+                        @click="handleDetailsRock(points.id)"
+                        ><p>Lihat Detail Batuan</p></b-link
+                      >
+                    </l-popup>
+                  </l-marker>
+                </l-map>
+              </client-only>
+            </div>
+          </b-col>
+        </b-row>
+        <!-- </b-col> -->
       </b-container>
     </section>
   </div>
@@ -109,6 +194,9 @@ export default {
   async asyncData({ store }) {
     return {
       pinPoints: await store.dispatch('getPinPoints'),
+      getSedimen: await store.dispatch('getSedimenRock'),
+      getMetamorf: await store.dispatch('getMetamorfRock'),
+      getBeku: await store.dispatch('getBekuRock'),
     }
   },
   data: () => {
@@ -116,6 +204,59 @@ export default {
       geojson: null,
       enableTooltip: true,
       iconSize: 64,
+      optionsType: [
+        // 'Sedimen',
+        // 'Metamorf',
+        // 'Beku',
+        { value: 'sedimen', text: 'Sedimen', notEnabled: false },
+        { value: 'metamorf', text: 'Metamorf', notEnabled: false },
+        { value: 'beku', text: 'Beku', notEnabled: false },
+      ],
+      optionsFormation: [
+        { value: 'wungkalGamping', text: 'Wungkal Gamping' },
+        { value: 'keboButak', text: 'Kebo Butak' },
+        { value: 'semilir', text: 'Semilir' },
+        { value: 'nglanggran', text: 'Nglanggran' },
+        { value: 'sambipitu', text: 'Sambipitu' },
+        { value: 'oyo', text: 'Oyo' },
+        { value: 'wonosari', text: 'Wonosari' },
+        { value: 'kepek', text: 'Kepek' },
+        { value: 'nanggulan', text: 'Nanggulan' },
+        { value: 'oaf', text: 'OAF' },
+        { value: 'sentolo', text: 'Sentolo' },
+        { value: 'jonggrangan', text: 'Jonggrangan' },
+      ],
+      optionsAge: [
+        { value: 'pilosen', text: 'Pilosen (N18-N21)' },
+        { value: 'milosenAkhir', text: 'Milosen Akhir (N13-N17)' },
+        { value: 'milosenTengah', text: 'Milosen Tengah (N9-N12)' },
+        { value: 'milosenAwal', text: 'Milosen Awal (N4-N8)' },
+        { value: 'oligosenAkhir', text: 'Oligosen Akhir (P21-P22)' },
+        { value: 'oligosenAwal', text: 'Oligosen Awal (P18-P20)' },
+        { value: 'eosenAkhir', text: 'Eosen Akhir (P15-P17)' },
+        { value: 'eosenTengah', text: 'Eosen Tengah (P10-P14)' },
+        { value: 'eosenAwal', text: 'Eosen Awal (P5-P9)' },
+      ],
+      toggleFilterType: false,
+      selectedType: [],
+      selectedFormation: [],
+      selectedAge: [],
+      max: 1,
+      form: {
+        filterType: '',
+      },
+      filterTypeOptions: [
+        { value: '', text: 'Pilih filter' },
+        { value: 'tipe', text: 'Tipe Batuan' },
+        {
+          value: 'formasi',
+          text: 'Formasi Batuan',
+        },
+        {
+          value: 'age',
+          text: 'Age Zone',
+        },
+      ],
     }
   },
   computed: {
@@ -149,137 +290,6 @@ export default {
         )
       }
     },
-    // getColor(featureColor) {
-    //   return featureColor === 'Andesite'
-    //     ? '#FF4269'
-    //     : featureColor === 'Lava Dome and Flow'
-    //     ? '#FF6E83'
-    //     : featureColor === 'Dacite'
-    //     ? '#F70D3D'
-    //     : featureColor === 'Brecciated Rocks'
-    //     ? '#974788'
-    //     : featureColor === 'Metamorphic rock'
-    //     ? '#DA255C'
-    //     : featureColor === 'Avalanche Dep. (Ladus) From NueeArdente.'
-    //     ? '#FF6650'
-    //     : featureColor === 'Alluvium'
-    //     ? '#F7FFE5'
-    //     : featureColor === 'Alluvium'
-    //     ? '#F7FFE5'
-    //     : featureColor === 'Alluvium'
-    //     ? '#F7FFE5'
-    //     : featureColor === 'Alluvium'
-    //     ? '#E4ECEA'
-    //     : featureColor === 'Alluvium'
-    //     ? '#F7FFE5'
-    //     : featureColor === 'Coastal deposits'
-    //   // ? '#E5E8D3'
-    //   // : f === 'Volcanicbreccia'
-    //   // ? '#FE9A56'
-    //   // : f === 'BaturetnoFormation'
-    //   // ? '#EDF8FA'
-    //   // : f === 'Colluvium'
-    //   // ? '#FFFDD5'
-    //   // : f === 'Cinderconeashdeposits'
-    //   // ? '#F99C94'
-    //   // : f === 'Condongvolcanic'
-    //   // ? '#893243'
-    //   // : f === 'GilipetungVolcanic'
-    //   // ? '#E0A13B'
-    //   // : f === 'GiantiVolcanics'
-    //   // ? '#FFA3A6'
-    //   // : f === 'JembanganVolcanic'
-    //   // ? '#D497A1'
-    //   // : f === 'LawuLahar'
-    //   // ? '#FCFCFC'
-    //   // : f === 'SumbingLava'
-    //   // ? '#CD3146'
-    //   // : f === 'YoungvolcanicdepositsofMerapi'
-    //   // ? '#FFE8D6'
-    //   // : f === 'OldVolcanicDepositsofMerapiVolcano'
-    //   // ? '#F45940'
-    //   // : f === 'KabuhFormation'
-    //   // ? '#F8EC14'
-    //   // : f === 'KaligetasFormation'
-    //   // ? '#F4C090'
-    //   // : f === 'Andesiteporphyryandlahar'
-    //   // ? '#8F0E19'
-    //   // : f === 'NotopuroFormation'
-    //   // ? '#FBC5C1'
-    //   // : f === 'PucanganFormation'
-    //   // ? '#F5E464'
-    //   // : f === 'SumbingVolcanics'
-    //   // ? '#A6667F'
-    //   // : f === 'OldSumbingVolcanics'
-    //   // ? '#E77634'
-    //   // : f === 'OldSumbingVolcanics'
-    //   // ? '#FFAB78'
-    //   // : f === 'SundoroVolcanic'
-    //   // ? '#ED5B84'
-    //   // : f === 'Terracedeposits'
-    //   // ? '#FEF9D4'
-    //   // : f === 'OlderAluvium'
-    //   // ? '#FDFFF4'
-    //   // : f === 'DamarFormation'
-    //   // ? '#FFE6A4'
-    //   // : f === 'LigungFormation'
-    //   // ? '#F8BF9D'
-    //   // : f === 'UndifferentiatedVolcanicRocks'
-    //   // ? '#EEB193'
-    //   // : f === 'NanggulanFormation'
-    //   // ? '#D2F6C9'
-    //   // : f === 'WungkalFormation'
-    //   // ? '#7EC288'
-    //   // : f === 'JonggranganFormation'
-    //   // ? '#65BF81'
-    //   // : f === 'KerekFormation'
-    //   // ? '#DFD42D'
-    //   // : f === 'NampolFormation'
-    //   // ? '#FFD894'
-    //   // : f === 'FormasiNgalanggran'
-    //   // ? '#FFAC8F'
-    //   // : f === 'OyoFormation'
-    //   // ? '#FEFFD5'
-    //   // : f === 'PenosoganFormation'
-    //   // ? '#FFF0B4'
-    //   // : f === 'HalangFormation'
-    //   // ? '#FBC064'
-    //   // : f === 'HalangFormation'
-    //   // ? '#EBDC73'
-    //   // : f === 'KalibengFormation'
-    //   // ? '#C5E0DB'
-    //   // : f === 'KepekFormation'
-    //   // ? '#58C6CF'
-    //   // : f === 'SentoloFormation'
-    //   // ? '#FEFCD4'
-    //   // : f === 'SemilirFormation'
-    //   // ? '#FFF3D2'
-    //   // : f === 'SemilirFormation'
-    //   // ? '#FFCB78'
-    //   // : f === 'SambipituFormation'
-    //   // ? '#FBFDCE'
-    //   // : f === 'WuniFormation'
-    //   // ? '#FFDE57'
-    //   // : f === 'WaturandaFormation'
-    //   // ? '#FFE200'
-    //   // : f === 'WonosariFormation'
-    //   // ? '#4C99D7'
-    //   // : f === 'WaturondaFormation'
-    //   // ? '#FA9F58'
-    //   // : f === 'KebobutakFormation'
-    //   // ? '#FFCC4F'
-    //   // : f === 'KebobutakFormation'
-    //   // ? '#FFA886'
-    //   // : f === 'MandalikaFormation'
-    //   // ? '#FD8063'
-    //   // : f === 'TotoganFormation'
-    //   // ? '#EFD509'
-    //   // : f === 'Penduldiorite'
-    //   // ? '#FF6E96'
-    //   // : f === 'PenironFormation'
-    //   // ? '#FAD1CA'
-    //   // : '#FABDA4'
-    // },
     styleFunction() {
       // console.log(this.getColor(feature.properties.FORMATION))
       // console.log(feature.properties.fill)
@@ -288,6 +298,29 @@ export default {
         fillColor: '',
         fillOpacity: 0.8,
         color: '',
+      }
+    },
+    showMarker() {
+      const sedimenRock = this.getSedimen
+      const metamorfRock = this.getMetamorf
+      const bekuRock = this.getBeku
+      const allPoints = this.pinPoints
+      if (this.selectedType === 'sedimen') {
+        return {
+          sedimenRock,
+        }
+      } else if (this.selectedType === 'metamorf') {
+        return {
+          metamorfRock,
+        }
+      } else if (this.selectedType === 'beku') {
+        return {
+          bekuRock,
+        }
+      } else {
+        return {
+          allPoints,
+        }
       }
     },
   },
@@ -300,6 +333,12 @@ export default {
   methods: {
     handleDetailsRock(id) {
       this.$router.push(`/dashboard/details/${id}`)
+    },
+    showListType() {
+      this.toggleFilterType = true
+    },
+    hideListType() {
+      this.toggleFilterType = false
     },
   },
 }
@@ -329,6 +368,14 @@ export default {
     &--purple {
       color: #6a4095;
     }
+    &--purpleBold {
+      font-size: 20px;
+      color: #6a4095;
+      font-weight: bold;
+    }
+  }
+  &__text-filter {
+    font-weight: bold;
   }
   &__introduction {
     padding-top: 0px;
@@ -343,5 +390,11 @@ export default {
 }
 strong {
   font-weight: bold;
+}
+.filter-card {
+  border-color: #e3bb1b;
+  border-right-color: white;
+  border-width: 1.5px;
+  height: 610px;
 }
 </style>

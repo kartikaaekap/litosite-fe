@@ -165,4 +165,13 @@ export const actions = {
   getRockByIdUnauthorized({ dispatch }, rockId) {
     return dispatch('getItems', [`map/${rockId}`])
   },
+  getSedimenRock({ dispatch }) {
+    return dispatch('getItems', 'map/?search=sedimen')
+  },
+  getMetamorfRock({ dispatch }) {
+    return dispatch('getItems', 'map/?search=metamorf')
+  },
+  getBekuRock({ dispatch }) {
+    return dispatch('getItems', 'map/?search=beku')
+  },
 }
