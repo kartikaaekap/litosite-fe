@@ -64,7 +64,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseUrl: 'http://ec2-54-198-153-24.compute-1.amazonaws.com',
+    baseUrl: 'http://ec2-54-235-59-243.compute-1.amazonaws.com',
   },
 
   auth: {

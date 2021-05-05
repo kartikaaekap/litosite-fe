@@ -6,21 +6,21 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col>
+      <b-col cols="12" class="col-md-4">
         <b-card class="statistic text-center">
           <span>Menunggu Konfirmasi</span>
           <h2 v-if="!rockPendingValidator.length">0</h2>
           <h2 v-else>{{ rockPendingValidator.length }}</h2>
         </b-card>
       </b-col>
-      <b-col>
+      <b-col cols="12" class="col-md-4">
         <b-card class="statistic text-center">
           <span>Data Diterima</span>
           <h2 v-if="!rockApprovedValidator.length">0</h2>
           <h2 v-else>{{ rockApprovedValidator.length }}</h2>
         </b-card>
       </b-col>
-      <b-col>
+      <b-col cols="12" class="col-md-4">
         <b-card class="statistic text-center">
           <span>Data Ditolak</span>
           <h2 v-if="!rockRejectedValidator.length">0</h2>

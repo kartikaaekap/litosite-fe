@@ -58,48 +58,48 @@ export const actions = {
   getItems({ dispatch }, payload) {
     return dispatch('useAPI', {
       method: 'get',
-      url: `http://ec2-54-198-153-24.compute-1.amazonaws.com/api/${payload}`,
+      url: `http://ec2-54-235-59-243.compute-1.amazonaws.com/api/${payload}`,
     })
   },
   newUser({ dispatch }, [url, data]) {
     return dispatch('useAPI', {
       method: 'post',
-      url: `http://ec2-54-198-153-24.compute-1.amazonaws.com/${url}`,
+      url: `http://ec2-54-235-59-243.compute-1.amazonaws.com/${url}`,
       data,
     })
   },
   loginUser({ dispatch }, [url, data]) {
     return dispatch('useAPI', {
       method: 'post',
-      url: `http://ec2-54-198-153-24.compute-1.amazonaws.com/${url}`,
+      url: `http://ec2-54-235-59-243.compute-1.amazonaws.com/${url}`,
       data,
     })
   },
   logoutUser({ dispatch }, [url, data]) {
     return dispatch('useAPI', {
       method: 'post',
-      url: `http://ec2-54-198-153-24.compute-1.amazonaws.com/${url}`,
+      url: `http://ec2-54-235-59-243.compute-1.amazonaws.com/${url}`,
       data,
     })
   },
   createItem({ dispatch }, [url, data]) {
     return dispatch('useAPI', {
       method: 'post',
-      url: `http://ec2-54-198-153-24.compute-1.amazonaws.com/api/${url}`,
+      url: `http://ec2-54-235-59-243.compute-1.amazonaws.com/api/${url}`,
       data,
     })
   },
   updateItem({ dispatch }, [url, data]) {
     return dispatch('useAPI', {
       method: 'patch',
-      url: `http://ec2-54-198-153-24.compute-1.amazonaws.com/api/${url}`,
+      url: `http://ec2-54-235-59-243.compute-1.amazonaws.com/api/${url}`,
       data,
     })
   },
   deleteItem({ dispatch }, payload) {
     return dispatch('useAPI', {
       method: 'delete',
-      url: `http://ec2-54-198-153-24.compute-1.amazonaws.com/api/${payload}`,
+      url: `http://ec2-54-235-59-243.compute-1.amazonaws.com/api/${payload}`,
     })
   },
 
@@ -173,5 +173,8 @@ export const actions = {
   },
   getBekuRock({ dispatch }) {
     return dispatch('getItems', 'map/?search=beku')
+  },
+  getNglanggranFormation({ dispatch }) {
+    return dispatch('getItems', 'map/?rockFormation=nglanggran')
   },
 }

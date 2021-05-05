@@ -49,7 +49,7 @@
               <p class="section__text--purpleBold text-center mb-4">
                 FILTER BATUAN
               </p>
-              <base-input-select
+              <!-- <base-input-select
                 id="filterType"
                 v-model="form.filterType"
                 label="Pilih filter berdasarkan"
@@ -84,7 +84,85 @@
                     stacked
                   ></b-form-checkbox-group>
                 </b-form-group>
+              </div> -->
+              <div>
+                <div v-if="toggleFilterType === false">
+                  <div class="d-flex">
+                    <p class="mr-3 section__text-filter">Tipe Batuan</p>
+                    <b-icon
+                      class="h4"
+                      icon="chevron-up"
+                      color="#e3bb1b"
+                      style="cursor: pointer"
+                      @click="showListType()"
+                    />
+                  </div>
+                </div>
+                <div v-else>
+                  <div class="d-flex">
+                    <p class="mr-3 section__text-filter">Tipe Batuan</p>
+                    <b-icon
+                      class="h4"
+                      icon="chevron-down"
+                      color="#e3bb1b"
+                      style="cursor: pointer"
+                      @click="hideListType()"
+                    />
+                  </div>
+                  <b-form-group>
+                    <b-form-checkbox-group
+                      id="selectedType"
+                      v-model="selectedType"
+                      :options="optionsType"
+                      stacked
+                    ></b-form-checkbox-group>
+                  </b-form-group>
+                </div>
               </div>
+              <div>
+                <div v-if="toggleFilterFormation === false">
+                  <div class="d-flex">
+                    <p class="mr-3 section__text-filter">Formasi Batuan</p>
+                    <b-icon
+                      class="h4"
+                      icon="chevron-up"
+                      color="#e3bb1b"
+                      style="cursor: pointer"
+                      @click="showListFormation()"
+                    />
+                  </div>
+                </div>
+                <div v-else>
+                  <div class="d-flex">
+                    <p class="mr-3 section__text-filter">Formasi Batuan</p>
+                    <b-icon
+                      class="h4"
+                      icon="chevron-down"
+                      color="#e3bb1b"
+                      style="cursor: pointer"
+                      @click="hideListFormation()"
+                    />
+                  </div>
+                  <b-form-group>
+                    <b-form-checkbox-group
+                      id="selectedFormation"
+                      v-model="selectedFormation"
+                      :options="optionsFormation"
+                      stacked
+                    ></b-form-checkbox-group>
+                  </b-form-group>
+                </div>
+              </div>
+              <!-- <div>
+                <b-form-group>
+                  <b-form-checkbox-group
+                    id="selectedAge"
+                    v-model="selectedAge"
+                    :options="optionsAge"
+                    stacked
+                  ></b-form-checkbox-group>
+                </b-form-group>
+              </div> -->
               <!-- <div v-if="toggleFilterType === false">
                 <div class="d-flex">
                   <p class="mr-3 section__text-filter">Tipe Batuan</p>
@@ -108,24 +186,89 @@
                     @click="hideListType()"
                   />
                 </div>
-                <div v-for="(typeRock, index) in optionsType" :key="typeRock">
-                  <label
-                    ><input
+                <ul>
+                  <li v-if="toggleFilterType === true" class="ml-0">
+                    <input
                       type="checkbox"
-                      :value="index"
-                      v-model="selectedType"
-                      :disabled="
-                        selectedType.length >= max &&
-                        selectedType.indexOf(index) == -1
-                      "
+                      id="Batu Sedimen"
+                      v-model="isSedimen"
+                      @click="selectAllSedimen()"
                     />
-                    {{ typeRock }}</label
-                  >
-                </div>
+                    <label for="Batu Sedimen">Batu Sedimen</label>
+                    <b-icon
+                      class="h4"
+                      icon="chevron-down"
+                      color="#e3bb1b"
+                      style="cursor: pointer"
+                      @click="dropdownSubTypeSedimen()"
+                    />
+                  </li>
+                  <ul>
+                    <li v-if="isSubTypeSedimen" class="ml-1">
+                      <input
+                        type="checkbox"
+                        id="coba1"
+                        value="coba1"
+                        v-model="selectedFilter.subtypes"
+                        @click="selectSedimen()"
+                      />
+                      <label for="Coba 1">Coba 1</label>
+                    </li>
+                    <li v-if="isSubTypeSedimen" class="ml-1">
+                      <input
+                        type="checkbox"
+                        id="coba2"
+                        value="coba2"
+                        v-model="selectedFilter.subtypes"
+                        @click="selectSedimen()"
+                      />
+                      <label for="Coba 2">Coba 2</label>
+                    </li>
+                  </ul>
+                  <li v-if="toggleFilterType === true" class="ml-0">
+                    <input
+                      type="checkbox"
+                      id="Batu Beku"
+                      value="Beku"
+                      v-model="isBeku"
+                      @click="selectAllBeku()"
+                    />
+                    <label for="Batu Beku">Batu Beku</label>
+                    <b-icon
+                      class="h4"
+                      icon="chevron-down"
+                      color="#e3bb1b"
+                      style="cursor: pointer"
+                      @click="dropdownSubTypeBeku()"
+                    />
+                  </li>
+                  <ul>
+                    <li v-if="isSubTypeBeku" class="ml-1">
+                      <input
+                        type="checkbox"
+                        id="coba3"
+                        value="coba3"
+                        v-model="selectedFilter.subtypes"
+                        @click="selectBeku()"
+                      />
+                      <label for="Coba 3">Coba 3</label>
+                    </li>
+                  </ul>
+                  <li v-if="toggleFilterType === true" class="ml-0">
+                    <input
+                      type="checkbox"
+                      id="Batu Metamorf"
+                      value="Metamorf"
+                      v-model="selectedFilter.subtypes"
+                      @click="closeDetail()"
+                    />
+                    <label for="Batu Metamorf">Batu Metamorf</label>
+                  </li>
+                </ul>
               </div> -->
             </b-card>
           </b-col>
-          <b-col cols="12" class="col-md-9 ml-0 pl-0">
+          <b-col cols="12" class="col-md-7 mx-0 px-0">
             <div id="map" style="height: 100vh">
               <client-only>
                 <l-map :zoom="9" :center="[-7.6145, 110.7122]">
@@ -138,7 +281,7 @@
                     :options-style="styleFunction"
                   ></l-geo-json>
                   <l-marker
-                    v-for="points in pinPoints"
+                    v-for="points in showMarker"
                     :key="points.id"
                     :lat-lng="[points.latitude, points.longitude]"
                   >
@@ -180,6 +323,137 @@
               </client-only>
             </div>
           </b-col>
+          <b-col cols="12" class="col-md-2 mx-0 px-0">
+            <b-card class="legenda-card my-0 py-0">
+              <p class="section__text--black mb-2"><u>KETERANGAN</u></p>
+              <p class="mb-0">Skala 1:1.000.000</p>
+            </b-card>
+            <b-card class="legenda-card my-0 py-0">
+              <b-card-text>
+                <p class="section__text--black mb-2"><u>LEGENDA</u></p>
+                <p class="section__legenda--textBold">
+                  Batuan Sedimen dan Batuan Vulkanik yang Berselang-seling
+                </p>
+                <ul style="list-style-type: none; margin: 0; padding: 0">
+                  <li class="section__legenda">
+                    <b-icon
+                      icon="square-fill"
+                      color="#FE9A56"
+                      class="border"
+                    ></b-icon>
+                    Breksi Gunung Api
+                  </li>
+                  <li class="section__legenda">
+                    <b-icon
+                      icon="square-fill"
+                      color="#7EC288"
+                      class="border"
+                    ></b-icon>
+                    Formasi Wungkal
+                  </li>
+                  <li class="section__legenda">
+                    <b-icon
+                      icon="square-fill"
+                      color="#FFCC4F"
+                      class="border"
+                    ></b-icon>
+                    Formasi Kebobutak
+                  </li>
+                  <li class="section__legenda">
+                    <b-icon
+                      icon="square-fill"
+                      color="#FFF3D2"
+                      class="border"
+                    ></b-icon>
+                    Formasi Semilir
+                  </li>
+                  <li class="section__legenda">
+                    <b-icon
+                      icon="square-fill"
+                      color="#FFAC8F"
+                      class="border"
+                    ></b-icon>
+                    Formasi Nglanggran
+                  </li>
+                  <li class="section__legenda">
+                    <b-icon
+                      icon="square-fill"
+                      color="#FBFDCE"
+                      class="border"
+                    ></b-icon>
+                    Formasi Sambipitu
+                  </li>
+                  <li class="section__legenda">
+                    <b-icon
+                      icon="square-fill"
+                      color="#FEFFD5"
+                      class="border"
+                    ></b-icon>
+                    Formasi Oyo
+                  </li>
+                  <li class="section__legenda">
+                    <b-icon
+                      icon="square-fill"
+                      color="#4C99D7"
+                      class="border"
+                    ></b-icon>
+                    Formasi Wonosari
+                  </li>
+                  <li class="section__legenda">
+                    <b-icon
+                      icon="square-fill"
+                      color="#58C6CF"
+                      class="border"
+                    ></b-icon>
+                    Formasi Kepek
+                  </li>
+                  <li class="section__legenda">
+                    <b-icon
+                      icon="square-fill"
+                      color="#D2F6C9"
+                      class="border"
+                    ></b-icon>
+                    Formasi Nanggulan
+                  </li>
+                  <li class="section__legenda">
+                    <b-icon
+                      icon="square-fill"
+                      color="#FEFCD4"
+                      class="border"
+                    ></b-icon>
+                    Formasi Sentolo
+                  </li>
+                  <li class="section__legenda">
+                    <b-icon
+                      icon="square-fill"
+                      color="#65BF81"
+                      class="border"
+                    ></b-icon>
+                    F. Jonggrangan
+                  </li>
+                </ul>
+                <p class="section__legenda--textBold mt-3">Batuan Terobosan</p>
+                <ul style="list-style-type: none; margin: 0; padding: 0">
+                  <li class="section__legenda">
+                    <b-icon
+                      icon="square-fill"
+                      color="#F70D3D"
+                      class="border"
+                    ></b-icon>
+                    Dasit
+                  </li>
+                  <li class="section__legenda">
+                    <b-icon
+                      icon="square-fill"
+                      color="#FF4269"
+                      class="border"
+                    ></b-icon>
+                    Andesit
+                  </li>
+                </ul>
+              </b-card-text>
+            </b-card>
+          </b-col>
         </b-row>
         <!-- </b-col> -->
       </b-container>
@@ -197,6 +471,7 @@ export default {
       getSedimen: await store.dispatch('getSedimenRock'),
       getMetamorf: await store.dispatch('getMetamorfRock'),
       getBeku: await store.dispatch('getBekuRock'),
+      getNglanggran: await store.dispatch('getNglanggranFormation'),
     }
   },
   data: () => {
@@ -204,6 +479,10 @@ export default {
       geojson: null,
       enableTooltip: true,
       iconSize: 64,
+      isSedimen: false,
+      isBeku: false,
+      isSubTypeBeku: false,
+      isSubTypeSedimen: false,
       optionsType: [
         // 'Sedimen',
         // 'Metamorf',
@@ -238,8 +517,9 @@ export default {
         { value: 'eosenAwal', text: 'Eosen Awal (P5-P9)' },
       ],
       toggleFilterType: false,
-      selectedType: [],
-      selectedFormation: [],
+      toggleFilterFormation: false,
+      selectedType: '',
+      selectedFormation: '',
       selectedAge: [],
       max: 1,
       form: {
@@ -300,27 +580,19 @@ export default {
         color: '',
       }
     },
-    showMarker() {
-      const sedimenRock = this.getSedimen
-      const metamorfRock = this.getMetamorf
-      const bekuRock = this.getBeku
-      const allPoints = this.pinPoints
+    // eslint-disable-next-line object-shorthand
+    showMarker: function () {
+      console.log(this.selectedType)
       if (this.selectedType === 'sedimen') {
-        return {
-          sedimenRock,
-        }
+        return this.getSedimen
       } else if (this.selectedType === 'metamorf') {
-        return {
-          metamorfRock,
-        }
+        return this.getMetamorf
       } else if (this.selectedType === 'beku') {
-        return {
-          bekuRock,
-        }
+        return this.getBeku
+      } else if (this.selectedFormation === 'nglanggran') {
+        return this.getNglanggran
       } else {
-        return {
-          allPoints,
-        }
+        return this.pinPoints
       }
     },
   },
@@ -339,6 +611,12 @@ export default {
     },
     hideListType() {
       this.toggleFilterType = false
+    },
+    showListFormation() {
+      this.toggleFilterFormation = true
+    },
+    hideListFormation() {
+      this.toggleFilterFormation = false
     },
   },
 }
@@ -363,6 +641,13 @@ export default {
       font-weight: 300;
     }
   }
+  &__legenda {
+    font-size: 14px;
+    &--textBold {
+      font-size: 14px;
+      font-weight: bold;
+    }
+  }
   &__text {
     font-size: 20px;
     &--purple {
@@ -371,6 +656,11 @@ export default {
     &--purpleBold {
       font-size: 20px;
       color: #6a4095;
+      font-weight: bold;
+    }
+    &--black {
+      font-size: 16px;
+      color: #000000;
       font-weight: bold;
     }
   }
@@ -395,6 +685,13 @@ strong {
   border-color: #e3bb1b;
   border-right-color: white;
   border-width: 1.5px;
-  height: 610px;
+}
+.legenda-card {
+  background-color: #6a40951a;
+  border-width: 1.5px;
+}
+.border-card {
+  border-color: #e3bb1b;
+  border-width: 1.5px;
 }
 </style>

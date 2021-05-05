@@ -26,13 +26,76 @@
               nav-wrapper-class="pills d-flex justify-content-center"
             >
               <b-tab title="Upload Dari Excel" active>
-                <b-row>
-                  <b-col class="text-center">
-                    <h1 class="section__title mt-5 mb-3">
-                      INPUT DATA HASIL LAPANGAN
-                    </h1>
-                  </b-col>
-                </b-row>
+                <b-card class="filter-card mt-5" bg-variant="light">
+                  <div class="h4 d-flex">
+                    <b-icon
+                      icon="exclamation-triangle-fill"
+                      color="#e3bb1b"
+                    ></b-icon>
+                    <p
+                      class="section__text pl-3"
+                      style="color: red; font-weight: bold"
+                    >
+                      Perlu diperhatikan!
+                    </p>
+                  </div>
+                  Catatan saat mengisi:
+                  <ol>
+                    <li>
+                      Unduh template data Excel dengan mengklik
+                      <a href="#" style="font-weight: bold">Download Disini</a>
+                    </li>
+                    <li>
+                      Semua kolom pada data lapangan <b>wajib diisi</b>, kecuali
+                      <i>images (data gambar tambahan)</i>
+                    </li>
+                    <li>
+                      Setiap kolom pada berkas template Excel memiliki deskripsi
+                      mengenai kolom tersebut. Silakan isi data pada kolom yang
+                      sesuai.
+                    </li>
+                    <li>Berlaku untuk gambar data lapangan:</li>
+                    <ul style="margin-left: 20px; list-style-type: circle">
+                      <li>
+                        Kolom gambar(<i>images</i>) diisikan dengan
+                        "NAMA_FILE.EKSTENSI" (contoh: "gambar.jpg" tanpa tanda
+                        petik.)
+                      </li>
+                      <li>Isikan hanya 1 gambar saja di kolom <i>images</i></li>
+                      <li>
+                        Pastikan tidak ada spasi dalam nama berkas gambar
+                        (berkas dengan nama "gambar 6.jpg" harus diubah menjadi
+                        "gambar_6.jpg")
+                      </li>
+                    </ul>
+                    <li>
+                      <b
+                        >Setelah melakukan pengisian data, simpan data excel
+                        menjadi file berekstensi .csv, dengan cara:</b
+                      >
+                    </li>
+                    <ol style="margin-left: 20px">
+                      <li><b>Klik File -> Save As</b></li>
+                      <li>
+                        <b
+                          >Dibawah kolom pengisian nama file, terdapat
+                          <i>dropdown</i>. Tekan dropdown tersebut.</b
+                        >
+                      </li>
+                      <li>
+                        <b>Pilih 'CSV UTF-8' atau yang bertuliskan 'CSV'.</b>
+                      </li>
+                      <li><b>Ketikkan nama file baru -> tekan Save.</b></li>
+                      <li>
+                        <b
+                          >File baru inilah yang akan digunakan dalam
+                          pengunggahan data.</b
+                        >
+                      </li>
+                    </ol>
+                  </ol>
+                  <br />
+                </b-card>
               </b-tab>
               <b-tab
                 title="Input Secara Langsung"
@@ -199,6 +262,13 @@ export default {
   option:first-child {
     color: black;
   }
+}
+.filter-card {
+  border-color: #6a4095;
+  color: black;
+  border-width: 2px;
+  font-size: 16px;
+  font-weight: 400;
 }
 @media screen and (max-width: 600px) {
   .section {

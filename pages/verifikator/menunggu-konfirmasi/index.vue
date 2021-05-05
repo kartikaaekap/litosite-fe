@@ -174,7 +174,7 @@ export default {
       // this.id = id
       await this.$axios
         .$get(
-          `http://ec2-54-198-153-24.compute-1.amazonaws.com/api/valid-rock/${id}`
+          `http://ec2-54-235-59-243.compute-1.amazonaws.com/api/valid-rock/${id}`
         )
         .then((response) => {
           this.rockById = response
@@ -182,7 +182,7 @@ export default {
       // if (this.handleRejectData()) {
       //   try {
       //     await this.$axios.$post(
-      //       `http://ec2-54-198-153-24.compute-1.amazonaws.com/api/valid-rock/${id}`,
+      //       `http://ec2-54-235-59-243.compute-1.amazonaws.com/api/valid-rock/${id}`,
       //       this.form.komentar,
       //       this.form.status
       //     )
@@ -193,7 +193,7 @@ export default {
       // } else {
       //   try {
       //     await this.$axios.$post(
-      //       `http://ec2-54-198-153-24.compute-1.amazonaws.com/api/valid-rock/${id}`,
+      //       `http://ec2-54-235-59-243.compute-1.amazonaws.com/api/valid-rock/${id}`,
       //       this.form.komentar,
       //       this.form.status
       //     )
@@ -207,7 +207,7 @@ export default {
       this.isModalComments = true
       //   try {
       //     await this.$axios.$post(
-      //       `http://ec2-54-198-153-24.compute-1.amazonaws.com/api/contrib-rock/${this.$route.params.inputimagesId}/image`,
+      //       `http://ec2-54-235-59-243.compute-1.amazonaws.com/api/contrib-rock/${this.$route.params.inputimagesId}/image`,
       //       formData,
       //       config
       //     )

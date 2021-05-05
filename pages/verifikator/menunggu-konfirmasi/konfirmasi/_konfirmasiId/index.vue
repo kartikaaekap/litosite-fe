@@ -145,7 +145,7 @@ export default {
     async handleSendComments() {
       try {
         await this.$axios.$patch(
-          `http://ec2-54-198-153-24.compute-1.amazonaws.com/api/valid-rock/${this.$route.params.konfirmasiId}`,
+          `http://ec2-54-235-59-243.compute-1.amazonaws.com/api/valid-rock/${this.$route.params.konfirmasiId}`,
           this.formReject
         )
         this.$router.push('/verifikator/data-ditolak')
@@ -156,7 +156,7 @@ export default {
     async handleApproveData() {
       try {
         await this.$axios.$patch(
-          `http://ec2-54-198-153-24.compute-1.amazonaws.com/api/valid-rock/${this.$route.params.konfirmasiId}`,
+          `http://ec2-54-235-59-243.compute-1.amazonaws.com/api/valid-rock/${this.$route.params.konfirmasiId}`,
           this.formApproved
         )
         this.$router.push('/verifikator/data-diterima')

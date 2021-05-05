@@ -23,6 +23,8 @@ import {
   BIconAsterisk,
   BIconFileText,
   BIconStopwatch,
+  BIconSquareFill,
+  BIconExclamationTriangleFill,
 } from 'bootstrap-vue'
 
 // register component
@@ -51,3 +53,5 @@ Vue.component('BIconCardImage', BIconCardImage)
 Vue.component('BIconAsterisk', BIconAsterisk)
 Vue.component('BIconFileText', BIconFileText)
 Vue.component('BIconStopwatch', BIconStopwatch)
+Vue.component('BIconSquareFill', BIconSquareFill)
+Vue.component('BIconExclamationTriangleFill', BIconExclamationTriangleFill)

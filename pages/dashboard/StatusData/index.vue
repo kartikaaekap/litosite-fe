@@ -573,7 +573,7 @@ export default {
     numberRockRejected() {
       return [
         !this.rockRejected.length ? '' : 'Data Ditolak',
-        !this.rockRejected.length ? '' : this.rockApproved.length,
+        !this.rockRejected.length ? 0 : this.rockApproved.length,
       ]
     },
     chartColor() {

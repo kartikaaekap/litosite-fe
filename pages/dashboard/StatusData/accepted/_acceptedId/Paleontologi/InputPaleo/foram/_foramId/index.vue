@@ -230,7 +230,7 @@ export default {
       }
       try {
         await this.$axios.$post(
-          `http://ec2-54-198-153-24.compute-1.amazonaws.com/api/paleo/${this.$route.params.foramId}/foram`,
+          `http://ec2-54-235-59-243.compute-1.amazonaws.com/api/paleo/${this.$route.params.foramId}/foram`,
           formData,
           config
         )
