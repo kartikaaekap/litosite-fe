@@ -518,7 +518,7 @@ export default {
       ],
       toggleFilterType: false,
       toggleFilterFormation: false,
-      selectedType: '',
+      selectedType: [],
       selectedFormation: '',
       selectedAge: [],
       max: 1,

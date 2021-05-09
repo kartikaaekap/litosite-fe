@@ -37,7 +37,17 @@
                   <b-icon icon="file-text" color="#337EE1" />
                   <b-col cols="12 pb-2">
                     <p class="status__text mb-0 pb-0">Total Data yang Dibuat</p>
-                    <p v-if="totalDataZero" class="status__title">0</p>
+                    <p
+                      v-if="
+                        !rockPending.length &&
+                        !rockExcel.length &&
+                        !rockApproved.length &&
+                        !rockRejected.length
+                      "
+                      class="status__title"
+                    >
+                      0
+                    </p>
                     <p v-else class="status__title">{{ totalData }}</p>
                   </b-col>
                 </div>
@@ -45,11 +55,14 @@
                   <b-icon icon="file-text" color="#F73A18" />
                   <b-col cols="12 pb-2">
                     <p class="status__text mb-0 pb-0">Menunggu Konfirmasi</p>
-                    <p v-if="rockPending.length === 0" class="status__title">
+                    <p
+                      v-if="rockPending.length === 0 && rockExcel.length === 0"
+                      class="status__title"
+                    >
                       0
                     </p>
                     <p v-else class="status__title">
-                      {{ rockPending.length }}
+                      {{ rockPending.length + rockExcel.length }}
                     </p>
                   </b-col>
                 </div>
@@ -111,45 +124,113 @@
                   <b-container>
                     <div class="mt-3" style="overflow-x: auto">
                       <b-table
+                        id="pendingTable"
                         responsive
                         striped
                         hover
                         show-empty
-                        :items="rockPending"
+                        class="table-text"
+                        :items="pendingXlsData"
                         :fields="fieldsPending"
                         :busy="isLoading"
+                        :per-page="perPagePending"
+                        :current-page="currentPagePending"
                       >
-                        <template v-slot:cell(type)="{ item: { type } }">
+                        <template #cell(type)="{ item: { type } }">
                           <span>{{ type }}</span>
                         </template>
-                        <template
-                          v-slot:cell(typeDetail)="{ item: { typeDetail } }"
-                        >
+                        <template #cell(typeDetail)="{ item: { typeDetail } }">
                           <span>{{ typeDetail }}</span>
                         </template>
                         <template
-                          v-slot:cell(lithologyName)="{
-                            item: { lithologyName },
-                          }"
+                          #cell(lithologyName)="{ item: { lithologyName } }"
                         >
                           <span>{{ lithologyName }}</span>
                         </template>
-                        <template
-                          v-slot:cell(createAt)="{ item: { createAt } }"
-                        >
+                        <template #cell(createAt)="{ item: { createAt } }">
                           <span>{{ formatDate(createAt) }}</span>
                         </template>
-                        <template
-                          v-slot:cell(updatedAt)="{ item: { updatedAt } }"
-                        >
+                        <template #cell(updatedAt)="{ item: { updatedAt } }">
                           <span>{{ formatDate(updatedAt) }}</span>
                         </template>
-                        <template v-slot:empty>
+                        <template
+                          #cell(images)="{ item: { id, status, images } }"
+                        >
+                          <b-link
+                            v-if="status === 'xls'"
+                            @click="showModalImage(id)"
+                          >
+                            Tambah Gambar
+                          </b-link>
+                          <span v-for="coba in images" v-else :key="coba.id">{{
+                            coba.image
+                          }}</span>
+                        </template>
+                        <template #empty>
                           <p class="text-center mb-0">
                             Belum ada data yang dapat ditampilkan
                           </p>
                         </template>
                       </b-table>
+                      <b-pagination
+                        v-model="currentPagePending"
+                        :total-rows="rowsPending"
+                        :per-page="perPagePending"
+                        aria-controls="pendingTable"
+                        first-number
+                        last-number
+                        align="center"
+                      ></b-pagination>
+                      <base-modal
+                        v-if="isModalImage"
+                        v-model="isModalImage"
+                        title="Masukkan gambar"
+                        is-danger
+                        ok-label="Kirim"
+                        @ok="handleSendImage"
+                      >
+                        <b-row>
+                          <b-col cols="12" class="col-md-8 mx-auto mt-3">
+                            <div class="section__blacktext">
+                              Attachment <b-icon icon="paperclip" />
+                            </div>
+                            <p class="section__paragraph">
+                              Supported format: .JPG, .JPEG, .PNG,
+                            </p>
+                            <div>
+                              <b-card class="card text-center">
+                                <img
+                                  v-if="preview"
+                                  class="img-fluid"
+                                  style="
+                                    border-radius: 10px;
+                                    box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.7);
+                                  "
+                                  :src="preview"
+                                  alt
+                                />
+                                <img
+                                  v-else
+                                  class="img-fluid"
+                                  style="
+                                    width: 600px;
+                                    border-radius: 10px;
+                                    box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.7);
+                                  "
+                                  src="../../../assets/img/no-image.jpg"
+                                />
+                              </b-card>
+                              <input
+                                ref="image"
+                                class="hide-input mt-3 mb-3"
+                                type="file"
+                                accept="image/*"
+                                @change="imageSelected"
+                              />
+                            </div>
+                          </b-col>
+                        </b-row>
+                      </base-modal>
                     </div>
                   </b-container>
                 </section>
@@ -159,6 +240,8 @@
                   <b-container>
                     <div class="mt-3" style="overflow-x: auto">
                       <b-table
+                        id="approvedTable"
+                        class="table-text"
                         responsive
                         striped
                         hover
@@ -166,36 +249,41 @@
                         :items="rockApproved"
                         :fields="fieldsApproved"
                         :busy="isLoading"
+                        :per-page="perPageApproved"
+                        :current-page="currentPageApproved"
                       >
-                        <template v-slot:cell(type)="{ item: { type } }">
+                        <template #cell(type)="{ item: { type } }">
                           <span>{{ type }}</span>
                         </template>
-                        <template
-                          v-slot:cell(typeDetail)="{ item: { typeDetail } }"
-                        >
+                        <template #cell(typeDetail)="{ item: { typeDetail } }">
                           <span>{{ typeDetail }}</span>
                         </template>
                         <template
-                          v-slot:cell(lithologyName)="{
-                            item: { lithologyName },
-                          }"
+                          #cell(lithologyName)="{ item: { lithologyName } }"
                         >
                           <span>{{ lithologyName }}</span>
                         </template>
-                        <template
-                          v-slot:cell(updatedAt)="{ item: { updatedAt } }"
-                        >
+                        <template #cell(updatedAt)="{ item: { updatedAt } }">
                           <span>{{ formatDate(updatedAt) }}</span>
                         </template>
-                        <template v-slot:cell(aksi)="{ item: { id } }">
+                        <template #cell(aksi)="{ item: { id } }">
                           <b-link @click="handleAccepted(id)"> Details </b-link>
                         </template>
-                        <template v-slot:empty>
+                        <template #empty>
                           <p class="text-center mb-0">
                             Belum ada data yang dapat ditampilkan
                           </p>
                         </template>
                       </b-table>
+                      <b-pagination
+                        v-model="currentPageApproved"
+                        :total-rows="rowsApproved"
+                        :per-page="perPageApproved"
+                        aria-controls="approvedTable"
+                        first-number
+                        last-number
+                        align="center"
+                      ></b-pagination>
                     </div>
                   </b-container>
                 </section>
@@ -205,6 +293,8 @@
                   <b-container>
                     <div class="mt-3" style="overflow-x: auto">
                       <b-table
+                        id="rejectedTable"
+                        class="table-text"
                         responsive
                         striped
                         hover
@@ -212,74 +302,44 @@
                         :items="rockRejected"
                         :fields="fields"
                         :busy="isLoading"
+                        :per-page="perPageRejected"
+                        :current-page="currentPageRejected"
                       >
-                        <template v-slot:cell(type)="{ item: { type } }">
+                        <template #cell(type)="{ item: { type } }">
                           <span>{{ type }}</span>
                         </template>
-                        <template
-                          v-slot:cell(typeDetail)="{ item: { typeDetail } }"
-                        >
+                        <template #cell(typeDetail)="{ item: { typeDetail } }">
                           <span>{{ typeDetail }}</span>
                         </template>
                         <template
-                          v-slot:cell(lithologyName)="{
-                            item: { lithologyName },
-                          }"
+                          #cell(lithologyName)="{ item: { lithologyName } }"
                         >
                           <span>{{ lithologyName }}</span>
                         </template>
-                        <template
-                          v-slot:cell(komentar)="{ item: { komentar } }"
-                        >
+                        <template #cell(komentar)="{ item: { komentar } }">
                           <span>{{ komentar }}</span>
                         </template>
-                        <template v-slot:cell(aksi)="row">
+                        <template #cell(aksi)="row">
                           <b-link @click="showModalEdit(row)">
                             Edit Data
                           </b-link>
                           <!-- <b-link class="ml-2"> Delete </b-link> -->
                         </template>
-                        <template v-slot:empty>
+                        <template #empty>
                           <p class="text-center mb-0">
                             Belum ada data yang dapat ditampilkan
                           </p>
                         </template>
                       </b-table>
-                      <!-- <table id="table">
-                        <thead>
-                          <tr>
-                            <th>Type</th>
-                            <th>Type Detail</th>
-                            <th>Lithology Name</th>
-                            <th>Komentar</th>
-                            <th>Aksi</th>
-                          </tr>
-                        </thead>
-                        <tbody v-if="rockRejected.length === 0">
-                          <tr>
-                            <td colspan="5" class="text-center">
-                              Belum ada data yang dapat ditampilkan
-                            </td>
-                          </tr>
-                        </tbody>
-                        <tbody
-                          v-for="item in rockRejected"
-                          v-else
-                          :key="item.id"
-                        >
-                          <tr>
-                            <td>{{ item.type }}</td>
-                            <td>{{ item.type_detail }}</td>
-                            <td>{{ item.lithology_name }}</td>
-                            <td>{{ item.komentar }}</td>
-                            <td>
-                              <b-link class="ml-2" @click="showModalEdit()">
-                                Edit Data
-                              </b-link>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table> -->
+                      <b-pagination
+                        v-model="currentPageRejected"
+                        :total-rows="rowsRejected"
+                        :per-page="perPageRejected"
+                        aria-controls="rejectedTable"
+                        first-number
+                        last-number
+                        align="center"
+                      ></b-pagination>
                       <base-modal
                         v-if="isModalEdit"
                         v-model="isModalEdit"
@@ -432,7 +492,6 @@
 import Vue from 'vue'
 import Chart from 'chart.js'
 import Chartkick from 'vue-chartkick'
-// import { Carousel, Slide } from 'vue-carousel'
 
 Vue.use(Chartkick.use(Chart))
 
@@ -444,6 +503,8 @@ export default {
       rockPending: await store.dispatch('getRockPending'),
       rockApproved: await store.dispatch('getRockApproved'),
       rockRejected: await store.dispatch('getRockRejected'),
+      rockExcel: await store.dispatch('getRockExcel'),
+      rockAll: await store.dispatch('getRockField'),
     }
   },
   data: () => {
@@ -470,6 +531,7 @@ export default {
         { key: 'lithologyName', label: 'Lithology Name' },
         { key: 'createAt', label: 'Tanggal Dikirim' },
         { key: 'updatedAt', label: 'Terakhir Diperbaharui' },
+        { key: 'images', label: 'Gambar' },
       ],
       fields: [
         { key: 'type', label: 'Type' },
@@ -524,44 +586,43 @@ export default {
         { value: 'sentolo', text: 'Sentolo' },
         { value: 'jonggrangan', text: 'Jonggrangan' },
       ],
+      formPic: {
+        image: '',
+      },
+      preview: '',
       isModalEdit: false,
+      isModalImage: false,
       isLoading: false,
+      perPagePending: 5,
+      currentPagePending: 1,
+      perPageApproved: 5,
+      currentPageApproved: 1,
+      perPageRejected: 5,
+      currentPageRejected: 1,
     }
   },
   computed: {
-    // filteredData() {
-    //   return this.rockRejected.filter(({ type }) => {
-    //     return type
-    //       .toLowerCase()
-    //       .split(' ')
-    //       .join()
-    //       .includes(this.filter.trim().toLowerCase())
-    //   })
-    // },
-    // noResultMessage() {
-    //   const filter = this.filter.trim().toLowerCase()
-    //   return filter ? `No rock with "${filter}"` : 'No rock to show'
-    // },
+    pendingXlsData() {
+      return this.rockAll.filter(
+        (item) => item.status === 'xls' || item.status === 'pnd'
+      )
+    },
     totalData() {
       return (
         this.rockPending.length +
+        this.rockExcel.length +
         this.rockApproved.length +
         this.rockRejected.length
       )
     },
-    totalDataZero() {
-      return (
-        !this.rockPending.length +
-        !this.rockApproved.length +
-        !this.rockRejected.length
-      )
-    },
     numberRockPending() {
       return [
-        !this.rockPending.length
+        !this.rockPending.length && !this.rockExcel.length
           ? 'Anda belum pernah menginput batuan'
           : 'Menunggu Konfirmasi',
-        !this.rockPending.length ? 1 : this.rockPending.length,
+        !this.rockPending.length && !this.rockExcel.length
+          ? 1
+          : this.rockPending.length + this.rockExcel.length,
       ]
     },
     numberRockApproved() {
@@ -573,7 +634,7 @@ export default {
     numberRockRejected() {
       return [
         !this.rockRejected.length ? '' : 'Data Ditolak',
-        !this.rockRejected.length ? 0 : this.rockApproved.length,
+        !this.rockRejected.length ? '' : this.rockApproved.length,
       ]
     },
     chartColor() {
@@ -583,10 +644,60 @@ export default {
         !this.rockApproved.length ? '#6a40951a' : '#F73A18',
       ]
     },
+    rowsPending() {
+      return this.pendingXlsData.length
+    },
+    rowsApproved() {
+      return this.rockApproved.length
+    },
+    rowsRejected() {
+      return this.rockRejected.length
+    },
   },
   methods: {
     handleAccepted(id) {
       this.$router.push(`/dashboard/StatusData/accepted/${id}`)
+    },
+    showModalImage(id) {
+      this.isModalImage = true
+      this.form = { ...this.form, id }
+    },
+    imageSelected(e) {
+      const files = e.target.files || e.dataTransfer.files
+      if (!files.length) {
+        return
+      }
+      this.formPic.image = files[0]
+      this.createImage(files[0])
+    },
+    createImage(file) {
+      const reader = new FileReader()
+      const vm = this
+      reader.onload = (e) => {
+        vm.preview = e.target.result
+      }
+      reader.readAsDataURL(file)
+    },
+    async handleSendImage() {
+      const config = {
+        headers: { 'content-type': 'multipart/form-data' },
+      }
+      const rockId = this.form.id
+      const formData = new FormData()
+      for (const data in this.formPic) {
+        formData.append(data, this.formPic[data])
+      }
+      try {
+        await this.$axios.$post(
+          `http://ec2-54-235-59-243.compute-1.amazonaws.com/api/contrib-rock/${rockId}/image`,
+          formData,
+          config
+        )
+        this.isModalImage = false
+        this.handleRefreshList()
+      } catch (e) {
+        console.log(e)
+      }
     },
     showModalEdit({
       item: {
@@ -666,6 +777,7 @@ export default {
       this.rockPending = await this.$store.dispatch('getRockPending')
       this.rockApproved = await this.$store.dispatch('getRockApproved')
       this.rockRejected = await this.$store.dispatch('getRockRejected')
+      this.rockAll = await this.$store.dispatch('getRockField')
     },
   },
 }
@@ -823,6 +935,10 @@ export default {
   option:first-child {
     color: black;
   }
+}
+.table-text {
+  font-size: 16px;
+  font-weight: 400;
 }
 @media screen and (max-width: 600px) {
   .section {

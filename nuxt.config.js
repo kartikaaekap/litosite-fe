@@ -30,6 +30,12 @@ export default {
   //   rewriteRedirects: false,
   //   resetOnError: true,
   // },
+
+  /*
+   ** Customize the progress-bar color
+   */
+  loading: { color: '#e3bb1b', height: '5px' },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
   // router: {

@@ -45,56 +45,72 @@
                       Unduh template data Excel dengan mengklik
                       <a href="#" style="font-weight: bold">Download Disini</a>
                     </li>
-                    <li>
-                      Semua kolom pada data lapangan <b>wajib diisi</b>, kecuali
-                      <i>images (data gambar tambahan)</i>
-                    </li>
+                    <li>Semua kolom pada data lapangan <b>wajib diisi</b></li>
                     <li>
                       Setiap kolom pada berkas template Excel memiliki deskripsi
                       mengenai kolom tersebut. Silakan isi data pada kolom yang
                       sesuai.
                     </li>
-                    <li>Berlaku untuk gambar data lapangan:</li>
+                    <li>
+                      Setelah melakukan pengisian data, upload ulang file Excel
+                      pada kolom upload di bawah kartu peringatan ini. Pastikan
+                      file yang diupload berekstensi .xls
+                    </li>
+                    <li>Berlaku untuk pengisian gambar data lapangan:</li>
                     <ul style="margin-left: 20px; list-style-type: circle">
                       <li>
-                        Kolom gambar(<i>images</i>) diisikan dengan
-                        "NAMA_FILE.EKSTENSI" (contoh: "gambar.jpg" tanpa tanda
-                        petik.)
+                        Setelah berhasil melakukan upload file, Anda akan
+                        diarahkan ke halaman menunggu konfirmasi.
                       </li>
-                      <li>Isikan hanya 1 gambar saja di kolom <i>images</i></li>
                       <li>
-                        Pastikan tidak ada spasi dalam nama berkas gambar
-                        (berkas dengan nama "gambar 6.jpg" harus diubah menjadi
-                        "gambar_6.jpg")
+                        Anda dapat melengkapi gambar data lapangan dengan
+                        meng-klik <b>Tambah Gambar</b> pada list table di
+                        halaman menunggu konfirmasi.
+                      </li>
+                      <li>
+                        Lengkapi gambar sesuai dnegan data yang dipilih,
+                        kemudian klik <b>Kirim</b>
                       </li>
                     </ul>
-                    <li>
-                      <b
-                        >Setelah melakukan pengisian data, simpan data excel
-                        menjadi file berekstensi .csv, dengan cara:</b
-                      >
-                    </li>
-                    <ol style="margin-left: 20px">
-                      <li><b>Klik File -> Save As</b></li>
-                      <li>
-                        <b
-                          >Dibawah kolom pengisian nama file, terdapat
-                          <i>dropdown</i>. Tekan dropdown tersebut.</b
-                        >
-                      </li>
-                      <li>
-                        <b>Pilih 'CSV UTF-8' atau yang bertuliskan 'CSV'.</b>
-                      </li>
-                      <li><b>Ketikkan nama file baru -> tekan Save.</b></li>
-                      <li>
-                        <b
-                          >File baru inilah yang akan digunakan dalam
-                          pengunggahan data.</b
-                        >
-                      </li>
-                    </ol>
                   </ol>
                   <br />
+                </b-card>
+                <b-card class="upload-card mt-5" bg-variant="light">
+                  <div class="container">
+                    <p>
+                      Masukkan template Excel yang telah diisi data lapangan,
+                      disini :
+                    </p>
+                    <div class="container">
+                      <div class="large-12 medium-12 small-12 cell">
+                        <label
+                          >File
+                          <input
+                            id="file_uploaded"
+                            ref="file_uploaded"
+                            type="file"
+                            @change="handleFileUpload()"
+                          />
+                        </label>
+                        <br />
+                        <b-progress
+                          class="mt-3"
+                          max="100"
+                          :value.prop="uploadPercentage"
+                          show-progress
+                          animated
+                          variant="success"
+                        ></b-progress>
+                        <br />
+                        <base-button
+                          type="submit"
+                          :disabled="isLoading || areAllInputsEmpty"
+                          @click="submitFile()"
+                          >Upload</base-button
+                        >
+                      </div>
+                    </div>
+                  </div>
                 </b-card>
               </b-tab>
               <b-tab
@@ -114,9 +130,53 @@
 <script>
 export default {
   layout: 'landingpagelogin',
+  data() {
+    return {
+      form: {
+        file_uploaded: '',
+      },
+      uploadPercentage: 0,
+      isLoading: false,
+    }
+  },
+  computed: {
+    areAllInputsEmpty() {
+      return Object.values(this.form).some((value) => !value)
+    },
+  },
   methods: {
     handleInputForm() {
       this.$router.push('/dashboard/InputData/InputDataForm')
+    },
+    handleFileUpload() {
+      this.form.file_uploaded = this.$refs.file_uploaded.files[0]
+    },
+    async submitFile() {
+      const config = {
+        headers: { 'content-type': 'multipart/form-data' },
+      }
+      const formData = new FormData()
+      for (const data in this.form) {
+        formData.append(data, this.form[data])
+      }
+      try {
+        await this.$axios.$post(
+          'http://ec2-54-235-59-243.compute-1.amazonaws.com/api/extractor/',
+          formData,
+          config,
+          {
+            onUploadProgress: function (progressEvent) {
+              this.uploadPercentage = parseInt(
+                Math.round((progressEvent.loaded / progressEvent.total) * 100)
+              )
+            }.bind(this),
+          }
+        )
+        this.$router.push('/dashboard/StatusData')
+        console.log('SUCCESS!!')
+      } catch (e) {
+        console.log(e)
+      }
     },
   },
 }
@@ -269,6 +329,14 @@ export default {
   border-width: 2px;
   font-size: 16px;
   font-weight: 400;
+}
+.upload-card {
+  border-color: #e3bb1b;
+  color: black;
+  border-width: 2px;
+  font-size: 16px;
+  font-weight: 400;
+  border-radius: 20px;
 }
 @media screen and (max-width: 600px) {
   .section {

@@ -128,6 +128,9 @@ export const actions = {
   getRockById({ dispatch }, rockId) {
     return dispatch('getItems', [`contrib-rock/${rockId}`])
   },
+  getRockExcel({ dispatch }) {
+    return dispatch('getItems', 'contrib-rock/?status=xls')
+  },
   getRockPending({ dispatch }) {
     return dispatch('getItems', 'contrib-rock/?status=pnd')
   },

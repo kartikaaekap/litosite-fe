@@ -20,6 +20,7 @@
     <b-row>
       <b-container>
         <b-table
+          id="rejectedTable"
           responsive
           striped
           hover
@@ -27,22 +28,33 @@
           :items="rockRejectedValidator"
           :fields="fieldsRejected"
           :busy="isLoading"
+          :per-page="perPageRejected"
+          :current-page="currentPageRejected"
         >
-          <template v-slot:cell(author)="{ item: { author } }">
+          <template #cell(author)="{ item: { author } }">
             <span>{{ author }}</span>
           </template>
-          <template v-slot:cell(lithologyName)="{ item: { lithologyName } }">
+          <template #cell(lithologyName)="{ item: { lithologyName } }">
             <span>{{ lithologyName }}</span>
           </template>
-          <template v-slot:cell(aksi)="{ item: { id } }">
+          <template #cell(aksi)="{ item: { id } }">
             <b-link @click="showDetailsData(id)"> Details </b-link>
           </template>
-          <template v-slot:empty>
+          <template #empty>
             <p class="text-center mb-0">
               Belum ada data yang dapat ditampilkan
             </p>
           </template>
         </b-table>
+        <b-pagination
+          v-model="currentPageRejected"
+          :total-rows="rowsRejected"
+          :per-page="perPageRejected"
+          aria-controls="rejectedTable"
+          first-number
+          last-number
+          align="center"
+        ></b-pagination>
       </b-container>
     </b-row>
   </div>
@@ -63,7 +75,15 @@ export default {
         { key: 'lithologyName', label: 'Lithology Name' },
         { key: 'aksi', label: 'Aksi' },
       ],
+      perPageRejected: 10,
+      currentPageRejected: 1,
+      isLoading: false,
     }
+  },
+  computed: {
+    rowsRejected() {
+      return this.rockRejectedValidator.length
+    },
   },
   methods: {
     showDetailsData(id) {
