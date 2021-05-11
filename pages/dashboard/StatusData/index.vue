@@ -31,8 +31,8 @@
       <b-container>
         <b-row class="py-5 order-2 order-sm-1 order-md-1">
           <b-col class="text-left">
-            <div class="d-flex">
-              <div class="mr-0 mr-md-5">
+            <div class="d-md-flex">
+              <b-col cols="12" class="col-md-6">
                 <div class="h1 pb-0 d-flex">
                   <b-icon icon="file-text" color="#337EE1" />
                   <b-col cols="12 pb-2">
@@ -66,8 +66,8 @@
                     </p>
                   </b-col>
                 </div>
-              </div>
-              <div>
+              </b-col>
+              <b-col cols="12" class="col-md-6">
                 <div class="h1 d-flex">
                   <b-icon icon="file-text" color="#F73A18" />
                   <b-col cols="12 pb-2">
@@ -92,7 +92,7 @@
                     </p>
                   </b-col>
                 </div>
-              </div>
+              </b-col>
             </div>
           </b-col>
           <b-col>
@@ -162,9 +162,15 @@
                           >
                             Tambah Gambar
                           </b-link>
-                          <span v-for="coba in images" v-else :key="coba.id">{{
-                            coba.image
-                          }}</span>
+                          <b-link
+                            v-for="coba in images"
+                            v-else
+                            :key="coba.id"
+                            class="gambarPending"
+                            :href="coba.image"
+                            target="_blank"
+                            >Lihat Gambar</b-link
+                          >
                         </template>
                         <template #empty>
                           <p class="text-center mb-0">
@@ -190,7 +196,7 @@
                         @ok="handleSendImage"
                       >
                         <b-row>
-                          <b-col cols="12" class="col-md-8 mx-auto mt-3">
+                          <b-col cols="12" class="mx-auto mt-3">
                             <div class="section__blacktext">
                               Attachment <b-icon icon="paperclip" />
                             </div>
@@ -753,7 +759,7 @@ export default {
             location: this.form.location,
             latitude: this.form.latitude,
             longitude: this.form.longitude,
-            altitude: this.form.altitude,
+            altitude: parseFloat(this.form.altitude),
             strike: this.form.strike,
             dip: this.form.dip,
           },
@@ -939,6 +945,13 @@ export default {
 .table-text {
   font-size: 16px;
   font-weight: 400;
+}
+.gambarPending {
+  color: #cca713;
+  font-weight: 500;
+  &:hover {
+    color: #aa8b0d;
+  }
 }
 @media screen and (max-width: 600px) {
   .section {

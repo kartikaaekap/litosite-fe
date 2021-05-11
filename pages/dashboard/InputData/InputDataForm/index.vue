@@ -301,7 +301,7 @@ export default {
             location: this.form.location,
             latitude: this.form.latitude,
             longitude: this.form.longitude,
-            altitude: this.form.altitude,
+            altitude: parseFloat(this.form.altitude),
             strike: this.form.strike,
             dip: this.form.dip,
           })

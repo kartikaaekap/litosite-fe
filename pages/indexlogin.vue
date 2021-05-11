@@ -43,7 +43,7 @@
               <h1 class="section__title mt-5 mb-5">PETA GEOLOGI</h1>
             </b-col>
           </b-row>
-          <div id="map-wrap" style="height: 100vh">
+          <div id="map-wrap" class="bundle-map">
             <client-only>
               <l-map :zoom="9" :center="[-7.6145, 110.7122]">
                 <l-tile-layer
@@ -205,6 +205,9 @@ export default {
     background: grey;
   }
 }
+.bundle-map {
+  height: 100vh;
+}
 @media screen and (max-width: 600px) {
   .section {
     &__title {
@@ -213,6 +216,9 @@ export default {
     &__text {
       font-size: 18px;
     }
+  }
+  .bundle-map {
+    height: 50vh;
   }
 }
 </style>

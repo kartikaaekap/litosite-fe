@@ -65,6 +65,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import BaseInput from '~/components/BaseInput'
 import BaseButton from '~/components/BaseButton'
 
@@ -97,6 +98,10 @@ export default {
     },
   },
   methods: {
+    ...mapMutations(['toggleSidebar']),
+    sidebarClose() {
+      this.toggleSidebar(false)
+    },
     togglePassword(e) {
       this.isPaswordVisible = !this.isPaswordVisible
     },
@@ -114,6 +119,7 @@ export default {
           },
         })
         this.isLoading = false
+        this.sidebarClose()
         // this.$router.push('/indexlogin')
         let isAdmin = false
         for (const index in this.adminList) {

@@ -44,8 +44,8 @@
           </b-col>
         </b-row>
         <b-row>
-          <b-col cols="12" class="col-md-3 mr-0 pr-0">
-            <b-card class="filter-card">
+          <b-col cols="12" class="col-md-3 mx-0 px-0">
+            <b-card class="filter-card mb-3 mb-md-0">
               <p class="section__text--purpleBold text-center mb-4">
                 FILTER BATUAN
               </p>
@@ -269,7 +269,7 @@
             </b-card>
           </b-col>
           <b-col cols="12" class="col-md-7 mx-0 px-0">
-            <div id="map" style="height: 100vh">
+            <div id="map" class="bundle-map">
               <client-only>
                 <l-map :zoom="9" :center="[-7.6145, 110.7122]">
                   <l-tile-layer
@@ -323,7 +323,7 @@
               </client-only>
             </div>
           </b-col>
-          <b-col cols="12" class="col-md-2 mx-0 px-0">
+          <b-col cols="12" class="col-md-2 mx-0 px-0 mt-3 mt-md-0">
             <b-card class="legenda-card my-0 py-0">
               <p class="section__text--black mb-2"><u>KETERANGAN</u></p>
               <p class="mb-0">Skala 1:1.000.000</p>
@@ -693,5 +693,21 @@ strong {
 .border-card {
   border-color: #e3bb1b;
   border-width: 1.5px;
+}
+.bundle-map {
+  height: 100vh;
+}
+@media screen and (max-width: 600px) {
+  .section {
+    &__title {
+      font-size: 25px;
+    }
+    &__text {
+      font-size: 18px;
+    }
+  }
+  .bundle-map {
+    height: 50vh;
+  }
 }
 </style>

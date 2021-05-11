@@ -103,6 +103,19 @@ export default {
   pwa: {
     manifest: {
       lang: 'en',
+      name: 'Litosite',
+      short_name: 'Litosite',
+      description: 'LitoSite adalah sebuah portal informasi litologi',
+      display: 'standalone',
+      background_color: '#e3bb1b',
+      theme_color: '#e3bb1b',
+      // icons: [
+      //   {
+      //     src: 'icon.png',
+      //     sizes: '512x512',
+      //     type: 'image/png',
+      //   },
+      // ],
     },
   },
 

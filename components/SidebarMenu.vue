@@ -4,7 +4,7 @@
       :to="path"
       exact-active-class="sidebar__menu--active"
       class="sidebar__menu py-0 py-md-2"
-      @click="toggleSidebar"
+      @click="sidebarClose"
     >
       <div class="sidebar__menu--icon">
         <b-icon :icon="icon" />
@@ -16,9 +16,9 @@
         v-for="page in pages"
         :key="page.name"
         :to="page.path"
-        @click="sidebarClose"
         exact-active-class="sidebar__menu--active"
         class="sidebar__page"
+        @click="sidebarClose"
       >
         <div class="sidebar__menu--icon">
           <b-icon :icon="page.icon" />

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import {
   BIcon,
+  BIconX,
   BIconDash,
   BIconPaperclip,
   BIconPerson,
@@ -31,6 +32,7 @@ import {
 Vue.component('BIcon', BIcon)
 
 // register specific icons
+Vue.component('BIconX', BIconX)
 Vue.component('BIconDash', BIconDash)
 Vue.component('BIconPaperclip', BIconPaperclip)
 Vue.component('BIconPerson', BIconPerson)
