@@ -518,7 +518,7 @@ export default {
       ],
       toggleFilterType: false,
       toggleFilterFormation: false,
-      selectedType: [],
+      selectedType: '',
       selectedFormation: '',
       selectedAge: [],
       max: 1,
@@ -556,10 +556,7 @@ export default {
         return () => {}
       }
       return (feature, layer) => {
-        this.styleFunction.fillColor = feature.properties.fill
-        // this.getColor.featureColor = feature.properties.FORMATION
-        this.styleFunction.color = null
-        // console.log(feature.properties.FORMATION)
+        console.log(feature)
         layer.bindTooltip(
           '<div>Nama Formasi Batuan:' +
             feature.properties.NAME +
@@ -568,13 +565,11 @@ export default {
             '</div>',
           { permanent: false, sticky: true }
         )
+        layer.setStyle({ fillColor: feature.properties.fill })
       }
     },
     styleFunction() {
-      // console.log(this.getColor(feature.properties.FORMATION))
-      // console.log(feature.properties.fill)
       return {
-        // fillColor: feature.properties.fill,
         fillColor: '',
         fillOpacity: 0.8,
         color: '',
