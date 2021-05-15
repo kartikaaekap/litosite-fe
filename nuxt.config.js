@@ -74,6 +74,7 @@ export default {
   },
 
   auth: {
+    cookie: false,
     strategies: {
       local: {
         endpoints: {
@@ -98,6 +99,10 @@ export default {
       },
     },
   },
+
+  // router: {
+  //   middleware: ['auth'],
+  // },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {

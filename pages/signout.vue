@@ -7,7 +7,7 @@ export default {
       .dispatch('logout', {})
       .then(({ message }) => {
         this.isLoading = false
-        this.$router.push(`/signin`)
+        this.$router.push(`/login`)
       })
       .catch(() => (this.isLoading = false))
     // this.$axios.setHeader('', null)

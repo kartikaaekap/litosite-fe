@@ -51,7 +51,7 @@
                 <base-button
                   variant="tertiary"
                   size="small"
-                  to="/signin"
+                  to="/login"
                   class="d-none d-md-flex"
                   >Sign In</base-button
                 >
@@ -96,7 +96,7 @@
               </template>
             </div>
             <div class="sidebar__menu--bottom">
-              <base-button variant="tertiary" to="/signin" is-full
+              <base-button variant="tertiary" to="/login" is-full
                 >Sign In</base-button
               >
               <base-button to="/signup" class="mt-3" is-full

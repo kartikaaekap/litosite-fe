@@ -62,7 +62,7 @@
         </base-button>
       </b-form>
       <b-link
-        to="/signin"
+        to="/login"
         class="signup__link d-flex justify-content-center mb-5 mt-3"
       >
         Sign in instead
@@ -122,7 +122,7 @@ export default {
         .dispatch('createUser', [{ email, password1, password2 }, query])
         .then(({ message }) => {
           this.isLoading = false
-          this.$router.push(`/signin`)
+          this.$router.push(`/login`)
         })
         .catch(() => (this.isLoading = false))
     },
