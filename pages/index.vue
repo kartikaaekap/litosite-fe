@@ -518,8 +518,8 @@ export default {
       ],
       toggleFilterType: false,
       toggleFilterFormation: false,
-      selectedType: '',
-      selectedFormation: '',
+      selectedType: [],
+      selectedFormation: [],
       selectedAge: [],
       max: 1,
       form: {
@@ -576,19 +576,44 @@ export default {
     },
     // eslint-disable-next-line object-shorthand
     showMarker: function () {
-      console.log(this.selectedType)
-      if (this.selectedType === 'sedimen') {
-        return this.getSedimen
-      } else if (this.selectedType === 'metamorf') {
-        return this.getMetamorf
-      } else if (this.selectedType === 'beku') {
-        return this.getBeku
-      } else if (this.selectedFormation === 'nglanggran') {
-        return this.getNglanggran
-      } else {
+      let markerPoint = this.pinPoints
+
+      if (!this.selectedType.length && !this.selectedFormation.length) {
         return this.pinPoints
       }
+
+      if (this.selectedType.length) {
+        markerPoint = markerPoint.filter((point) =>
+          this.selectedType.includes(point.type.toLowerCase())
+        )
+      }
+
+      if (this.selectedFormation.length) {
+        markerPoint = markerPoint.filter((point) =>
+          this.selectedFormation.includes(point.rockFormation.toLowerCase())
+        )
+      }
+      return markerPoint
     },
+    // eslint-disable-next-line object-shorthand
+    // showMarker: function () {
+    //   const markerPoint = []
+    //   console.log(this.selectedType)
+    //   if (this.selectedType.includes('sedimen')) {
+    //     markerPoint.push(this.getSedimen)
+    //   }
+    //   if (this.selectedType.includes('metamorf')) {
+    //     markerPoint.push(this.getMetamorf)
+    //   }
+    //   if (this.selectedType.includes('beku')) {
+    //     markerPoint.push(this.getBeku)
+    //   }
+    //   if (this.selectedFormation.includes('nglanggran')) {
+    //     return this.getNglanggran
+    //   } else {
+    //     return this.pinPoints
+    //   }
+    // },
   },
   async created() {
     const response = await fetch(
