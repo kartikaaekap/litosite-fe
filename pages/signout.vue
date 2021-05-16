@@ -1,6 +1,7 @@
 <script>
 export default {
-  created() {
+  async created() {
+    await this.$auth.logout()
     this.$axios.setToken(false)
     // this.$store.commit('deleteUser')
     this.$store

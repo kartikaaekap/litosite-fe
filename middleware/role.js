@@ -1,5 +1,9 @@
 export default ({ $auth, redirect }) => {
-  const role = $auth.user && $auth.user.status
+  console.log('hai')
+  if (!$auth.user) {
+    return true
+  }
+  const role = $auth.user.status
   switch (role) {
     case 'cnt':
       return redirect('/indexlogin')

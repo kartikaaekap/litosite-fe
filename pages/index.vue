@@ -556,7 +556,6 @@ export default {
         return () => {}
       }
       return (feature, layer) => {
-        console.log(feature)
         layer.bindTooltip(
           '<div>Nama Formasi Batuan:' +
             feature.properties.NAME +

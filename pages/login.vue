@@ -71,6 +71,7 @@ import BaseButton from '~/components/BaseButton'
 
 export default {
   components: { BaseInput, BaseButton },
+  middleware: 'role',
   async asyncData({ store }) {
     return {
       adminList: await store.dispatch('getAdminList'),

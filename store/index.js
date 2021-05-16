@@ -61,6 +61,12 @@ export const actions = {
       url: `http://ec2-54-235-59-243.compute-1.amazonaws.com/api/${payload}`,
     })
   },
+  getAccountUser({ dispatch }, payload) {
+    return dispatch('useAPI', {
+      method: 'get',
+      url: `http://ec2-54-235-59-243.compute-1.amazonaws.com/${payload}`,
+    })
+  },
   newUser({ dispatch }, [url, data]) {
     return dispatch('useAPI', {
       method: 'post',
@@ -116,6 +122,9 @@ export const actions = {
   },
   getAdminList({ dispatch }) {
     return dispatch('getItems', 'admin-list/')
+  },
+  getUserDetail({ dispatch }) {
+    return dispatch('getAccountUser', 'rest-auth/user/')
   },
 
   // rock actions

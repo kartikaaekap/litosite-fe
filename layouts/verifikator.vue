@@ -20,6 +20,7 @@ import TopNavigationAdmin from '~/components/TopNavigationAdmin'
 
 export default {
   components: { SideNavigation, TopNavigationAdmin },
+  middleware: 'admin',
   data: () => ({
     menus: [
       {

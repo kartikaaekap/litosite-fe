@@ -68,6 +68,7 @@ import TopNavigation from '~/components/TopNavigation'
 
 export default {
   components: { TopNavigation },
+  middleware: 'role',
   data: () => {
     return {
       socialMedia: {

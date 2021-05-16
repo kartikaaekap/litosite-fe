@@ -73,6 +73,7 @@
 
 <script>
 export default {
+  middleware: 'role',
   props: {
     isLink: {
       type: Boolean,

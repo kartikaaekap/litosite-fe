@@ -155,6 +155,7 @@ export default {
       'https://raw.githubusercontent.com/Litosite/GeoJSON/main/Geology-DIY.geojson'
     )
     this.geojson = await response.json()
+    console.log(await this.$auth.user)
   },
   methods: {
     handleDetailsRock(id) {

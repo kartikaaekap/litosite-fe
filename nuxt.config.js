@@ -3,6 +3,7 @@ export default {
   // env: {
   //   baseUrl: process.env.BASE_URL,
   // },
+  ssr: false,
   head: {
     title: 'Litosite',
     meta: [
@@ -86,7 +87,7 @@ export default {
           user: {
             url: 'rest-auth/user/',
             method: 'get',
-            propertyName: 'false',
+            propertyName: false,
           },
           logout: { url: 'rest-auth/logout/', method: 'post' },
         },
@@ -94,7 +95,7 @@ export default {
         tokenName: 'Authorization',
       },
       redirect: {
-        login: '/login',
+        login: '/',
         home: '/',
       },
     },

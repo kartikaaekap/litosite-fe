@@ -69,9 +69,8 @@
                 />
                 <div slot="dropdown">
                   <template v-if="isAuthenticated">
-                    <p class="profil__name pl-2 py-2 mb-0">Kartika Eka Putri</p>
                     <p class="profil__description pl-2 pb-2 mt-0">
-                      {{ loggedInUser.username }}
+                      {{ loggedInUser.name }}
                     </p>
                     <b-link class="dropdown__item p-2" to="/signout">
                       Sign out
@@ -169,11 +168,11 @@ import DropdownMenu from '@innologica/vue-dropdown-menu'
 export default {
   name: 'TopNavigationLogin',
   components: { DropdownMenu },
-  // async asyncData () {
-  //   return {
-  //     userAuth: await window.localStorage.getItem('user')
-  //   }
-  // },
+  async asyncData() {
+    return {
+      userAuth: await window.localStorage.getItem('user'),
+    }
+  },
   data: () => {
     return {
       scrollPosition: null,

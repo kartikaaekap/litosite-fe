@@ -68,6 +68,7 @@ import TopNavigationLogin from '~/components/TopNavigationLogin'
 
 export default {
   components: { TopNavigationLogin },
+  middleware: 'client',
   data: () => {
     return {
       socialMedia: {
