@@ -49,42 +49,6 @@
               <p class="section__text--purpleBold text-center mb-4">
                 FILTER BATUAN
               </p>
-              <!-- <base-input-select
-                id="filterType"
-                v-model="form.filterType"
-                label="Pilih filter berdasarkan"
-                :options="filterTypeOptions"
-              />
-              <div v-if="form.filterType === 'tipe'">
-                <b-form-group>
-                  <b-form-checkbox-group
-                    id="selectedType"
-                    v-model="selectedType"
-                    :options="optionsType"
-                    stacked
-                  ></b-form-checkbox-group>
-                </b-form-group>
-              </div>
-              <div v-else-if="form.filterType === 'formasi'">
-                <b-form-group>
-                  <b-form-checkbox-group
-                    id="selectedFormation"
-                    v-model="selectedFormation"
-                    :options="optionsFormation"
-                    stacked
-                  ></b-form-checkbox-group>
-                </b-form-group>
-              </div>
-              <div v-else-if="form.filterType === 'age'">
-                <b-form-group>
-                  <b-form-checkbox-group
-                    id="selectedAge"
-                    v-model="selectedAge"
-                    :options="optionsAge"
-                    stacked
-                  ></b-form-checkbox-group>
-                </b-form-group>
-              </div> -->
               <div>
                 <div v-if="toggleFilterType === false">
                   <div class="d-flex">
@@ -153,119 +117,6 @@
                   </b-form-group>
                 </div>
               </div>
-              <!-- <div>
-                <b-form-group>
-                  <b-form-checkbox-group
-                    id="selectedAge"
-                    v-model="selectedAge"
-                    :options="optionsAge"
-                    stacked
-                  ></b-form-checkbox-group>
-                </b-form-group>
-              </div> -->
-              <!-- <div v-if="toggleFilterType === false">
-                <div class="d-flex">
-                  <p class="mr-3 section__text-filter">Tipe Batuan</p>
-                  <b-icon
-                    class="h4"
-                    icon="chevron-up"
-                    color="#e3bb1b"
-                    style="cursor: pointer"
-                    @click="showListType()"
-                  />
-                </div>
-              </div>
-              <div v-else>
-                <div class="d-flex">
-                  <p class="mr-3 section__text-filter">Tipe Batuan</p>
-                  <b-icon
-                    class="h4"
-                    icon="chevron-down"
-                    color="#e3bb1b"
-                    style="cursor: pointer"
-                    @click="hideListType()"
-                  />
-                </div>
-                <ul>
-                  <li v-if="toggleFilterType === true" class="ml-0">
-                    <input
-                      type="checkbox"
-                      id="Batu Sedimen"
-                      v-model="isSedimen"
-                      @click="selectAllSedimen()"
-                    />
-                    <label for="Batu Sedimen">Batu Sedimen</label>
-                    <b-icon
-                      class="h4"
-                      icon="chevron-down"
-                      color="#e3bb1b"
-                      style="cursor: pointer"
-                      @click="dropdownSubTypeSedimen()"
-                    />
-                  </li>
-                  <ul>
-                    <li v-if="isSubTypeSedimen" class="ml-1">
-                      <input
-                        type="checkbox"
-                        id="coba1"
-                        value="coba1"
-                        v-model="selectedFilter.subtypes"
-                        @click="selectSedimen()"
-                      />
-                      <label for="Coba 1">Coba 1</label>
-                    </li>
-                    <li v-if="isSubTypeSedimen" class="ml-1">
-                      <input
-                        type="checkbox"
-                        id="coba2"
-                        value="coba2"
-                        v-model="selectedFilter.subtypes"
-                        @click="selectSedimen()"
-                      />
-                      <label for="Coba 2">Coba 2</label>
-                    </li>
-                  </ul>
-                  <li v-if="toggleFilterType === true" class="ml-0">
-                    <input
-                      type="checkbox"
-                      id="Batu Beku"
-                      value="Beku"
-                      v-model="isBeku"
-                      @click="selectAllBeku()"
-                    />
-                    <label for="Batu Beku">Batu Beku</label>
-                    <b-icon
-                      class="h4"
-                      icon="chevron-down"
-                      color="#e3bb1b"
-                      style="cursor: pointer"
-                      @click="dropdownSubTypeBeku()"
-                    />
-                  </li>
-                  <ul>
-                    <li v-if="isSubTypeBeku" class="ml-1">
-                      <input
-                        type="checkbox"
-                        id="coba3"
-                        value="coba3"
-                        v-model="selectedFilter.subtypes"
-                        @click="selectBeku()"
-                      />
-                      <label for="Coba 3">Coba 3</label>
-                    </li>
-                  </ul>
-                  <li v-if="toggleFilterType === true" class="ml-0">
-                    <input
-                      type="checkbox"
-                      id="Batu Metamorf"
-                      value="Metamorf"
-                      v-model="selectedFilter.subtypes"
-                      @click="closeDetail()"
-                    />
-                    <label for="Batu Metamorf">Batu Metamorf</label>
-                  </li>
-                </ul>
-              </div> -->
             </b-card>
           </b-col>
           <b-col cols="12" class="col-md-7 mx-0 px-0">
@@ -595,25 +446,6 @@ export default {
       }
       return markerPoint
     },
-    // eslint-disable-next-line object-shorthand
-    // showMarker: function () {
-    //   const markerPoint = []
-    //   console.log(this.selectedType)
-    //   if (this.selectedType.includes('sedimen')) {
-    //     markerPoint.push(this.getSedimen)
-    //   }
-    //   if (this.selectedType.includes('metamorf')) {
-    //     markerPoint.push(this.getMetamorf)
-    //   }
-    //   if (this.selectedType.includes('beku')) {
-    //     markerPoint.push(this.getBeku)
-    //   }
-    //   if (this.selectedFormation.includes('nglanggran')) {
-    //     return this.getNglanggran
-    //   } else {
-    //     return this.pinPoints
-    //   }
-    // },
   },
   async created() {
     const response = await fetch(

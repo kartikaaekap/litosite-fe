@@ -1,5 +1,4 @@
 export default ({ $auth, redirect }) => {
-  console.log('hai')
   if (!$auth.user) {
     return true
   }

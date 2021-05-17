@@ -138,7 +138,7 @@
                                 id="altitude"
                                 v-model="form.altitude"
                                 label="Altitude"
-                                placeholder="(dalam satuan derajat))"
+                                placeholder="(dalam satuan meter)"
                                 warning-icon
                                 required
                               />

@@ -64,21 +64,20 @@
                   is-circle
                 />
                 <div slot="dropdown">
-                  <template v-if="isAuthenticated">
-                    <p class="profil__name pl-2 py-2 mb-0">Kartika Eka Putri</p>
-                    <p class="profil__description pl-2 pb-2 mt-0">
-                      {{ loggedInUser.username }}
+                  <template>
+                    <p
+                      v-if="this.$auth.user.nama === null"
+                      class="profil__name pl-2 py-0 mt-0"
+                    >
+                      Admin Litosite
+                    </p>
+                    <p v-else class="profil__name pl-2 py-0 mt-0">
+                      {{ this.$auth.user.nama }}
+                    </p>
+                    <p class="profil__description pl-2 pt-0 pb-3 mt-0">
+                      {{ this.$auth.user.email }}
                     </p>
                     <b-link class="dropdown__item p-2" to="/signout">
-                      Sign out
-                    </b-link>
-                  </template>
-                  <template v-else>
-                    <b-link
-                      class="dropdown__item p-2"
-                      to="/signout"
-                      @click="$auth.logout()"
-                    >
                       Sign out
                     </b-link>
                   </template>
@@ -192,7 +191,7 @@ export default {
     color: rgb(92, 89, 89);
   }
   &__description {
-    font-size: 12px;
+    font-size: 13px;
     color: grey;
   }
 }

@@ -43,7 +43,12 @@
                   <ol>
                     <li>
                       Unduh template data Excel dengan mengklik
-                      <a href="#" style="font-weight: bold">Download Disini</a>
+                      <a
+                        href="https://litosite-bucket.s3.amazonaws.com/template_data/Template+Data.xlsx"
+                        style="font-weight: bold"
+                        target="_blank"
+                        >Download Disini</a
+                      >
                     </li>
                     <li>Semua kolom pada data lapangan <b>wajib diisi</b></li>
                     <li>

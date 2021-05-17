@@ -42,6 +42,9 @@
           :append="isPaswordVisible ? 'eye' : 'eye-slash'"
           @click="togglePassword"
         />
+        <span class="signup__note"
+          >Your password must be at least 8 characters.</span
+        >
         <base-input
           id="confirmPassword"
           v-model="form.password2"
@@ -49,6 +52,7 @@
           size="large"
           placeholder="Re-enter password"
           required
+          class="mt-3"
           :type="isConfirmPaswordVisible ? 'text' : 'password'"
           :append="isConfirmPaswordVisible ? 'eye' : 'eye-slash'"
           @click="toggleConfirmPassword"
