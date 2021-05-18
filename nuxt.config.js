@@ -3,6 +3,7 @@ export default {
   // env: {
   //   baseUrl: process.env.BASE_URL,
   // },
+  target: 'static',
   ssr: false,
   head: {
     title: 'Litosite',
